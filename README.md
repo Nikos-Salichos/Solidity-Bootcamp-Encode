@@ -1,2 +1,7 @@
 # Encode-Solidity-Bootcamp
-All our projects for Encode Solidity Bootcamp
+All weekend projects for Encode Solidity Bootcamp
+
+Team members:
+Nikos
+Ercan
+Eniola
