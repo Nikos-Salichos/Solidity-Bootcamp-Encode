@@ -19,5 +19,9 @@ namespace Vote {
         await transaction.wait();
         console.log(`Transaction Hash: ${transaction.hash}`);
     };
-    vote();
+    
+    vote().catch((error) => {
+        console.error(error);
+        process.exitCode = 1;
+      });
 }

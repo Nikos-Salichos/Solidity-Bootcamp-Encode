@@ -19,5 +19,9 @@ namespace GiveRightToVote {
     await transaction.wait();
     console.log(`Transaction Hash: ${transaction.hash}`);
   };
-  giveRightToVote();
+
+  giveRightToVote().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
 }

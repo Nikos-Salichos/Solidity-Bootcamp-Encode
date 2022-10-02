@@ -19,5 +19,12 @@ namespace Delegate {
     await transaction.wait();
     console.log(`Transaction Hash: ${transaction.hash}`);
   };
-  delegate();
+
+  delegate().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+
 }
+
+

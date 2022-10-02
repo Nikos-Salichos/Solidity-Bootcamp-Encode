@@ -48,5 +48,9 @@ namespace ReadVariablesAndFunctions {
       console.log(`Number of proposal: ${index} , proposal in Bytes: ${proposalInBytes}, proposal in string: ${proposalInString}`);
     });
   };
-  readSmartContract();
+
+  readSmartContract().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
 }

@@ -1,3 +1,4 @@
+namespace DeployBallot { 
 import { ethers } from "hardhat";
 
 const proposals = ["Cofee", "Tea"];
@@ -24,3 +25,4 @@ main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
+}
