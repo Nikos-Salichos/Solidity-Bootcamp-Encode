@@ -24,7 +24,4 @@ namespace Delegate {
     console.error(error);
     process.exitCode = 1;
   });
-
 }
-
-
