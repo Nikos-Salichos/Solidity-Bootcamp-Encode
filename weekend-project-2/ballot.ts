@@ -3,6 +3,7 @@ require("dotenv").config();
 
 const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
 const walletAddress = process.env.REACT_APP_WALLET_ADDRESS;
+const ercanWalletAddress = "0xD67887EBCEE76d5Bb1B05E7ad9251BfCEcf4eCdC";
 const privateKey = process.env.REACT_APP_PRIVATE_KEY;
 
 const ballotSmartContractAddress = "0x41874b62017e8bf2c533B73c11750FDBB78ac956";
@@ -25,7 +26,6 @@ function convertStringArrayToBytes32() {
 }
 
 const deploySmartContract = async () => {
-  convertStringArrayToBytes32();
   const price = ethers.utils.formatUnits(await provider.getGasPrice(), "gwei");
   const options = { gasLimit: 100000, gasPrice: ethers.utils.parseUnits(price, "gwei"), constructorArguments };
 
@@ -41,35 +41,58 @@ const readSmartContract = async () => {
   console.log(`Chairman: ${chairman}`);
 
   const winningProposal = await smartContract.winningProposal();
-  console.log(`Number of winning proposal: ${winningProposal}`);
+  console.log(`WinningProposal: ${winningProposal}`);
 
   const winnerName = await smartContract.winnerName();
-  let winnerNameInString = ethers.utils.parseBytes32String(winnerName);
-  console.log(`WinnerName: ${winnerNameInString}`);
+  console.log(`WinnerName: ${winnerName}`);
 
-  const voter = await smartContract.voters(walletAddress);
-  console.log(`Voter : ${voter}`);
-
-  proposals.forEach(async (_proposal, index) => {
+  proposals.forEach(async (proposal, index) => {
     const proposalInBytes = await smartContract.proposals(index);
-    let proposalInString = ethers.utils.parseBytes32String(proposalInBytes.name);
-    console.log(`Number of proposal: ${index} , proposal in Bytes: ${proposalInBytes}, proposal in string: ${proposalInString}`);
+    console.log(`${proposal} proposal in bytes ${proposalInBytes}`);
   });
 };
 readSmartContract();
 
 const giveRightToVote = async () => {
-  const transaction = await smartContract.giveRightToVote("vote that you want to give access");
+  const chairman = await smartContract.chairperson();
+  const transaction = await smartContract.connect(chairman.address).giveRightToVote(walletAddress);
+  await transaction.wait();
+  console.log(`Transaction Hash: ${transaction.hash}`);
+  console.log(transaction);
+}
+giveRightToVote();
+
+const readVoters = async () => {
+  const voters = await smartContract.voters(walletAddress);
+  console.log(`Voter Wallet Address: ${walletAddress}`);
+
+  const votersWeight = await voters.weight;
+  console.log(`Voter Weight: ${votersWeight}`);
+
+  const votersVoted = await voters.voted;
+  console.log(`Voter Voted: ${votersVoted}`);
+
+  const votersVote = await voters.vote;
+  console.log(`Voter Vote: ${votersVote}`);
+
+  const votersDelegate = await voters.delegate;
+  console.log(`Voters Delegate: ${votersDelegate}`);
+};
+readVoters();
+
+const delegate = async () => {
+  const transaction = await smartContract.connect(walletAddress).delegate(ercanWalletAddress);
   await transaction.wait();
   console.log(transaction);
   console.log(`Transaction Hash: ${transaction.hash}`);
 };
-// giveRightToVote();
+delegate();
 
 const vote = async () => {
-  const transaction = await smartContract.vote("array number of proposal you want to vote");
+  const transaction = await smartContract.vote(0);
   await transaction.wait();
-  console.log(transaction);
   console.log(`Transaction Hash: ${transaction.hash}`);
+  console.log(transaction);
 };
 // vote();
+
