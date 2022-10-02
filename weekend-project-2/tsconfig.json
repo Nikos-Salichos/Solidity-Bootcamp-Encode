@@ -7,7 +7,7 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "files": ["ballot.ts"],
+  "files": ["scripts/**/*"],
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
