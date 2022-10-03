@@ -6,7 +6,7 @@ namespace GiveRightToVote {
   const walletAddress = process.env.REACT_APP_WALLET_ADDRESS;
   const privateKey = process.env.REACT_APP_PRIVATE_KEY;
 
-  const ballotSmartContractAddress = "0x41874b62017e8bf2c533B73c11750FDBB78ac956";
+  const ballotSmartContractAddress = "0xcDC6534ef547F3DfC7B3D8F8f95Bc25AC46e659D";
   const ballotSmartContractAbi = require("../abi/ballotAbi");
   const provider = new ethers.providers.JsonRpcProvider(`https://goerli.infura.io/v3/${providerRpcKey}`);
 
@@ -15,7 +15,7 @@ namespace GiveRightToVote {
   const smartContract = new ethers.Contract(ballotSmartContractAddress, ballotSmartContractAbi, signer);
 
   const giveRightToVote = async () => {
-    const transaction = await smartContract.giveRightToVote("0xcDC6534ef547F3DfC7B3D8F8f95Bc25AC46e659D");
+    const transaction = await smartContract.giveRightToVote("0xF0263339678ec2ad8C6722b5eCedDB904cBed19D");
     await transaction.wait();
     console.log(`Transaction Hash: ${transaction.hash}`);
   };
