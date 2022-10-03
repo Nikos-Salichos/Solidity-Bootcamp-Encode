@@ -15,7 +15,7 @@ namespace GiveRightToVote {
   const smartContract = new ethers.Contract(ballotSmartContractAddress, ballotSmartContractAbi, signer);
 
   const giveRightToVote = async () => {
-    const transaction = await smartContract.giveRightToVote("0xe3a9a11232f4d52786ca61f56bb7fb01b00c80cd");
+    const transaction = await smartContract.giveRightToVote("0xcDC6534ef547F3DfC7B3D8F8f95Bc25AC46e659D");
     await transaction.wait();
     console.log(`Transaction Hash: ${transaction.hash}`);
   };
