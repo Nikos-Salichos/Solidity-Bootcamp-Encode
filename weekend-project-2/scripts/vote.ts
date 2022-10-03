@@ -15,7 +15,7 @@ namespace Vote {
   const smartContract = new ethers.Contract(ballotSmartContractAddress, ballotSmartContractAbi, signer);
 
   const vote = async () => {
-    const transaction = await smartContract.vote("array number of proposal you want to vote");
+    const transaction = await smartContract.vote([0]);
     await transaction.wait();
     console.log(`Transaction Hash: ${transaction.hash}`);
   };

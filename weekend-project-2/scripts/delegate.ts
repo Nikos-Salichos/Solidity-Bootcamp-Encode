@@ -15,6 +15,8 @@ namespace Delegate {
   const smartContract = new ethers.Contract(ballotSmartContractAddress, ballotSmartContractAbi, signer);
 
   const delegate = async () => {
+    smartContract.connect(signer);
+
     const transaction = await smartContract.delegate("0xF0263339678ec2ad8C6722b5eCedDB904cBed19D");
     await transaction.wait();
     console.log(`Transaction Hash: ${transaction.hash}`);
