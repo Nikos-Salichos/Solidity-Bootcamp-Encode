@@ -16,7 +16,7 @@ namespace ReadVariablesAndFunctions {
   const signer = wallet.connect(provider);
 
   const smartContract = TokenizedBallot__factory.connect(ballotSmartContractAddress, signer);
-  console.log(smartContract.address);
+  console.log(`smartContract.address ${smartContract.address}`);
 
   const proposals = ["Coffee", "Tea"];
 
@@ -26,6 +26,12 @@ namespace ReadVariablesAndFunctions {
 
     const tokenContract = await smartContract.tokenContract();
     console.log(`tokenContract: ${tokenContract}`);
+
+    const votePower = await smartContract.votePower(walletAddress!);
+    console.log(`votePower: ${votePower}`);
+
+    const winningProposal = await smartContract.winningProposal();
+    console.log(`winningProposal: ${winningProposal}`);
 
     const winnerName = await smartContract.winnerName();
     let winnerNameInString = ethers.utils.parseBytes32String(winnerName);

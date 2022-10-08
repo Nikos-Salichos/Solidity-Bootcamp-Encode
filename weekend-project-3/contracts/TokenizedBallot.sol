@@ -38,8 +38,7 @@ contract TokenizedBallot{
         votePowerSpent[account];
     }
 
-    function winningProposal() public view
-            returns (uint winningProposal_)
+    function winningProposal() public view returns (uint winningProposal_)
     {
         uint winningVoteCount = 0;
         for (uint p = 0; p < proposals.length; p++) {
