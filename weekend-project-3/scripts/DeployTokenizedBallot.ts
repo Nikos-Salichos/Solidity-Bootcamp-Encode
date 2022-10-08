@@ -4,7 +4,7 @@ namespace DeployTokenizedBallot {
   const proposals = ["Cofee", "Tea"];
   let bytes32Array: any[] = [];
   const erc20Token = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-  const referenceBlock = 7734792;
+  const referenceBlock = 7728787;
 
   function convertStringArrayToBytes32() {
     proposals.forEach((proposal) => {
