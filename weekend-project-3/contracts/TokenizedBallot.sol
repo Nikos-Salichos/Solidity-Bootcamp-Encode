@@ -28,7 +28,7 @@ contract TokenizedBallot{
 
     function vote(uint proposal , uint amount) public{
         uint votingPower = votePower(msg.sender);
-        require(votingPower <= amount, "Tried to vote more than your vote power");
+        require(votingPower >= amount, "Tried to vote more than your vote power");
         votePowerSpent[msg.sender] += amount;
         proposals[proposal].voteCount += amount;
     }
@@ -38,8 +38,7 @@ contract TokenizedBallot{
         votePowerSpent[account];
     }
 
-    function winningProposal() public view
-            returns (uint winningProposal_)
+    function winningProposal() public view returns (uint winningProposal_)
     {
         uint winningVoteCount = 0;
         for (uint p = 0; p < proposals.length; p++) {
