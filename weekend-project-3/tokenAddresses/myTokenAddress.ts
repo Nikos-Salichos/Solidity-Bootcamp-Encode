@@ -1,0 +1,1 @@
+export const myTokenERC20 = "0xB25E4Ea52aa1a5EE6e98C0ED5CB86794ab922C42";
