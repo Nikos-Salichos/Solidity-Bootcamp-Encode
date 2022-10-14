@@ -1,33 +1,26 @@
 import { ethers } from "ethers";
-import React from "react";
+import React, { useState } from "react";
 import { myTokenERC20 } from "./myTokenERC20Address";
 import { tokenizedBallotAddress } from "./tokenizedBallotAddress";
-require('dotenv').config()
 
 function ReadSmartContract({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
   const isConnected = Boolean(accounts[0]);
-  let balance = 0;
+  const [balance, setBalance] = useState("");
 
   async function connectAccount() {
     if (window.ethereum) {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      setAccounts(accounts);
-      getBalance();
-    }
-  }
 
-  async function getBalance() {
-    window.ethereum
-      .request({
+      const walletBalance = await window.ethereum.request({
         method: "eth_getBalance",
         params: [accounts[0], "latest"],
-      })
-      .then((balanceOfWallet: number) => {
-        console.log(balanceOfWallet);
-        balance = balanceOfWallet;
       });
+
+      setAccounts(accounts);
+      setBalance(walletBalance);
+    }
   }
 
   const openInNewTab = (url: any) => {
