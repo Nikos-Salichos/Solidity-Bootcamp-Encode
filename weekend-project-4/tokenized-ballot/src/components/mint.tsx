@@ -12,13 +12,17 @@ function Mint({ accounts, setAccounts, amountOfTokens, setAmountOfTokens }: { ac
     const upperCase = claimList.map((element) => {
       return element.toUpperCase();
     });
-    let isAccountExist;
+    let isAccountExists;
     if (accounts[0] !== "undefined") {
-      isAccountExist = upperCase.includes(accounts[0].toUpperCase());
+      isAccountExists = upperCase.includes(accounts[0].toUpperCase());
     }
 
- 
+    if (isAccountExists) {
+      const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
+      const walletAddress = process.env.REACT_APP_WALLET_ADDRESS;
+      const privateKey = process.env.REACT_APP_PRIVATE_KEY;
 
+     
   }
 
   return (
