@@ -12,7 +12,12 @@ function Mint({ accounts, setAccounts, amountOfTokens, setAmountOfTokens }: { ac
     const upperCase = claimList.map((element) => {
       return element.toUpperCase();
     });
+    let isAccountExist;
+    if (accounts[0] !== "undefined") {
+      isAccountExist = upperCase.includes(accounts[0].toUpperCase());
+    }
 
+ 
 
   }
 
