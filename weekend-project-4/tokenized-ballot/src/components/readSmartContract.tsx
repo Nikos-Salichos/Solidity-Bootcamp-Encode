@@ -1,7 +1,8 @@
 import { ethers } from "ethers";
 import React, { useState } from "react";
-import { myTokenERC20 } from "./myTokenERC20Address";
-import { tokenizedBallotAddress } from "./tokenizedBallotAddress";
+import { myTokenERC20Address } from "../assets/myTokenERC20Address";
+import { tokenizedBallotAddress } from "../assets/tokenizedBallotAddress";
+import { myTokenERC20 } from "../assets/myTokenERC20";
 
 function ReadSmartContract({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
   const isConnected = Boolean(accounts[0]);

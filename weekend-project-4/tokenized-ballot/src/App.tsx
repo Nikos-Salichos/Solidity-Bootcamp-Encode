@@ -7,11 +7,15 @@ import Vote from "./components/vote";
 
 function App() {
   const [accounts, setAccounts] = useState("");
+  const [amountOfTokens, setAmountOfTokens] = useState("");
 
   return (
     <div className="App">
       <div>
         <ReadSmartContract accounts={accounts} setAccounts={setAccounts}></ReadSmartContract>
+        <Mint amountOfTokens={amountOfTokens} setAmountOfTokens={setAmountOfTokens} accounts={accounts} setAccounts={setAccounts}></Mint>
+        <Delegate accounts={accounts} setAccounts={setAccounts}></Delegate>
+        <Vote accounts={accounts} setAccounts={setAccounts}></Vote>
       </div>
     </div>
   );
