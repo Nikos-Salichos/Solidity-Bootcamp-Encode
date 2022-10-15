@@ -9,6 +9,11 @@ function Mint({ accounts, setAccounts, amountOfTokens, setAmountOfTokens }: { ac
   async function mintTokens() {
     const claimList = ["0x05b4Ae8d9B4ccd9f6D470956968DD49274BdD16F", "0xe3a9a11232f4d52786ca61f56bb7fb01b00c80cd", "0xF0263339678ec2ad8C6722b5eCedDB904cBed19D"];
 
+    const upperCase = claimList.map((element) => {
+      return element.toUpperCase();
+    });
+
+
   }
 
   return (
