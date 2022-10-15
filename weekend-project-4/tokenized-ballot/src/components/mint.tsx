@@ -19,10 +19,26 @@ function Mint({ accounts, setAccounts, amountOfTokens, setAmountOfTokens }: { ac
 
     if (isAccountExists) {
       const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
-      const walletAddress = process.env.REACT_APP_WALLET_ADDRESS;
       const privateKey = process.env.REACT_APP_PRIVATE_KEY;
 
+      const provider = new ethers.providers.JsonRpcProvider(`https://goerli.infura.io/v3/${providerRpcKey}`);
+      const wallet = new ethers.Wallet(privateKey!, provider);
+      const signer = wallet.connect(provider);
+
+      const tokenContract = new ethers.Contract(myTokenERC20Address, myTokenERC20.abi, signer);
+      console.log(tokenContract);
+      const mintingTo = accounts[0];
+
+      const mintingAmount = ethers.utils.parseEther("1");
+
+      const mintTx = await tokenContract.mint(mintingTo, mintingAmount);
+
+      const receipt = await mintTx.wait();
+
+      console.log(`receipt.transactionHash ${receipt.transactionHash}`);
+
      
+    }
   }
 
   return (
