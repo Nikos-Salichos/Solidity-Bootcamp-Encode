@@ -37,7 +37,13 @@ function Mint({ accounts, setAccounts, amountOfTokens, setAmountOfTokens }: { ac
 
       console.log(`receipt.transactionHash ${receipt.transactionHash}`);
 
-     
+      if (receipt.transactionHash !== "undefined") {
+        setAmountOfTokens(mintingAmount.toString());
+        setTransactionHash(receipt.transactionHash);
+      } else {
+        setTransactionHash("Transaction failed");
+        setAmountOfTokens("0");
+      }
     }
   }
 
