@@ -68,7 +68,7 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
         </button>
       </div>
       <div>
-        <p><b>Vote Transaction Hash:</b> {transactionHash}</p>
+        <p><b>Vote Transaction Hash:</b> <i>{transactionHash}</i></p>
       </div>
     </div>
   );

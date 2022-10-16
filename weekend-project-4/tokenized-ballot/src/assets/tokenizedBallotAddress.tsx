@@ -1,1 +1,1 @@
-export const tokenizedBallotAddress = "0xb9224AEbCE77b2D1a67cd6552b84e8F723471189";
+export const tokenizedBallotAddress = "0x22a994FC9e4799AD4878075a9d43579D42D712F9";
