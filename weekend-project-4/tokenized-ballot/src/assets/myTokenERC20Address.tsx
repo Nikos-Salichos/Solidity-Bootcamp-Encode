@@ -1,1 +1,1 @@
-export const myTokenERC20Address = "0x87386a22b91612902F84294186fb477cd2fF16bb";
+export const myTokenERC20Address = "0xb3CbfB95A57318A8764F0533F5e43600daf18B07";

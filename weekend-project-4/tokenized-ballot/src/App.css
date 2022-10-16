@@ -32,14 +32,16 @@
 .App p {
   font-size: 1rem;
   font-weight: 500;
-  overflow: scroll;
+  overflow: hidden;
 }
+
 
 .inner-container-full {
   padding: 50px 40px;
   text-align: center;
   border: 2px solid #555555;
   margin: 10px 10px;
+  max-width: 1135px;
   border-radius: 10px;
 }
 
@@ -47,8 +49,8 @@
   padding: 50px 40px;
   margin: 10px 10px;
   align-items: center;
-  width: 50%;
   max-width: 515px;
+  width: 50%;
   border-radius: 10px;
   border: 2px solid #555555;
 }

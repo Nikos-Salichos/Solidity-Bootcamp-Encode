@@ -35,8 +35,7 @@ function Delegate({ accounts, setAccounts }: { accounts: any; setAccounts: any }
     <div className="inner-container">
       <h2>Delegate</h2>
         <p><b>Delegate Address:</b> {accounts[0]}</p>
-        <p><b>Delegate Transaction Hash:</b> {transactionHash}</p>
-        <p><b>Delegating To: </b>{delegateToAddress}</p>
+        <p><b>Delegate Transaction Hash:</b> <i>{transactionHash}</i></p>
       <button className="button" onClick={delegateTokens}>
         Delegate
       </button>
