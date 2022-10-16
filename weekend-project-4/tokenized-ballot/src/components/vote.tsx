@@ -28,6 +28,10 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
       const walletAddress = process.env.REACT_APP_WALLET_ADDRESS;
       const privateKey = process.env.REACT_APP_PRIVATE_KEY;
 
+      const provider = new ethers.providers.JsonRpcProvider(`https://goerli.infura.io/v3/${providerRpcKey}`);
+      const wallet = new ethers.Wallet(privateKey!, provider);
+      const signer = wallet.connect(provider);
+
      
  
   }
