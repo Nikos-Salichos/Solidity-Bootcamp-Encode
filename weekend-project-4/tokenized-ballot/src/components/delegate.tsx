@@ -9,6 +9,12 @@ function Delegate({ accounts, setAccounts }: { accounts: any; setAccounts: any }
 
   async function delegateTokens() {
     if (accounts[0] !== "undefined") {
+      console.log(`Delegating voting power started`);
+
+      setDelegateToAddress(accounts[0]);
+      const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
+      const privateKey = process.env.REACT_APP_PRIVATE_KEY;
+
      
     }
   }
