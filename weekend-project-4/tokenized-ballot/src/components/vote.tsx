@@ -15,7 +15,13 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
     setProposal(event.target.value);
     console.log("proposal is:", event.target.value);
   };
+  const handleVoteAmount = (event: { target: { value: any } }) => {
+    setvoteAmount(event.target.value);
+    const voteAmountToEth = ethers.utils.parseEther(event.target.value);
+    console.log("voteAmountToEth is:", voteAmountToEth);
+  };
 
+ 
  
   }
 
