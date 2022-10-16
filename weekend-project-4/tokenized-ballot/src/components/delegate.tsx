@@ -21,7 +21,13 @@ function Delegate({ accounts, setAccounts }: { accounts: any; setAccounts: any }
 
       const tokenContract = new ethers.Contract(myTokenERC20Address, myTokenERC20.abi, signer);
 
-     
+      const delegateTx = await tokenContract.delegate(accounts[0]);
+      const receipt = await delegateTx.wait();
+
+      console.log(`Delegating voting power to: ${accounts[0]}`);
+      console.log(`Transaction hash: ${receipt.transactionHash}`);
+
+      setTransactionHash(receipt.transactionHash);
     }
   }
 
