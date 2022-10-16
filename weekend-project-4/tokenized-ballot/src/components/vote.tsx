@@ -54,23 +54,21 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
   }
 
   return (
-    <div>
-      <p>Choose a proposal</p>
+    <div className="inner-container-full">
+      <h2>Vote</h2>
+      <p><b>Choose a proposal</b></p>
       <p>{proposalsMap}</p>
-      <input type="number" id="proposal" name="proposal" onChange={handleProposalChange} value={proposal} min="0" max="1" />
-      <br></br>
-      <p>Choose voting amount</p>
-      <input type="number" id="voteAmount" name="voteAmount" onChange={handleVoteAmount} value={voteAmount} min="0" />
-
+      <input type="number" id="proposal" name="proposal" onChange={handleProposalChange} value={proposal} min="0" max="1" placeholder="Choose a proposal" />
+      <p><b>Vote Amount</b></p>
+      <input type="number" id="voteAmount" name="voteAmount" onChange={handleVoteAmount} value={voteAmount} min="0" placeholder="Choose voting amount" />
       <div>
         <br></br>
-        <button className="voteButton" onClick={vote}>
+        <button className="button" onClick={vote}>
           Vote
         </button>
       </div>
-
       <div>
-        <p>Vote Transaction Hash: {transactionHash}</p>
+        <p><b>Vote Transaction Hash:</b> {transactionHash}</p>
       </div>
     </div>
   );
