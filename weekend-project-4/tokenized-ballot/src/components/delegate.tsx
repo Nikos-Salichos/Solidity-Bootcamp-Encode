@@ -15,7 +15,11 @@ function Delegate({ accounts, setAccounts }: { accounts: any; setAccounts: any }
       const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
       const privateKey = process.env.REACT_APP_PRIVATE_KEY;
 
-     
+      const provider = new ethers.providers.JsonRpcProvider(`https://goerli.infura.io/v3/${providerRpcKey}`);
+      const wallet = new ethers.Wallet(privateKey!, provider);
+      const signer = wallet.connect(provider);
+
+      
     }
   }
 
