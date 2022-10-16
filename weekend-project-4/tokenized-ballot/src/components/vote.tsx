@@ -11,6 +11,11 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
   const proposals = ["Coffee", "Tea"];
   const proposalsMap = proposals.map((key, index) => index + "=" + key + " ");
 
+  const handleProposalChange = (event: { target: { value: any } }) => {
+    setProposal(event.target.value);
+    console.log("proposal is:", event.target.value);
+  };
+
  
   }
 
