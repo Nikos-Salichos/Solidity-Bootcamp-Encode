@@ -19,7 +19,9 @@ function Delegate({ accounts, setAccounts }: { accounts: any; setAccounts: any }
       const wallet = new ethers.Wallet(privateKey!, provider);
       const signer = wallet.connect(provider);
 
-      
+      const tokenContract = new ethers.Contract(myTokenERC20Address, myTokenERC20.abi, signer);
+
+     
     }
   }
 
