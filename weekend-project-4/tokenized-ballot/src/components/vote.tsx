@@ -34,7 +34,22 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
 
       const tokenContract = new ethers.Contract(tokenizedBallotAddress, tokenizedBallot.abi, signer);
 
-    
+      try {
+        const votingPower = await tokenContract.votePower(walletAddress!);
+        console.log(`votingPower ${votingPower}`);
+
+        const voteAmountToEth = ethers.utils.parseEther(voteAmount);
+
+        const voteTx = await tokenContract.vote(proposal, voteAmountToEth);
+        console.log(`voteTx ${voteTx}`);
+        const receipt = await voteTx.wait();
+        console.log(`voteTx: ${receipt.transactionHash}`);
+        setTransactionHash(receipt.transactionHash);
+      } catch (error) {
+        console.log(error);
+        setTransactionHash("block not yet mined");
+      }
+    }
  
   }
 
