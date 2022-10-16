@@ -32,7 +32,9 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
       const wallet = new ethers.Wallet(privateKey!, provider);
       const signer = wallet.connect(provider);
 
-     
+      const tokenContract = new ethers.Contract(tokenizedBallotAddress, tokenizedBallot.abi, signer);
+
+    
  
   }
 
