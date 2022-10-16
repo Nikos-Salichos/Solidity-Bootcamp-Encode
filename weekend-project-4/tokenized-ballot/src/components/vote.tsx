@@ -8,7 +8,10 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
   const [proposal, setProposal] = useState("");
   const [voteAmount, setvoteAmount] = useState("");
 
+  const proposals = ["Coffee", "Tea"];
+  const proposalsMap = proposals.map((key, index) => index + "=" + key + " ");
 
+ 
   }
 
   return (
