@@ -7,7 +7,10 @@ function Delegate({ accounts, setAccounts }: { accounts: any; setAccounts: any }
   const [transactionHash, setTransactionHash] = useState("");
   const [delegateToAddress, setDelegateToAddress] = useState("");
 
-  
+  async function delegateTokens() {
+    if (accounts[0] !== "undefined") {
+     
+    }
   }
 
   return (
