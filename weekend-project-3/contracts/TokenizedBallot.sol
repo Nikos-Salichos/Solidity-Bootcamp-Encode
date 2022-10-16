@@ -1,44 +1,65 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.7.0 <0.9.0;
 
-interface ITokenizedVotes{
-    function getPastVotes(address, uint) external view returns(uint);
+interface ITokenizedContract {
+    function getPastVotes(address, uint256) external view returns (uint256);
 }
 
-contract TokenizedBallot{
-    
-    uint public referenceBlock;
-    ITokenizedVotes public tokenContract;
-
-    struct Proposal{
-        bytes32 name;
-        uint voteCount;
+/// @title Voting with delegation.
+contract TokenizedBallot {
+    // This is a type for a single proposal.
+    struct Proposal {
+        bytes32 name; // short name (up to 32 bytes)
+        uint voteCount; // number of accumulated votes
     }
 
+    address public chairperson;
+
+    // A dynamically-sized array of `Proposal` structs.
     Proposal[] public proposals;
-    mapping (address => uint) public votePowerSpent;
 
-    constructor(bytes32[] memory proposalNames, ITokenizedVotes _tokenContract, uint _referenceBlock){
-        for (uint256 i = 0; i < proposalNames.length; i++) {    
-            proposals.push(Proposal({voteCount:0 , name: proposalNames[i]}));
+    uint256 public referenceBlock;
+    ITokenizedContract public tokenizedContract;
+    mapping(address => uint256) public votePowerSpent;
+
+    /// Create a new ballot to choose one of `proposalNames`.
+    constructor(
+        bytes32[] memory proposalNames,
+        address _tokenContract,
+        uint256 _referenceBlock
+    ) {
+        chairperson = msg.sender;
+
+        // For each of the provided proposal names,
+        // create a new proposal object and add it
+        // to the end of the array.
+        for (uint i = 0; i < proposalNames.length; i++) {
+            // `Proposal({...})` creates a temporary
+            // Proposal object and `proposals.push(...)`
+            // appends it to the end of `proposals`.
+            proposals.push(Proposal({name: proposalNames[i], voteCount: 0}));
         }
-        tokenContract = _tokenContract;
+
         referenceBlock = _referenceBlock;
+        tokenizedContract = ITokenizedContract(_tokenContract);
     }
 
-    function vote(uint proposal , uint amount) public{
-        uint votingPower = votePower(msg.sender);
-        require(votingPower >= amount, "Tried to vote more than your vote power");
+    function votePower(address account) public view returns (uint256 votePower_) {
+        votePower_ = tokenizedContract.getPastVotes(account, referenceBlock) - votePowerSpent[account];
+    }
+
+    /// Give your vote (including votes delegated to you)
+    /// to proposal `proposals[proposal].name`.
+    function vote(uint proposal, uint256 amount) public {
+        uint256 sendVotePower = votePower(msg.sender);
+        require(sendVotePower >= amount, "Has no right to vote");
         votePowerSpent[msg.sender] += amount;
         proposals[proposal].voteCount += amount;
     }
 
-    function votePower(address account)public view returns(uint256 _votePower){
-        _votePower = tokenContract.getPastVotes(account,referenceBlock) - votePowerSpent[account];
-    }
-
-    function winningProposal() public view returns (uint winningProposal_)
-    {
+    /// @dev Computes the winning proposal taking all
+    /// previous votes into account.
+    function winningProposal() public view returns (uint winningProposal_) {
         uint winningVoteCount = 0;
         for (uint p = 0; p < proposals.length; p++) {
             if (proposals[p].voteCount > winningVoteCount) {
@@ -48,10 +69,10 @@ contract TokenizedBallot{
         }
     }
 
-    function winnerName() external view
-            returns (bytes32 winnerName_)
-    {
+    // Calls winningProposal() function to get the index
+    // of the winner contained in the proposals array and then
+    // returns the name of the winner
+    function winnerName() external view returns (bytes32 winnerName_) {
         winnerName_ = proposals[winningProposal()].name;
     }
-
 }

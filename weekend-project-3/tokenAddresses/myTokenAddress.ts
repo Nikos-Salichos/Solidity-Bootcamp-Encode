@@ -1,1 +1,1 @@
-export const myTokenERC20 = "0xB25E4Ea52aa1a5EE6e98C0ED5CB86794ab922C42";
+export const myTokenERC20 = "0x87386a22b91612902F84294186fb477cd2fF16bb";

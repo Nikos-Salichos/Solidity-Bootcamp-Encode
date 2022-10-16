@@ -53,7 +53,7 @@ function Mint({ accounts, setAccounts, amountOfTokens, setAmountOfTokens }: { ac
         Mint
       </button>
       <div>
-        <p>Transaction Hash: {transactionHash}</p>
+        <p>Mint Transaction Hash: {transactionHash}</p>
         <p>Tokens minted: {amountOfTokens}</p>
       </div>
     </div>

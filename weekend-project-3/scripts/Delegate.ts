@@ -17,7 +17,7 @@ namespace Delegate {
   const delegatingTo = walletAddress;
 
   const delegateVotingPower = async () => {
-    const delegateTx = await tokenContract.delegate(walletAddress);
+    const delegateTx = await tokenContract.delegate(delegatingTo);
     const receipt = await delegateTx.wait();
 
     console.log(`Delegating voting power to: ${delegatingTo}`);

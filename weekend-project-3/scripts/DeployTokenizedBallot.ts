@@ -17,7 +17,7 @@ namespace DeployTokenizedBallot {
     const provider = ethers.getDefaultProvider("goerli");
     let Ballot = await ethers.getContractFactory("TokenizedBallot");
     let proposalsInBytes32 = convertStringArrayToBytes32();
-    let referenceBlock = await ethers.provider.getBlockNumber();
+    let referenceBlock = (await ethers.provider.getBlockNumber()) + 100;
 
     let tokenizedBallotContract = await Ballot.deploy(proposalsInBytes32, myTokenERC20, referenceBlock);
     await tokenizedBallotContract.deployed();
