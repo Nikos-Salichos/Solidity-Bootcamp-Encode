@@ -21,7 +21,14 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
     console.log("voteAmountToEth is:", voteAmountToEth);
   };
 
- 
+  async function vote() {
+    if (accounts[0] !== "undefined") {
+      console.log("Voting started");
+      const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
+      const walletAddress = process.env.REACT_APP_WALLET_ADDRESS;
+      const privateKey = process.env.REACT_APP_PRIVATE_KEY;
+
+     
  
   }
 
