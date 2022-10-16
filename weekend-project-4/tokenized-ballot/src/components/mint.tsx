@@ -48,14 +48,13 @@ function Mint({ accounts, setAccounts, amountOfTokens, setAmountOfTokens }: { ac
   }
 
   return (
-    <div>
-      <button className="mintButton" onClick={mintTokens}>
+    <div className="inner-container">
+      <h2>Minting Tokens</h2>
+        <p><b>Mint Transaction Hash:</b> {transactionHash}</p>
+        <p><b>Tokens minted:</b> {amountOfTokens}</p>
+      <button className="button" onClick={mintTokens}>
         Mint
       </button>
-      <div>
-        <p>Mint Transaction Hash: {transactionHash}</p>
-        <p>Tokens minted: {amountOfTokens}</p>
-      </div>
     </div>
   );
 }

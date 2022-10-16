@@ -32,15 +32,14 @@ function Delegate({ accounts, setAccounts }: { accounts: any; setAccounts: any }
   }
 
   return (
-    <div>
-      <button className="delegateButton" onClick={delegateTokens}>
+    <div className="inner-container">
+      <h2>Delegate</h2>
+        <p><b>Delegate Address:</b> {accounts[0]}</p>
+        <p><b>Delegate Transaction Hash:</b> {transactionHash}</p>
+        <p>{delegateToAddress}</p>
+      <button className="button" onClick={delegateTokens}>
         Delegate
       </button>
-      <div>
-        <p>Delegate Address {accounts[0]}</p>
-        <p>Delegate Transaction Hash: {transactionHash}</p>
-        <p>{delegateToAddress}</p>
-      </div>
     </div>
   );
 }
