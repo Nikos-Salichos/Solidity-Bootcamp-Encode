@@ -22,20 +22,20 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
   };
 
   async function vote() {
-    if (accounts[0] !== "undefined") {
-      console.log("Voting started");
+    try {
+      if (accounts[0] !== "undefined") {
+        console.log("Voting started");
 
-      const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
-      const walletAddress = process.env.REACT_APP_WALLET_ADDRESS;
-      const privateKey = process.env.REACT_APP_PRIVATE_KEY;
+        const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
+        const walletAddress = process.env.REACT_APP_WALLET_ADDRESS;
+        const privateKey = process.env.REACT_APP_PRIVATE_KEY;
 
-      const provider = new ethers.providers.JsonRpcProvider(`https://goerli.infura.io/v3/${providerRpcKey}`);
-      const wallet = new ethers.Wallet(privateKey!, provider);
-      const signer = wallet.connect(provider);
+        const provider = new ethers.providers.JsonRpcProvider(`https://goerli.infura.io/v3/${providerRpcKey}`);
+        const wallet = new ethers.Wallet(privateKey!, provider);
+        const signer = wallet.connect(provider);
 
-      const tokenContract = new ethers.Contract(tokenizedBallotAddress, tokenizedBallot.abi, signer);
+        const tokenContract = new ethers.Contract(tokenizedBallotAddress, tokenizedBallot.abi, signer);
 
-      try {
         const votingPower = await tokenContract.votePower(walletAddress!);
         console.log(`votingPower ${votingPower}`);
 
@@ -46,10 +46,10 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
         const receipt = await voteTx.wait();
         console.log(`voteTx: ${receipt.transactionHash}`);
         setTransactionHash(receipt.transactionHash);
-      } catch (error) {
-        let result = (error as Error).message;
-        setTransactionHash(result);
       }
+    } catch (error) {
+      let result = (error as Error).message;
+      setTransactionHash(result);
     }
   }
 
