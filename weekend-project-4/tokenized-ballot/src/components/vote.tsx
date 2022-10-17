@@ -7,6 +7,7 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
   const [transactionHash, setTransactionHash] = useState("");
   const [proposal, setProposal] = useState("");
   const [voteAmount, setvoteAmount] = useState("");
+  const [votersState, setVotersState] = useState<string[]>([]);
 
   const proposals = ["Coffee", "Tea"];
   const proposalsMap = proposals.map((key, index) => index + "=" + key + " ");
@@ -27,7 +28,7 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
         console.log("Voting started");
 
         const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
-        const walletAddress = process.env.REACT_APP_WALLET_ADDRESS;
+        const walletAddress: string = process.env.REACT_APP_WALLET_ADDRESS!;
         const privateKey = process.env.REACT_APP_PRIVATE_KEY;
 
         const provider = new ethers.providers.JsonRpcProvider(`https://goerli.infura.io/v3/${providerRpcKey}`);
@@ -36,16 +37,21 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
 
         const tokenContract = new ethers.Contract(tokenizedBallotAddress, tokenizedBallot.abi, signer);
 
-        const votingPower = await tokenContract.votePower(walletAddress!);
-        console.log(`votingPower ${votingPower}`);
+        const votingPower = await tokenContract.votePower(walletAddress);
 
-        const voteAmountToEth = ethers.utils.parseEther(voteAmount);
+        if (votingPower > 0) {
+          setVotersState((initialArray) => [...initialArray, walletAddress]);
 
-        const voteTx = await tokenContract.vote(proposal, voteAmountToEth);
-        console.log(`voteTx ${voteTx}`);
-        const receipt = await voteTx.wait();
-        console.log(`voteTx: ${receipt.transactionHash}`);
-        setTransactionHash(receipt.transactionHash);
+          const voteAmountToEth = ethers.utils.parseEther(voteAmount);
+
+          const voteTx = await tokenContract.vote(proposal, voteAmountToEth);
+          console.log(`voteTx ${voteTx}`);
+          const receipt = await voteTx.wait();
+          console.log(`voteTx: ${receipt.transactionHash}`);
+          setTransactionHash(receipt.transactionHash);
+        } else {
+          setTransactionHash("No voting power left");
+        }
       }
     } catch (error) {
       let result = (error as Error).message;
@@ -73,8 +79,12 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
       </div>
       <div>
         <p>
-          <b>Vote Transaction Hash:</b> <i>{transactionHash}</i>
+          <b>Vote Status:</b> <i>{transactionHash}</i>
         </p>
+      </div>
+      <div>
+        <b>Voters</b>
+        <p>{votersState}</p>
       </div>
     </div>
   );
