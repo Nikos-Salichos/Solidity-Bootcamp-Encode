@@ -24,7 +24,7 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
   async function vote() {
     if (accounts[0] !== "undefined") {
       console.log("Voting started");
-      
+
       const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
       const walletAddress = process.env.REACT_APP_WALLET_ADDRESS;
       const privateKey = process.env.REACT_APP_PRIVATE_KEY;
@@ -47,8 +47,8 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
         console.log(`voteTx: ${receipt.transactionHash}`);
         setTransactionHash(receipt.transactionHash);
       } catch (error) {
-        console.log(error);
-        setTransactionHash("block not yet mined");
+        let result = (error as Error).message;
+        setTransactionHash(result);
       }
     }
   }
@@ -56,10 +56,14 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
   return (
     <div className="inner-container-full">
       <h2>Vote</h2>
-      <p><b>Choose a proposal</b></p>
+      <p>
+        <b>Choose a proposal</b>
+      </p>
       <p>{proposalsMap}</p>
       <input type="number" id="proposal" name="proposal" onChange={handleProposalChange} value={proposal} min="0" max="1" placeholder="Choose a proposal" />
-      <p><b>Vote Amount</b></p>
+      <p>
+        <b>Vote Amount</b>
+      </p>
       <input type="number" id="voteAmount" name="voteAmount" onChange={handleVoteAmount} value={voteAmount} min="0" placeholder="Choose voting amount" />
       <div>
         <br></br>
@@ -68,7 +72,9 @@ function Vote({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
         </button>
       </div>
       <div>
-        <p><b>Vote Transaction Hash:</b> <i>{transactionHash}</i></p>
+        <p>
+          <b>Vote Transaction Hash:</b> <i>{transactionHash}</i>
+        </p>
       </div>
     </div>
   );

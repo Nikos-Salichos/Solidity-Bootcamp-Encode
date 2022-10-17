@@ -37,11 +37,17 @@ function Mint({ accounts, setAccounts, amountOfTokens, setAmountOfTokens }: { ac
 
       console.log(`receipt.transactionHash ${receipt.transactionHash}`);
 
-      if (receipt.transactionHash !== "undefined") {
-        setAmountOfTokens(mintingAmount.toString());
-        setTransactionHash(receipt.transactionHash);
-      } else {
-        setTransactionHash("Transaction failed");
+      try {
+        if (receipt.transactionHash !== "undefined") {
+          setAmountOfTokens(mintingAmount.toString());
+          setTransactionHash(receipt.transactionHash);
+        } else {
+          setTransactionHash("Transaction failed");
+          setAmountOfTokens("0");
+        }
+      } catch (error) {
+        let result = (error as Error).message;
+        setTransactionHash(result);
         setAmountOfTokens("0");
       }
     }
@@ -50,8 +56,12 @@ function Mint({ accounts, setAccounts, amountOfTokens, setAmountOfTokens }: { ac
   return (
     <div className="inner-container">
       <h2>Minting Tokens</h2>
-        <p><b>Mint Transaction Hash:</b> <i>{transactionHash}</i></p>
-        <p><b>Tokens minted:</b> {amountOfTokens}</p>
+      <p>
+        <b>Mint Transaction Hash:</b> <i>{transactionHash}</i>
+      </p>
+      <p>
+        <b>Tokens minted:</b> {amountOfTokens}
+      </p>
       <button className="button" onClick={mintTokens}>
         Mint
       </button>
