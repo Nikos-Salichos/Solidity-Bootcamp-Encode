@@ -1,14 +1,19 @@
 import { ethers } from "ethers";
 import React, { useState } from "react";
-import { tokenERC20Address } from "../assets/tokenERC20Address";
+import { lotteryTokenContract } from "../assets/lotterytokenContract";
+import { lotteryTokenERC20Address } from "../assets/lotteryTokenERC20Address";
+import { lotteryContract } from "../assets/lotteryContract";
 import { lotteryAddress } from "../assets/lotteryAddress";
-import { LotteryToken } from "../assets/myTokenERC20";
-import { Lottery } from "../assets";
 
 function ReadSmartContract({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
   const [balance, setBalance] = useState("");
-  const [votingPower, setVotingPower] = useState("");
-  const [winnerName, setWinnerName] = useState("");
+  const [purchaseRatio, setPurchaseRatio] = useState("");
+  const [betPrice, setBetPrice] = useState("");
+  const [betFee, setBetFee] = useState("");
+  const [prizePool, setPrizePool] = useState("");
+  const [ownerPool, setOwnerPool] = useState("");
+  const [betsOpen, setBetsOpen] = useState("");
+  const [betsClosingTime, setBetsClosingTime] = useState("");
 
   async function connectAccount() {
     if (window.ethereum) {
@@ -39,16 +44,16 @@ function ReadSmartContract({ accounts, setAccounts }: { accounts: any; setAccoun
       const wallet = new ethers.Wallet(privateKey!, provider);
       const signer = wallet.connect(provider);
 
-      const tokenContract = new ethers.Contract(myTokenERC20Address, myTokenERC20.abi, signer);
-      const tokenizedBallotContract = new ethers.Contract(tokenizedBallotAddress, tokenizedBallot.abi, signer);
+      const erc20Contract = new ethers.Contract(lotteryTokenERC20Address, lotteryTokenContract.abi, signer);
+      const lottery = new ethers.Contract(lotteryAddress, lotteryContract.abi, signer);
 
-      const votingPower = await tokenizedBallotContract.votePower(accounts[0]);
-      console.log(`Voting power: ${votingPower}`);
-      setVotingPower(votingPower.toString());
+      const betFee = await lottery._betFee();
+      console.log(`betFee ${betFee}`);
+      setVotingPower(betFee.toString());
 
-      const winnerNameBN = await tokenizedBallotContract.winnerName();
-      const winnerName = ethers.utils.parseBytes32String(winnerNameBN);
-      console.log(`Winner name: ${winnerName}`);
+      const betPrice = await lottery._betPrice();
+      const betPrice = ethers.utils.parseBytes32String(betPrice);
+      console.log(`_betPrice ${betPrice}`);
       setWinnerName(winnerName);
     }
   }
@@ -74,10 +79,10 @@ function ReadSmartContract({ accounts, setAccounts }: { accounts: any; setAccoun
       <div className="inner-container">
         <h2>Reading Smart Contract</h2>
         <p>
-          <b>Tokenized Ballot Address:</b> {tokenizedBallotAddress}
+          <b>Lottery Address:</b> {lotteryAddress}
         </p>
         <p>
-          <b>Token Address:</b> {myTokenERC20Address}
+          <b>Token Address:</b> {lotteryTokenERC20Address}
         </p>
         <p>
           <b>Voting Power:</b> {votingPower}
