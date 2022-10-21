@@ -20,9 +20,11 @@ function PurchaseTokens({ accounts, setAccounts }: { accounts: any; setAccounts:
         const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
         const privateKey = process.env.REACT_APP_PRIVATE_KEY;
 
-        const provider = new ethers.providers.JsonRpcProvider(`https://goerli.infura.io/v3/${providerRpcKey}`);
+        const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
         const wallet = new ethers.Wallet(privateKey!, provider);
-        const signer = wallet.connect(provider);
+        provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+        console.log("Account:", signer.getAddress());
 
         const erc20Contract = new ethers.Contract(lotteryTokenERC20Address, lotteryTokenContract.abi, signer);
         const lottery = new ethers.Contract(lotteryAddress, lotteryContract.abi, signer);

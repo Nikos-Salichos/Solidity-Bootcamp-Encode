@@ -19,17 +19,12 @@ function ReturnTokens({ accounts, setAccounts }: { accounts: any; setAccounts: a
         const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
         const privateKey = process.env.REACT_APP_PRIVATE_KEY;
 
-        const provider = new ethers.providers.JsonRpcProvider(`https://goerli.infura.io/v3/${providerRpcKey}`);
-        const wallet = new ethers.Wallet(privateKey!, provider);
-        const signer = wallet.connect(provider);
 
         const erc20Contract = new ethers.Contract(lotteryTokenERC20Address, lotteryTokenContract.abi, signer);
         const lottery = new ethers.Contract(lotteryAddress, lotteryContract.abi, signer);
 
         const returnTokens = await lottery.returnTokens(amountOfTokens);
         const receipt = await returnTokens.wait();
-
-        console.log(`receipt.transactionHash ${receipt.transactionHash}`);
 
         if (receipt.transactionHash !== "undefined") {
           setTransactionHash(receipt.transactionHash);

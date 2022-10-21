@@ -11,7 +11,6 @@ import ReturnTokens from "./components/returnTokens";
 
 function App() {
   const [accounts, setAccounts] = useState("");
-  const [amountOfTokens, setAmountOfTokens] = useState("");
 
   return (
     <div className="App">

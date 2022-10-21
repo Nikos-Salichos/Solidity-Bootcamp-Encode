@@ -45,9 +45,9 @@ function OpenBets({ accounts, setAccounts }: { accounts: any; setAccounts: any }
 
   return (
     <div className="inner-container">
-      <h2>Minting Tokens</h2>
+      <h2>Open Bets</h2>
       <p>
-        <b>Mint Transaction Hash:</b> <i>{transactionHash}</i>
+        <b>Open Bet Hash:</b> <i>{transactionHash}</i>
       </p>
       <p>
         <b>Closing Time:</b> {closingTime}
