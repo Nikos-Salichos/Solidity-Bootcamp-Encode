@@ -1,7 +1,7 @@
 import React from "react";
 
-function enter() {
+function bet() {
   return <div></div>;
 }
 
-export default enter;
+export default bet;

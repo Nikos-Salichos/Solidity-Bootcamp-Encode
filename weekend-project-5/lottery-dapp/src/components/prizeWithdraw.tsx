@@ -1,7 +1,7 @@
 import React from "react";
 
-function random() {
+function prizeWithdraw() {
   return <div></div>;
 }
 
-export default random;
+export default prizeWithdraw;
