@@ -16,11 +16,7 @@ function ReturnTokens({ accounts, setAccounts }: { accounts: any; setAccounts: a
   async function returnTokens() {
     try {
       if (accounts[0] !== "undefined") {
-        const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
-        const privateKey = process.env.REACT_APP_PRIVATE_KEY;
-
         const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-        const wallet = new ethers.Wallet(privateKey!, provider);
         provider.send("eth_requestAccounts", []);
         const signer = provider.getSigner();
         console.log("Account:", signer.getAddress());
