@@ -9,7 +9,9 @@ function ReturnTokens({ accounts, setAccounts }: { accounts: any; setAccounts: a
   const [transactionHash, setTransactionHash] = useState("");
   const [amountOfTokens, setAmountOfTokens] = useState(0);
 
-
+  const handleAmountOfTokens = (event: { target: { value: any } }) => {
+    setAmountOfTokens(event.target.value);
+  };
 
   async function purchaseTokens() {
     try {
