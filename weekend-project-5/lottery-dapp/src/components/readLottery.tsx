@@ -14,6 +14,7 @@ function ReadLottery({ accounts, setAccounts }: { accounts: any; setAccounts: an
   const [ownerPool, setOwnerPool] = useState("");
   const [betsOpen, setBetsOpen] = useState("");
   const [betsClosingTime, setBetsClosingTime] = useState("");
+  const [randomNumber, setRandomNumber] = useState("");
 
   async function connectAccount() {
     if (window.ethereum) {
@@ -67,6 +68,9 @@ function ReadLottery({ accounts, setAccounts }: { accounts: any; setAccounts: an
 
       const betsClosingTime = await lottery.betsClosingTime();
       setBetsClosingTime(betsClosingTime.toString());
+
+      const getRandomNumber = await lottery.getRandomNumber();
+      setRandomNumber(getRandomNumber.toString());
     }
   }
 
@@ -116,6 +120,9 @@ function ReadLottery({ accounts, setAccounts }: { accounts: any; setAccounts: an
         </p>
         <p>
           <b>Bets Closing Time:</b> {betsClosingTime}
+        </p>
+        <p>
+          <b>Random Number:</b> {randomNumber}
         </p>
         <button className="button" onClick={contractInfo}>
           Read Smart Contract

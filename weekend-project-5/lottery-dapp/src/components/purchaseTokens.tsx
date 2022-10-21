@@ -12,7 +12,6 @@ function PurchaseTokens({ accounts, setAccounts }: { accounts: any; setAccounts:
 
   const handlePurchaseTokens = (event: { target: { value: any } }) => {
     setMsgValue(event.target.value);
-    console.log("msgvalue:", event.target.value);
   };
 
   async function purchaseTokens() {

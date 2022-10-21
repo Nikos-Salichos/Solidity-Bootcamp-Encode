@@ -18,6 +18,8 @@ function App() {
       <OpenBets accounts={accounts} setAccounts={setAccounts}></OpenBets>
       <PurchaseTokens accounts={accounts} setAccounts={setAccounts}></PurchaseTokens>
       <ReadLottery accounts={accounts} setAccounts={setAccounts}></ReadLottery>
+      <OwnerWithdraw></OwnerWithdraw>
+      <ReturnTokens accounts={accounts} setAccounts={setAccounts}></ReturnTokens>
     </div>
   );
 }
