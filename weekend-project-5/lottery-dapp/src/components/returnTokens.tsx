@@ -19,6 +19,11 @@ function ReturnTokens({ accounts, setAccounts }: { accounts: any; setAccounts: a
         const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
         const privateKey = process.env.REACT_APP_PRIVATE_KEY;
 
+        const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+        const wallet = new ethers.Wallet(privateKey!, provider);
+        provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+        console.log("Account:", signer.getAddress());
 
         const erc20Contract = new ethers.Contract(lotteryTokenERC20Address, lotteryTokenContract.abi, signer);
         const lottery = new ethers.Contract(lotteryAddress, lotteryContract.abi, signer);
