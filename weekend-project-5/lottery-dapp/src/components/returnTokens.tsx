@@ -13,7 +13,7 @@ function ReturnTokens({ accounts, setAccounts }: { accounts: any; setAccounts: a
     setAmountOfTokens(event.target.value);
   };
 
-  async function purchaseTokens() {
+  async function returnTokens() {
     try {
       if (accounts[0] !== "undefined") {
         const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
@@ -28,8 +28,8 @@ function ReturnTokens({ accounts, setAccounts }: { accounts: any; setAccounts: a
         const erc20Contract = new ethers.Contract(lotteryTokenERC20Address, lotteryTokenContract.abi, signer);
         const lottery = new ethers.Contract(lotteryAddress, lotteryContract.abi, signer);
 
-        const returnTokens = await lottery.returnTokens(amountOfTokens);
-        const receipt = await returnTokens.wait();
+        const returnTokensFunction = await lottery.returnTokens(amountOfTokens);
+        const receipt = await returnTokensFunction.wait();
 
         if (receipt.transactionHash !== "undefined") {
           setTransactionHash(receipt.transactionHash);
@@ -53,7 +53,7 @@ function ReturnTokens({ accounts, setAccounts }: { accounts: any; setAccounts: a
       <p>
         <b>Tokens</b> {amountOfTokens}
       </p>
-      <button className="button" onClick={purchaseTokens}>
+      <button className="button" onClick={returnTokens}>
         Return Tokens
       </button>
       <input type="number" id="tokens" name="tokens" onChange={handleAmountOfTokens} value={amountOfTokens}></input>
