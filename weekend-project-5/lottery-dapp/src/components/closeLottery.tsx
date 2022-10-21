@@ -1,7 +1,7 @@
 import React from "react";
 
-function closeLottery() {
+function CloseLottery() {
   return <div></div>;
 }
 
-export default closeLottery;
+export default CloseLottery;

@@ -1,7 +1,7 @@
 import React from "react";
 
-function returnTokens() {
+function ReturnTokens() {
   return <div></div>;
 }
 
-export default returnTokens;
+export default ReturnTokens;

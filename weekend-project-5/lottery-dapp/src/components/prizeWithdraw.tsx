@@ -1,7 +1,7 @@
 import React from "react";
 
-function prizeWithdraw() {
+function PrizeWithdraw() {
   return <div></div>;
 }
 
-export default prizeWithdraw;
+export default PrizeWithdraw;

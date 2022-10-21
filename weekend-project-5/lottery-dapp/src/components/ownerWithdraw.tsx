@@ -1,7 +1,7 @@
 import React from "react";
 
-function ownerWithdraw() {
+function OwnerWithdraw() {
   return <div></div>;
 }
 
-export default ownerWithdraw;
+export default OwnerWithdraw;

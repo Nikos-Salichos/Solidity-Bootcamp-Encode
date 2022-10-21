@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import "./App.css";
-import bet from "./components/bet";
-import closeLottery from "./components/closeLottery";
+import Bet from "./components/bet";
+import CloseLottery from "./components/closeLottery";
 import OpenBets from "./components/openBets";
-import ownerWithdraw from "./components/ownerWithdraw";
-import prizeWithdraw from "./components/prizeWithdraw";
-import purchaseTokens from "./components/purchaseTokens";
+import OwnerWithdraw from "./components/ownerWithdraw";
+import PrizeWithdraw from "./components/prizeWithdraw";
+import PurchaseTokens from "./components/purchaseTokens";
 import ReadLottery from "./components/readLottery";
 import ReturnTokens from "./components/returnTokens";
 
@@ -16,6 +16,7 @@ function App() {
   return (
     <div className="App">
       <OpenBets accounts={accounts} setAccounts={setAccounts}></OpenBets>
+      <PurchaseTokens accounts={accounts} setAccounts={setAccounts}></PurchaseTokens>
       <ReadLottery accounts={accounts} setAccounts={setAccounts}></ReadLottery>
     </div>
   );
