@@ -26,7 +26,7 @@ function ReturnTokens({ accounts, setAccounts }: { accounts: any; setAccounts: a
         const erc20Contract = new ethers.Contract(lotteryTokenERC20Address, lotteryTokenContract.abi, signer);
         const lottery = new ethers.Contract(lotteryAddress, lotteryContract.abi, signer);
 
-        const returnTokens = await lottery.returnTokens();
+        const returnTokens = await lottery.returnTokens(amountOfTokens);
         const receipt = await returnTokens.wait();
 
         console.log(`receipt.transactionHash ${receipt.transactionHash}`);
