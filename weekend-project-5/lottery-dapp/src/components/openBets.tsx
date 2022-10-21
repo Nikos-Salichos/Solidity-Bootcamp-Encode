@@ -1,7 +1,7 @@
 import React from "react";
 
-function pickWinner() {
+function openBets() {
   return <div></div>;
 }
 
-export default pickWinner;
+export default openBets;

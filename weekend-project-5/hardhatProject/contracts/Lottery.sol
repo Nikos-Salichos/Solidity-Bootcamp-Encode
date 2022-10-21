@@ -35,7 +35,7 @@ contract Lottery is Ownable {
     /// @notice Constructor function
     /// @param tokenName Name of the token used for payment
     /// @param tokenSymbol Symbol of the token used for payment
-    /// @param _purchaseRatio Amount of tokens given per ETH paid
+    /// @param _purchaseRatio Amount of ETH charged per Token
     /// @param _betPrice Amount of tokens required for placing a bet that goes for the prize pool
     /// @param _betFee Amount of tokens required for placing a bet that goes for the owner pool
     constructor(
