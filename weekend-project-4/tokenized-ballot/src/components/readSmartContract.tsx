@@ -32,7 +32,10 @@ function ReadSmartContract({ accounts, setAccounts }: { accounts: any; setAccoun
     if (accounts[0] !== "undefined") {
       console.log(`Reading smart contract started`);
 
- 
+      const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+      provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      console.log("Account:", signer.getAddress());
 
       const tokenContract = new ethers.Contract(myTokenERC20Address, myTokenERC20.abi, signer);
       const tokenizedBallotContract = new ethers.Contract(tokenizedBallotAddress, tokenizedBallot.abi, signer);
