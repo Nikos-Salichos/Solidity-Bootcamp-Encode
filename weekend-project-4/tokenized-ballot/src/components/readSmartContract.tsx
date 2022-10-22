@@ -26,19 +26,13 @@ function ReadSmartContract({ accounts, setAccounts }: { accounts: any; setAccoun
       setAccounts(accounts);
       setBalance(walletBalance);
     }
-  };
-
+  }
 
   async function contractInfo() {
     if (accounts[0] !== "undefined") {
       console.log(`Reading smart contract started`);
 
-      const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
-      const privateKey = process.env.REACT_APP_PRIVATE_KEY;
-
-      const provider = new ethers.providers.JsonRpcProvider(`https://goerli.infura.io/v3/${providerRpcKey}`);
-      const wallet = new ethers.Wallet(privateKey!, provider);
-      const signer = wallet.connect(provider);
+ 
 
       const tokenContract = new ethers.Contract(myTokenERC20Address, myTokenERC20.abi, signer);
       const tokenizedBallotContract = new ethers.Contract(tokenizedBallotAddress, tokenizedBallot.abi, signer);
@@ -51,8 +45,7 @@ function ReadSmartContract({ accounts, setAccounts }: { accounts: any; setAccoun
       const winnerName = ethers.utils.parseBytes32String(winnerNameBN);
       console.log(`Winner name: ${winnerName}`);
       setWinnerName(winnerName);
-
-    };
+    }
   }
 
   const openInNewTab = (url: any) => {
@@ -64,7 +57,9 @@ function ReadSmartContract({ accounts, setAccounts }: { accounts: any; setAccoun
       <div className="inner-container">
         <div>
           <h2>{balance} ETH</h2>
-          <p><b>Wallet Address:</b> </p>
+          <p>
+            <b>Wallet Address:</b>{" "}
+          </p>
           <p>{accounts[0]}</p>
         </div>
         <button className="button" onClick={connectAccount}>
@@ -73,10 +68,18 @@ function ReadSmartContract({ accounts, setAccounts }: { accounts: any; setAccoun
       </div>
       <div className="inner-container">
         <h2>Reading Smart Contract</h2>
-        <p><b>Tokenized Ballot Address:</b> {tokenizedBallotAddress}</p>
-        <p><b>Token Address:</b> {myTokenERC20Address}</p>
-        <p><b>Voting Power:</b> {votingPower}</p>
-        <p><b>Winner Name:</b> {winnerName}</p>
+        <p>
+          <b>Tokenized Ballot Address:</b> {tokenizedBallotAddress}
+        </p>
+        <p>
+          <b>Token Address:</b> {myTokenERC20Address}
+        </p>
+        <p>
+          <b>Voting Power:</b> {votingPower}
+        </p>
+        <p>
+          <b>Winner Name:</b> {winnerName}
+        </p>
         <button className="button" onClick={contractInfo}>
           Read Smart Contract
         </button>

@@ -12,12 +12,11 @@ function Delegate({ accounts, setAccounts }: { accounts: any; setAccounts: any }
       console.log(`Delegating voting power started`);
 
       setDelegateToAddress(accounts[0]);
-      const providerRpcKey = process.env.REACT_APP_PROVIDER_RPC_KEY;
-      const privateKey = process.env.REACT_APP_PRIVATE_KEY;
 
-      const provider = new ethers.providers.JsonRpcProvider(`https://goerli.infura.io/v3/${providerRpcKey}`);
-      const wallet = new ethers.Wallet(privateKey!, provider);
-      const signer = wallet.connect(provider);
+      const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+      provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      console.log("Account:", signer.getAddress());
 
       const tokenContract = new ethers.Contract(myTokenERC20Address, myTokenERC20.abi, signer);
 
@@ -34,8 +33,12 @@ function Delegate({ accounts, setAccounts }: { accounts: any; setAccounts: any }
   return (
     <div className="inner-container">
       <h2>Delegate</h2>
-        <p><b>Delegate Address:</b> {accounts[0]}</p>
-        <p><b>Delegate Transaction Hash:</b> <i>{transactionHash}</i></p>
+      <p>
+        <b>Delegate Address:</b> {accounts[0]}
+      </p>
+      <p>
+        <b>Delegate Transaction Hash:</b> <i>{transactionHash}</i>
+      </p>
       <button className="button" onClick={delegateTokens}>
         Delegate
       </button>
