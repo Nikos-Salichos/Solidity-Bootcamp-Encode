@@ -1,13 +1,5 @@
-# Sample Hardhat Project
+Develop and run scripts for “Ballot.sol” within your group to give voting rights, casting votes, delegating votes and querying results.
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+Write a report with each function execution and the transaction hash, if successful, or the revert reason, if failed.
 
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+Submit your code in a github repository in the form.
