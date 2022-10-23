@@ -8,17 +8,30 @@ import PrizeWithdraw from "./components/prizeWithdraw";
 import PurchaseTokens from "./components/purchaseTokens";
 import ReadLottery from "./components/readLottery";
 import ReturnTokens from "./components/returnTokens";
+import Navbar  from "./components/navbar/navbar";
 
 function App() {
   const [accounts, setAccounts] = useState("");
 
   return (
     <div className="App">
-      <OpenBets accounts={accounts} setAccounts={setAccounts}></OpenBets>
-      <PurchaseTokens accounts={accounts} setAccounts={setAccounts}></PurchaseTokens>
-      <ReadLottery accounts={accounts} setAccounts={setAccounts}></ReadLottery>
-      <OwnerWithdraw></OwnerWithdraw>
-      <ReturnTokens accounts={accounts} setAccounts={setAccounts}></ReturnTokens>
+      <Navbar />
+      <div className="container-default">
+        <ReadLottery accounts={accounts} setAccounts={setAccounts} />
+        <div className="grid-section">
+          <OpenBets accounts={accounts} setAccounts={setAccounts} />
+          <PurchaseTokens accounts={accounts} setAccounts={setAccounts} />
+        </div>
+        <div className="grid-section">
+          <Bet accounts={accounts} setAccounts={setAccounts} />
+          <OwnerWithdraw></OwnerWithdraw>
+        </div>
+        <div className="grid-section">
+          <PrizeWithdraw accounts={accounts} setAccounts={setAccounts} />
+          <ReturnTokens accounts={accounts} setAccounts={setAccounts}></ReturnTokens>
+        </div>
+        <CloseLottery accounts={accounts} setAccounts={setAccounts} />
+      </div>
     </div>
   );
 }

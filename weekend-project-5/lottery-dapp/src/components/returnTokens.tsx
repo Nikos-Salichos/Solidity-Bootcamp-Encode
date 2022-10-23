@@ -49,10 +49,10 @@ function ReturnTokens({ accounts, setAccounts }: { accounts: any; setAccounts: a
       <p>
         <b>Tokens</b> {amountOfTokens}
       </p>
+      <input type="number" id="tokens" name="tokens" onChange={handleAmountOfTokens} value={amountOfTokens}></input>
       <button className="button" onClick={returnTokens}>
         Return Tokens
       </button>
-      <input type="number" id="tokens" name="tokens" onChange={handleAmountOfTokens} value={amountOfTokens}></input>
     </div>
   );
 }

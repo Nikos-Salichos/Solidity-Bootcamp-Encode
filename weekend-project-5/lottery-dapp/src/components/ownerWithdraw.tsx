@@ -49,10 +49,10 @@ function OwnerWithdraw() {
       <p>
         <b>Withdraw Amount</b> {withdrawAmount}
       </p>
+      <input type="number" id="tokens" name="tokens" onChange={handleWithdrawAmount} value={withdrawAmount}></input>
       <button className="button" onClick={ownerWithdraw}>
         Onwer withdraw
       </button>
-      <input type="number" id="tokens" name="tokens" onChange={handleWithdrawAmount} value={withdrawAmount}></input>
     </div>
   );
 }

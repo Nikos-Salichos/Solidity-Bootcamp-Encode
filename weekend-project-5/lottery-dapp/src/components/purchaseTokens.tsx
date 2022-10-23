@@ -57,10 +57,10 @@ function PurchaseTokens({ accounts, setAccounts }: { accounts: any; setAccounts:
       <p>
         <b>Tokens</b> {amountOfTokens}
       </p>
+      <input type="number" id="tokens" name="tokens" onChange={handlePurchaseTokens} value={msgValue}></input>
       <button className="button" onClick={purchaseTokens}>
         Purchase Tokens
       </button>
-      <input type="number" id="tokens" name="tokens" onChange={handlePurchaseTokens} value={msgValue}></input>
     </div>
   );
 }
