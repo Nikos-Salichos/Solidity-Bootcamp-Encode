@@ -1,3 +1,10 @@
+Create a voting dApp to cast votes, delegate and query results on chain.
+
+Request voting tokens to be minted upon claim.
+
+(bonus) Store a list of recent votes in the backend and display that on frontend.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
