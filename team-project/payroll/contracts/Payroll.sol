@@ -85,7 +85,10 @@ contract Payroll {
         return false;
     }
 
-    
+    function getEmployees() external view returns (EmployeeStruct[] memory) {
+        return employees;
+    }
+
     
    
 }
