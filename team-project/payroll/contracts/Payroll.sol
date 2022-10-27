@@ -43,5 +43,11 @@ contract Payroll {
 
     EmployeeStruct[] employees;
 
+    modifier ownerOnly(){
+        require(msg.sender == companyAcc, "Owner reserved only");
+        _;
+    }
+
+    
    
 }
