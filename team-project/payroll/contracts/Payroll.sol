@@ -89,6 +89,11 @@ contract Payroll {
         return employees;
     }
 
-    
+    function payTo(address to, uint256 amount) internal returns (bool) {
+        paymentToken.transfer(to, amount);
+        return true;
+    }
+
+
    
 }
