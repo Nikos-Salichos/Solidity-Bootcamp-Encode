@@ -17,3 +17,31 @@ contract PayrollToken is ERC20, ERC20Burnable, AccessControl {
         _mint(to, amount);
     }
 }
+
+contract Payroll {
+    PayrollToken public paymentToken;
+    address public companyAcc;
+    uint256 public totalEmployees = 0;
+    uint256 public totalSalary = 0;
+    uint256 public totalPayment = 0;
+
+    mapping(address => bool) IsEmployee;
+
+    event Paid(
+        uint256 id,
+        address from,
+        uint256 totalSalary,
+        uint256 timestamp
+    );
+
+    struct EmployeeStruct {
+        uint256 id;
+        address paymentAddress;
+        uint256 salary;
+        uint256 timestamp;
+    }
+
+    EmployeeStruct[] employees;
+
+   
+}
