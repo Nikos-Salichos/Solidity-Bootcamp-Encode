@@ -100,6 +100,6 @@ contract Payroll {
 
     fallback() external{}
 
-    
+    receive() payable external{}
    
 }
