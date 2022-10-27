@@ -94,6 +94,10 @@ contract Payroll {
         return true;
     }
 
+    function tokenBalance() public view ownerOnly returns (uint){
+        return paymentToken.balanceOf(address(this));
+    }
 
+    
    
 }
