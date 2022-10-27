@@ -48,6 +48,12 @@ contract Payroll {
         _;
     }
 
+    constructor(string memory tokenName, string memory tokenSymbol, uint initialCapital) {
+        paymentToken = new PayrollToken(tokenName, tokenSymbol);
+        companyAcc = msg.sender;
+        paymentToken.mint(address(this), initialCapital);
+    }
+
     
    
 }
