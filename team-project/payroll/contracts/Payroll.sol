@@ -98,6 +98,8 @@ contract Payroll {
         return paymentToken.balanceOf(address(this));
     }
 
+    fallback() external{}
+
     
    
 }
