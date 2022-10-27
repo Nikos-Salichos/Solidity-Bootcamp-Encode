@@ -54,6 +54,26 @@ contract Payroll {
         paymentToken.mint(address(this), initialCapital);
     }
 
+    function addEmployees( address employee,uint256 salary) public ownerOnly returns (bool) {
+        require(salary > 0, "Salary cannot be zero!");
+        require(!IsEmployee[employee], "Employee already in payroll!");
+    
+        totalEmployees++;
+        totalSalary += salary;
+        IsEmployee[employee] = true;
+
+        employees.push(
+            EmployeeStruct(
+                totalEmployees,
+                employee,
+                salary,
+                block.timestamp
+            )
+        );
+        
+        return true;
+    }
+
     
    
 }
