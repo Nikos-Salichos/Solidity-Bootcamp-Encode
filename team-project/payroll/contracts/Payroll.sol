@@ -74,6 +74,18 @@ contract Payroll {
         return true;
     }
 
+    function removeEmployee(uint employeeId) public ownerOnly returns(bool){
+        for (uint i = 0; i < employees.length; i++) {
+            if (employees[i].id == employeeId) {
+                totalSalary -=  employees[i].salary;
+                delete employees[i];
+                return true;
+            }
+        }
+        return false;
+    }
+
+    
     
    
 }
