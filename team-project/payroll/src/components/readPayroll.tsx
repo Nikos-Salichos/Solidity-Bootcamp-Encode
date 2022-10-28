@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
-function ReadLottery() {
+function ReadPayroll({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
+
+   
+
   return <div></div>;
 }
 
-export default ReadLottery;
+export default ReadPayroll;
