@@ -53,18 +53,18 @@ contract Payroll {
         paymentToken.mint(address(this), initialCapital);
     }
 
-    function addEmployee( address employee,uint256 salary) public ownerOnly returns (bool) {
+    function addEmployee( address employeeAddress,uint256 salary) public ownerOnly returns (bool) {
         require(salary > 0, "Salary cannot be zero!");
-        require(!IsEmployee[employee], "Employee already in payroll!");
+        require(!IsEmployee[employeeAddress], "Employee already in payroll!");
     
         totalEmployees++;
         totalSalary += salary;
-        IsEmployee[employee] = true;
+        IsEmployee[employeeAddress] = true;
 
         employees.push(
             EmployeeStruct(
                 totalEmployees,
-                employee,
+                employeeAddress,
                 salary,
                 block.timestamp
             )
@@ -73,9 +73,9 @@ contract Payroll {
         return true;
     }
 
-    function removeEmployee(uint employeeId) public ownerOnly returns(bool){
+    function removeEmployee(address employeeAddress) public ownerOnly returns(bool){
         for (uint i = 0; i < employees.length; i++) {
-            if (employees[i].id == employeeId) {
+            if (employees[i].paymentAddress == employeeAddress) {
                 totalSalary -=  employees[i].salary;
                 delete employees[i];
                 return true;
