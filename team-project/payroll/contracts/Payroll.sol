@@ -54,7 +54,7 @@ contract Payroll {
         paymentToken.mint(address(this), initialCapital);
     }
 
-    function addEmployees( address employee,uint256 salary) public ownerOnly returns (bool) {
+    function addEmployee( address employee,uint256 salary) public ownerOnly returns (bool) {
         require(salary > 0, "Salary cannot be zero!");
         require(!IsEmployee[employee], "Employee already in payroll!");
     
