@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header"></header>
+      <header></header>
       <ReadPayroll accounts={accounts} setAccounts={setAccounts}></ReadPayroll>
       <AddEmployee accounts={accounts} setAccounts={setAccounts}></AddEmployee>
       <RemoveEmployee accounts={accounts} setAccounts={setAccounts}></RemoveEmployee>

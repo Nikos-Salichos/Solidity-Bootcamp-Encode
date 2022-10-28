@@ -1,6 +1,6 @@
 import React from "react";
 
-function RemoveEmployee() {
+function RemoveEmployee({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
   return <div></div>;
 }
 

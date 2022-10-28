@@ -23,7 +23,6 @@ contract Payroll {
     address public companyAcc;
     uint256 public totalEmployees = 0;
     uint256 public totalSalary = 0;
-    uint256 public totalPayment = 0;
 
     mapping(address => bool) IsEmployee;
 
