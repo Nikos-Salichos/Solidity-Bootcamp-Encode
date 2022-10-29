@@ -22,7 +22,7 @@ contract Payroll {
     PayrollToken public paymentToken;
     address public companyAcc;
     uint256 public totalEmployees = 0;
-    uint256 public totalSalary = 0;
+    uint256 public totalSalaries = 0;
     uint256 public totalPayments = 0;
 
     mapping(address => bool) IsEmployee;
@@ -30,7 +30,6 @@ contract Payroll {
     event Paid(
         uint256 id,
         address from,
-        uint256 totalSalary,
         uint256 timestamp
     );
 
@@ -59,7 +58,7 @@ contract Payroll {
         require(!IsEmployee[employeeAddress], "Employee already in payroll!");
     
         totalEmployees++;
-        totalSalary += salary;
+        totalSalaries += salary;
         IsEmployee[employeeAddress] = true;
 
         employees.push(
@@ -77,7 +76,7 @@ contract Payroll {
     function removeEmployee(address employeeAddress) public ownerOnly returns(bool){
         for (uint i = 0; i < employees.length; i++) {
             if (employees[i].paymentAddress == employeeAddress) {
-                totalSalary -=  employees[i].salary;
+                totalSalaries -=  employees[i].salary;
                 delete employees[i];
                 totalEmployees--;
                 return true;
@@ -99,35 +98,25 @@ contract Payroll {
         return paymentToken.balanceOf(address(this));
     }
 
-    function removeEmployee(uint employeeId) public ownerOnly returns(bool){
-        for (uint i = 0; i < employees.length; i++) {
-            if (employees[i].id == employeeId) {
-                totalSalary -=  employees[i].salary;
-                delete employees[i];
-                return true;
-            }
-        }
-        return false;
-    }
-    
     function shutDownCompany() public ownerOnly {
+        paymentToken.transfer(companyAcc, tokenBalance());
         selfdestruct(payable(companyAcc));
     }
 
-    function updateEmployeeSalary(uint employeeId,uint newSalary) public ownerOnly returns(bool){
-       //TODO
+    function updateEmployeeSalary(address employeeAddress,uint newSalary) public ownerOnly returns(bool){
+
     }
 
     function payEmployees() payable public ownerOnly returns (bool) {
-       //TODO
+ 
     }
 
-    function payAnEmployee(uint employeeId) payable public ownerOnly returns (bool) {
-       //TODO
+    function payAnEmployee(address employeeAddress) payable public ownerOnly returns (bool) {
+
     }
 
     function fundCompanyAccount(uint amount) payable public returns (bool) {
-       //TODO
+
     }
 
 
