@@ -7,7 +7,11 @@ function RemoveEmployee({ accounts, setAccounts }: { accounts: any; setAccounts:
   const [employeeAddress, setEmployeeAddress] = useState("");
   const [transactionHash, setTransactionHash] = useState("");
 
- 
+  const handleEmployeeAddress = (event: { target: { value: any } }) => {
+    setEmployeeAddress(event.target.value);
+  };
+
+
 }
 
 export default RemoveEmployee;
