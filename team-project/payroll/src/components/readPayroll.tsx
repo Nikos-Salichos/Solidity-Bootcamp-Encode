@@ -12,11 +12,8 @@ function ReadPayroll({ accounts, setAccounts }: { accounts: any; setAccounts: an
   const [totalSalary, setTotalSalary] = useState("");
   const [employees, setEmployees] = useState([]);
   const [tokenBalance, setTokenBalance] = useState("");
-  const [employeeAddress, setEmployeeAddress] = useState("");
 
-  const handleEmployeeAddress = (event: { target: { value: any } }) => {
-    setEmployeeAddress(event.target.value);
-  };
+  let allEmployees = [];
 
   async function connectAccount() {
     if (window.ethereum) {
@@ -53,9 +50,11 @@ function ReadPayroll({ accounts, setAccounts }: { accounts: any; setAccounts: an
       const totalSalary = await payroll.totalSalary();
       setTotalSalary(totalSalary.toString());
 
-      const employees = await payroll.getEmployees();
-      console.log(employees);
-      setEmployees(employees);
+      const getEmployees = await payroll.getEmployees();
+      allEmployees = getEmployees;
+      console.log(allEmployees);
+      
+      setEmployees(getEmployees.map((key: string, index: string) => index + "=" + key + " "));
 
       const tokenBalance = await payroll.tokenBalance();
       setTokenBalance(tokenBalance.toString() + " wei");
