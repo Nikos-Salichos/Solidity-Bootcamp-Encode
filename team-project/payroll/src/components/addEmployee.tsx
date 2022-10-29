@@ -40,7 +40,24 @@ function AddEmployee({ accounts, setAccounts }: { accounts: any; setAccounts: an
     }
   }
 
- 
+  return (
+    <div>
+      <div>
+        <p>Employee Address</p>
+        <input type="text" id="employeeAddress" name="employeeAddress" onChange={handleEmployeeAddress} value={employeeAddress} />
+      </div>
+      <div>
+        <p>Employee Salary</p>
+        <input type="text" id="employeeSalary" name="employeeSalary" onChange={handleEmployeeSalary} value={employeeSalary} />
+      </div>
+      <button className="button" onClick={addEmployeeAsync}>
+        Add Employee
+      </button>
+      <div>
+        <b>Bet Transaction Hash:</b> <p>{transactionHash}</p>
+      </div>
+    </div>
+  );
 }
 
 export default AddEmployee;
