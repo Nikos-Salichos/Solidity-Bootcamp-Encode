@@ -109,6 +109,10 @@ contract Payroll {
         }
         return false;
     }
+    
+    function shutDownCompany() public ownerOnly {
+        selfdestruct(payable(companyAcc));
+    }
 
     function updateEmployeeSalary(uint employeeId,uint newSalary) public ownerOnly returns(bool){
        //TODO
