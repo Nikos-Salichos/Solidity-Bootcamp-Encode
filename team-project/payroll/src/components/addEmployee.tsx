@@ -43,7 +43,7 @@ function AddEmployee({ accounts, setAccounts }: { accounts: any; setAccounts: an
   return (
     <div>
       <div>
-        <p>Employee Address</p>
+        <p>Employee Address to add</p>
         <input type="text" id="employeeAddress" name="employeeAddress" onChange={handleEmployeeAddress} value={employeeAddress} />
       </div>
       <div>
@@ -54,7 +54,7 @@ function AddEmployee({ accounts, setAccounts }: { accounts: any; setAccounts: an
         Add Employee
       </button>
       <div>
-        <b>Bet Transaction Hash:</b> <p>{transactionHash}</p>
+        <b>Transaction Hash:</b> <p>{transactionHash}</p>
       </div>
     </div>
   );

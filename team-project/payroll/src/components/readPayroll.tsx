@@ -53,8 +53,7 @@ function ReadPayroll({ accounts, setAccounts }: { accounts: any; setAccounts: an
       const getEmployees = await payroll.getEmployees();
       allEmployees = getEmployees;
       console.log(allEmployees);
-      
-      setEmployees(getEmployees.map((key: string, index: string) => index + "=" + key + " "));
+      setEmployees(getEmployees.map((key: string, index: string) => index + ")" + key + " "));
 
       const tokenBalance = await payroll.tokenBalance();
       setTokenBalance(tokenBalance.toString() + " wei");
