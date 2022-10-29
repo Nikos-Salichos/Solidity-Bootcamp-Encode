@@ -23,6 +23,7 @@ contract Payroll {
     address public companyAcc;
     uint256 public totalEmployees = 0;
     uint256 public totalSalary = 0;
+    uint256 public totalPayments = 0;
 
     mapping(address => bool) IsEmployee;
 
@@ -78,6 +79,7 @@ contract Payroll {
             if (employees[i].paymentAddress == employeeAddress) {
                 totalSalary -=  employees[i].salary;
                 delete employees[i];
+                totalEmployees--;
                 return true;
             }
         }
@@ -96,6 +98,34 @@ contract Payroll {
     function tokenBalance() public view ownerOnly returns (uint){
         return paymentToken.balanceOf(address(this));
     }
+
+    function removeEmployee(uint employeeId) public ownerOnly returns(bool){
+        for (uint i = 0; i < employees.length; i++) {
+            if (employees[i].id == employeeId) {
+                totalSalary -=  employees[i].salary;
+                delete employees[i];
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function updateEmployeeSalary(uint employeeId,uint newSalary) public ownerOnly returns(bool){
+       //TODO
+    }
+
+    function payEmployees() payable public ownerOnly returns (bool) {
+       //TODO
+    }
+
+    function payAnEmployee(uint employeeId) payable public ownerOnly returns (bool) {
+       //TODO
+    }
+
+    function fundCompanyAccount(uint amount) payable public returns (bool) {
+       //TODO
+    }
+
 
     fallback() external{}
 
