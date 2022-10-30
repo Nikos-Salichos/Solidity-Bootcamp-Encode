@@ -25,8 +25,6 @@ contract Payroll{
     uint256 public totalSalaries = 0;
     uint256 public totalPayments = 0;
 
-    mapping(address => bool) IsEmployee;
-
     event Paid(
         uint256 indexed id,
         address from,
@@ -47,7 +45,9 @@ contract Payroll{
         uint256 paymentCount;
     }
 
+    mapping(address => bool) public isEmployee;
     EmployeeStruct[] employees;
+    mapping(address => EmployeeStruct) public employeesAddress;
 
     modifier ownerOnly(){
         require(msg.sender == companyAcc, "Owner reserved only");
@@ -60,37 +60,30 @@ contract Payroll{
         paymentToken.mint(address(this), initialCapital);
     }
 
-    function addEmployee( address employeeAddress,uint256 salary) public ownerOnly returns (bool) {
+    function addEmployee( address employeeAddress,uint256 salary) public ownerOnly {
         require(salary > 0, "Salary cannot be zero!");
-        require(!IsEmployee[employeeAddress], "Employee already in payroll!");
+        require(!isEmployee[employeeAddress], "Employee already in payroll!");
     
         totalEmployees++;
         totalSalaries += salary;
-        IsEmployee[employeeAddress] = true;
+        isEmployee[employeeAddress] = true;
 
-        employees.push(
-            EmployeeStruct(
-                totalEmployees,
-                employeeAddress,
-                salary,
-                block.timestamp,
-                0
-            )
-        );
-        
-        return true;
+        EmployeeStruct  memory employeeStruct = EmployeeStruct(totalEmployees,employeeAddress,salary,block.timestamp,0);
+        employeesAddress[employeeAddress] = employeeStruct;
+        employees.push(employeeStruct);
     }
 
-    function removeEmployee(address employeeAddress) public ownerOnly returns(bool){
-        for (uint i = 0; i < employees.length; i++) {
-            if (employees[i].paymentAddress == employeeAddress) {
-                totalSalaries -=  employees[i].salary;
+    function removeEmployee(address employeeAddress) public ownerOnly {  
+        for(uint i=0; i<employees.length; i++){
+            if(employees[i].paymentAddress == employeeAddress){
+                isEmployee[employeeAddress] = false;
                 delete employees[i];
+                delete employeesAddress[employeeAddress];
+                totalSalaries -=  employeesAddress[employeeAddress].salary;
                 totalEmployees--;
-                return true;
+                break;
             }
         }
-        return false;
     }
 
     function getEmployees() external view returns (EmployeeStruct[] memory) {
@@ -98,17 +91,11 @@ contract Payroll{
     }
 
     function getEmployee(address employeeAddress) external view returns (EmployeeStruct memory) {
-        for (uint i = 0; i < employees.length; i++) {
-            if (employees[i].paymentAddress == employeeAddress) {  
-                return employees[i];
-            }
-        }
-        revert('Not Found');
+        return employeesAddress[employeeAddress];
     }
 
-    function payTo(address to, uint256 amount) internal returns (bool) {
+    function payTo(address to, uint256 amount) internal {
         paymentToken.transfer(to, amount);
-        return true;
     }
 
     function tokenBalance() public view ownerOnly returns (uint){
@@ -120,48 +107,35 @@ contract Payroll{
         selfdestruct(payable(companyAcc));
     }
 
-    function updateEmployeeSalary(address employeeAddress,uint newSalary) public ownerOnly returns(bool){
-        for (uint i = 0; i < employees.length; i++) {
-            if (employees[i].paymentAddress == employeeAddress) {
-                totalSalaries -= employees[i].salary;
-                employees[i].salary = newSalary;
-                totalSalaries += newSalary;
-                return true;
-            }
-        }
-        return false;
+    function updateEmployeeSalary(address employeeAddress,uint newSalary) public ownerOnly{
+        totalSalaries -= employeesAddress[employeeAddress].salary;
+        employeesAddress[employeeAddress].salary = newSalary;
+        totalSalaries += newSalary;
     }
 
-    function payEmployees() payable public ownerOnly returns (bool) {
-        require(totalSalaries <= tokenBalance(), "Insufficient balance to pay all employees");
+    function claim() payable public{
+        require(totalSalaries <= paymentToken.balanceOf(address(this)), "Insufficient balance to pay all employees");
+        require(isEmployee[msg.sender] == true, "You are not an employee");
+        uint employeeSalary = employeesAddress[msg.sender].salary;
 
-        for(uint i = 0; i < employees.length; i++) {
-            payTo(employees[i].paymentAddress, employees[i].salary);
-            employees[i].paymentCount++;
-        }
+        payTo(employeesAddress[msg.sender].paymentAddress, employeeSalary);
+        employeesAddress[msg.sender].paymentCount++;
         totalPayments++;
 
         emit Paid(totalPayments,companyAcc,block.timestamp);
-        return true;
     }
 
-    function payAnEmployee(address employeeAddress) payable public ownerOnly returns (bool) {
-        for(uint i = 0; i < employees.length; i++) {
-            if (employees[i].paymentAddress == employeeAddress) {
-                require(employees[i].salary <= tokenBalance(), "Insufficient balance to pay an employee");
-                payTo(employees[i].paymentAddress, employees[i].salary);
-                employees[i].paymentCount++;
-            }
-        }
-
+    function payAnEmployee(address employeeAddress) payable public ownerOnly {
+        require(employeesAddress[employeeAddress].salary <= tokenBalance(), "Insufficient balance to pay an employee");
+        require(isEmployee[employeeAddress] == true, "This address does not belong to an employee");
+        payTo(employeesAddress[employeeAddress].paymentAddress, employeesAddress[employeeAddress].salary);
+        employeesAddress[employeeAddress].paymentCount++;
         emit Paid(totalPayments,companyAcc,block.timestamp);
-        return true;
     }
 
-    function fundCompanyAccount(uint amount) payable public returns (bool) {
+    function fundCompanyAccount(uint amount) payable public {
         paymentToken.mint(address(this), amount);
         emit Fund(msg.sender, amount, block.timestamp);
-        return true;
     }
 
 
