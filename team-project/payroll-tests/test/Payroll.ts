@@ -1,116 +1,180 @@
-import { time, loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
-import { expect } from "chai";
-import { ethers } from "hardhat";
-import { tokenName, tokenSymbol, initialCapital } from "../payrollConstructor/arguments";
-import { PayrollToken__factory } from "../typechain-types";
+//SPDX-License-Identifier: MIT
+pragma solidity >=0.8.0 <0.9.0;
 
-describe("Payroll", function () {
-  // We define a fixture to reuse the same setup in every test.
-  // We use loadFixture to run this setup once, snapshot that state,
-  // and reset Hardhat Network to that snapshot in every test.
-  async function deployPayrollFixture() {
-    // Contracts are deployed using the first signer/account by default
-    const [owner, employee, funder] = await ethers.getSigners();
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 
-    const Payroll = await ethers.getContractFactory("Payroll");
-    const payroll = await Payroll.deploy(tokenName, tokenSymbol, initialCapital.toString());
+contract PayrollToken is ERC20, ERC20Burnable, AccessControl {
+       bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
-    const receipt = await payroll.deployed();
-    console.log(`Payroll contract deployed at ${receipt.address}`);
-    return { payroll, initialCapital, owner, employee, funder };
-  }
+    constructor(string memory name, string memory symbol) ERC20(name, symbol) {
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(MINTER_ROLE, msg.sender);
+    }
 
-  describe("Deployment", function () {
-    it("Should set the right initialCapital", async function () {
-      const { payroll, initialCapital, owner } = await loadFixture(deployPayrollFixture);
+    function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
+        _mint(to, amount);
+    }
+}
 
-      const tokenBalance = await payroll.tokenBalance();
-      expect(tokenBalance).to.equal(initialCapital);
-      console.log(`Token balance ${tokenBalance}`);
+contract Payroll{
+    PayrollToken public paymentToken;
+    address public companyAcc;
+    uint256 public totalEmployees = 0;
+    uint256 public totalSalaries = 0;
+    uint256 public totalPayments = 0;
 
-      const companyAcc = await payroll.companyAcc();
-      expect(companyAcc).to.equal(owner.address);
-      console.log(`Company account ${companyAcc}`);
-    });
+    event Paid(
+        uint256 indexed id,
+        address from,
+        uint256 timestamp
+    );
 
-    it("Should add 1 employee, check employee details, pay employees,  update his salary ,fund company account, pay him the new salary then remove him", async function () {
-      const { payroll, initialCapital, employee } = await loadFixture(deployPayrollFixture);
-      const employeeSalary = initialCapital;
-      const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
-      console.log(`1 employee added at hash ${addEmployee.hash} with payment address ${employee.address} and salary ${employeeSalary}`);
+    event Fund(
+        address indexed from,
+        uint256 amount,
+        uint256 timestamp
+    );
 
-      let totalEmployees = await payroll.totalEmployees();
-      expect(totalEmployees).to.equal(1);
-      console.log(`Total Employees ${totalEmployees}`);
+    struct EmployeeStruct {
+        uint256 id;
+        address paymentAddress;
+        uint256 salary;
+        uint256 timestamp;
+        uint256 paymentCount;
+    }
 
-      const getEmployees = await payroll.getEmployees();
-      expect(getEmployees[0][0]).to.equal(1);
-      console.log(`Employee Id ${getEmployees[0][0]}`);
-      expect(getEmployees[0][1]).to.equal(employee.address);
-      console.log(`Employee payment address ${getEmployees[0][1]}`);
-      expect(getEmployees[0][2]).to.equal(employeeSalary);
-      console.log(`Employee salary ${getEmployees[0][2]}`);
+    mapping(address => bool) public isEmployee;
+    EmployeeStruct[] employees;
+    mapping(address => EmployeeStruct) public employeesAddress;
 
-      let tokenBalance = await payroll.tokenBalance();
-      expect(tokenBalance).to.equal(employeeSalary);
-      console.log(`Token balance ${tokenBalance}`);
+    modifier ownerOnly(){
+        require(msg.sender == companyAcc, "Owner reserved only");
+        _;
+    }
 
-      const payEmployees = await payroll.payEmployees();
-      console.log(`All employees paid at hash ${payEmployees.hash}`);
+    constructor(string memory tokenName, string memory tokenSymbol, uint initialCapital) {
+        paymentToken = new PayrollToken(tokenName, tokenSymbol);
+        companyAcc = msg.sender;
+        paymentToken.mint(address(this), initialCapital);
+    }
 
-      let totalSalary = await payroll.totalSalaries();
-      expect(totalSalary).to.equal(employeeSalary);
-      console.log(`Token Salaries ${totalSalary}`);
+    function addEmployee( address employeeAddress,uint256 salary) public ownerOnly returns (bool) {
+        require(salary > 0, "Salary cannot be zero!");
+        require(!isEmployee[employeeAddress], "Employee already in payroll!");
+    
+        totalEmployees++;
+        totalSalaries += salary;
+        isEmployee[employeeAddress] = true;
 
-      let totalPayments = await payroll.totalPayments();
-      expect(totalPayments).to.equal(1);
-      console.log(`Total Payment is 1`);
+        EmployeeStruct  memory employeeStruct = EmployeeStruct(totalEmployees,employeeAddress,salary,block.timestamp,0);
 
-      tokenBalance = await payroll.tokenBalance();
-      expect(tokenBalance).to.equal(0);
-      console.log(`Token balance ${tokenBalance}`);
+        employees.push(employeeStruct);
+        employeesAddress[employeeAddress] = employeeStruct;
+        
+        return true;
+    }
 
-      const newSalary = 2000000000000000000n;
-      const updateEmployeeSalary = await payroll.updateEmployeeSalary(employee.address, newSalary.toString());
-      console.log(`Employee salary updatred to ${newSalary} at hash ${updateEmployeeSalary.hash}`);
+    function removeEmployee(address employeeAddress) public ownerOnly returns(bool){
+        for (uint i = 0; i < employees.length; i++) {
+            if (employees[i].paymentAddress == employeeAddress) {
+                totalSalaries -=  employees[i].salary;
+                delete employees[i];
+                totalEmployees--;
+                return true;
+            }
+        }
+        return false;
+    }
 
-      const fundCompanyAccount = await payroll.fundCompanyAccount(newSalary);
-      console.log(`Company account has been funded with ${newSalary} at hash ${fundCompanyAccount.hash}`);
+    function getEmployees() external view returns (EmployeeStruct[] memory) {
+        return employees;
+    }
 
-      expect(await payroll.tokenBalance()).to.equal(newSalary.toString());
-      console.log(`New Token balance after funding ${tokenBalance}`);
+    function getEmployee(address employeeAddress) external view returns (EmployeeStruct memory) {
+        for (uint i = 0; i < employees.length; i++) {
+            if (employees[i].paymentAddress == employeeAddress) {  
+                return employees[i];
+            }
+        }
+        revert('Not Found');
+    }
 
-      const payAnEmployee = await payroll.payAnEmployee(employee.address);
-      console.log(`Pay employee with address ${employee.address} at hash ${payAnEmployee.hash}`);
+    function payTo(address to, uint256 amount) internal returns (bool) {
+        paymentToken.transfer(to, amount);
+        return true;
+    }
 
-      totalSalary = await payroll.totalSalaries();
-      expect(totalSalary).to.equal(newSalary);
-      console.log(`Token Salaries ${totalSalary}`);
+    function tokenBalance() public view ownerOnly returns (uint){
+        return paymentToken.balanceOf(address(this));
+    }
 
-      const removeEmployee = await payroll.removeEmployee(employee.address);
-      console.log(`Remove employee at hash ${removeEmployee.hash}`);
+    function closeCompany() public ownerOnly {
+        paymentToken.transfer(companyAcc, tokenBalance());
+        selfdestruct(payable(companyAcc));
+    }
 
-      totalEmployees = await payroll.totalEmployees();
-      expect(totalEmployees).to.equal(0);
-      console.log(`Total Employees ${totalEmployees}`);
-    });
+    function updateEmployeeSalary(address employeeAddress,uint newSalary) public ownerOnly returns(bool){
+        for (uint i = 0; i < employees.length; i++) {
+            if (employees[i].paymentAddress == employeeAddress) {
+                totalSalaries -= employees[i].salary;
+                employees[i].salary = newSalary;
+                totalSalaries += newSalary;
+                return true;
+            }
+        }
+        return false;
+    }
 
-    it("Should close company", async function () {
-      const { payroll, initialCapital, owner } = await loadFixture(deployPayrollFixture);
-      expect(await payroll.tokenBalance()).to.equal(initialCapital);
-      expect(await payroll.companyAcc()).to.equal(owner.address);
-      let paymentToken = await payroll.paymentToken();
-      expect(paymentToken).to.not.equal("0x0000000000000000000000000000000000000000");
-      console.log(`Payment Token ${paymentToken}`);
+    function payEmployees() payable public ownerOnly returns (bool) {
+        require(totalSalaries <= tokenBalance(), "Insufficient balance to pay all employees");
 
-      const payrollToken = PayrollToken__factory.connect(paymentToken, owner);
-      const shutDownCompany = await payroll.closeCompany();
-      console.log(`Closed company at hash ${shutDownCompany.hash}`);
+        for(uint i = 0; i < employees.length; i++) {
+            payTo(employees[i].paymentAddress, employees[i].salary);
+            employees[i].paymentCount++;
+        }
+        totalPayments++;
 
-      const tokenBalanceOfOwner = await payrollToken.balanceOf(owner.address);
-      expect(tokenBalanceOfOwner).to.equal(initialCapital);
-      console.log(`Balance of company owner account ${owner.address} is ${tokenBalanceOfOwner} after company closed`);
-    });
-  });
-});
+        emit Paid(totalPayments,companyAcc,block.timestamp);
+        return true;
+    }
+
+    function claim() payable  public returns (bool){
+        require(totalSalaries <= paymentToken.balanceOf(address(this)), "Insufficient balance to pay all employees");
+        require(isEmployee[msg.sender] == true, "You are not an employee");
+        uint employeeSalary = employeesAddress[msg.sender].salary;
+
+        payTo(employeesAddress[msg.sender].paymentAddress, employeeSalary);
+        employeesAddress[msg.sender].paymentCount++;
+        totalPayments++;
+
+        emit Paid(totalPayments,companyAcc,block.timestamp);
+        return true;
+    }
+
+    function payAnEmployee(address employeeAddress) payable public ownerOnly returns (bool) {
+        for(uint i = 0; i < employees.length; i++) {
+            if (employees[i].paymentAddress == employeeAddress) {
+                require(employees[i].salary <= tokenBalance(), "Insufficient balance to pay an employee");
+                payTo(employees[i].paymentAddress, employees[i].salary);
+                employees[i].paymentCount++;
+            }
+        }
+
+        emit Paid(totalPayments,companyAcc,block.timestamp);
+        return true;
+    }
+
+    function fundCompanyAccount(uint amount) payable public returns (bool) {
+        paymentToken.mint(address(this), amount);
+        emit Fund(msg.sender, amount, block.timestamp);
+        return true;
+    }
+
+
+    fallback() external{}
+
+    receive() payable external{}
+   
+}

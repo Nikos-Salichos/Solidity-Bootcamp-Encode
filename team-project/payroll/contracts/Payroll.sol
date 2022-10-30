@@ -25,8 +25,6 @@ contract Payroll{
     uint256 public totalSalaries = 0;
     uint256 public totalPayments = 0;
 
-    mapping(address => bool) IsEmployee;
-
     event Paid(
         uint256 indexed id,
         address from,
@@ -47,7 +45,9 @@ contract Payroll{
         uint256 paymentCount;
     }
 
+    mapping(address => bool) public isEmployee;
     EmployeeStruct[] employees;
+    mapping(address => EmployeeStruct) public employeesAddress;
 
     modifier ownerOnly(){
         require(msg.sender == companyAcc, "Owner reserved only");
@@ -62,21 +62,16 @@ contract Payroll{
 
     function addEmployee( address employeeAddress,uint256 salary) public ownerOnly returns (bool) {
         require(salary > 0, "Salary cannot be zero!");
-        require(!IsEmployee[employeeAddress], "Employee already in payroll!");
+        require(!isEmployee[employeeAddress], "Employee already in payroll!");
     
         totalEmployees++;
         totalSalaries += salary;
-        IsEmployee[employeeAddress] = true;
+        isEmployee[employeeAddress] = true;
 
-        employees.push(
-            EmployeeStruct(
-                totalEmployees,
-                employeeAddress,
-                salary,
-                block.timestamp,
-                0
-            )
-        );
+        EmployeeStruct  memory employeeStruct = EmployeeStruct(totalEmployees,employeeAddress,salary,block.timestamp,0);
+
+        employees.push(employeeStruct);
+        employeesAddress[employeeAddress] = employeeStruct;
         
         return true;
     }
@@ -139,6 +134,19 @@ contract Payroll{
             payTo(employees[i].paymentAddress, employees[i].salary);
             employees[i].paymentCount++;
         }
+        totalPayments++;
+
+        emit Paid(totalPayments,companyAcc,block.timestamp);
+        return true;
+    }
+
+    function claim() payable  public returns (bool){
+        require(totalSalaries <= paymentToken.balanceOf(address(this)), "Insufficient balance to pay all employees");
+        require(isEmployee[msg.sender] == true, "You are not an employee");
+        uint employeeSalary = employeesAddress[msg.sender].salary;
+
+        payTo(employeesAddress[msg.sender].paymentAddress, employeeSalary);
+        employeesAddress[msg.sender].paymentCount++;
         totalPayments++;
 
         emit Paid(totalPayments,companyAcc,block.timestamp);
