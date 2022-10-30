@@ -41,7 +41,7 @@ contract Payroll{
         uint256 id;
         address paymentAddress;
         uint256 salary;
-        uint256 timestamp;
+        uint256 lastPayment;
         uint256 paymentCount;
     }
 
@@ -58,6 +58,10 @@ contract Payroll{
         paymentToken = new PayrollToken(tokenName, tokenSymbol);
         companyAcc = msg.sender;
         paymentToken.mint(address(this), initialCapital);
+    }
+
+    function thirtyDaysHavePassed(uint256 lastPayment) public view returns (bool) {
+        return (block.timestamp >= lastPayment + 30 days);
     }
 
     function addEmployee( address employeeAddress,uint256 salary) public ownerOnly {
@@ -116,9 +120,10 @@ contract Payroll{
     function claim() payable public{
         require(totalSalaries <= paymentToken.balanceOf(address(this)), "Insufficient balance to pay all employees");
         require(isEmployee[msg.sender] == true, "You are not an employee");
-        uint employeeSalary = employeesAddress[msg.sender].salary;
-
-        payTo(employeesAddress[msg.sender].paymentAddress, employeeSalary);
+        require(thirtyDaysHavePassed(employeesAddress[msg.sender].lastPayment) == true, "You cannot claim in timespan of less than 30 days");
+        
+        employeesAddress[msg.sender].lastPayment = block.timestamp;
+        payTo(employeesAddress[msg.sender].paymentAddress, employeesAddress[msg.sender].salary);
         employeesAddress[msg.sender].paymentCount++;
         totalPayments++;
 
@@ -128,6 +133,7 @@ contract Payroll{
     function payAnEmployee(address employeeAddress) payable public ownerOnly {
         require(employeesAddress[employeeAddress].salary <= tokenBalance(), "Insufficient balance to pay an employee");
         require(isEmployee[employeeAddress] == true, "This address does not belong to an employee");
+
         payTo(employeesAddress[employeeAddress].paymentAddress, employeesAddress[employeeAddress].salary);
         employeesAddress[employeeAddress].paymentCount++;
         emit Paid(totalPayments,companyAcc,block.timestamp);
