@@ -37,7 +37,7 @@ function RemoveEmployee({ accounts, setAccounts }: { accounts: any; setAccounts:
     <div>
       <div>
         <p>Employee Address to remove</p>
-        <input type="text" id="employeeAddress" name="employeeAddress" onChange={handleEmployeeAddress} value={employeeAddress} />
+        <input type="text" id="employeeAddress" name="employeeAddress" onChange={handleEmployeeAddress} value={employeeAddress} placeholder="Type employee address" />
       </div>
       <button className="button" onClick={removeEmployeeAsync}>
         Remove Employee

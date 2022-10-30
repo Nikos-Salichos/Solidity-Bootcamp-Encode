@@ -44,7 +44,7 @@ function AddEmployee({ accounts, setAccounts }: { accounts: any; setAccounts: an
     <div>
       <div>
         <p>Employee Address to add</p>
-        <input type="text" id="employeeAddress" name="employeeAddress" onChange={handleEmployeeAddress} value={employeeAddress} />
+        <input type="text" id="employeeAddress" name="employeeAddress" onChange={handleEmployeeAddress} value={employeeAddress} placeholder="Type employee address" />
       </div>
       <div>
         <p>Employee Salary</p>

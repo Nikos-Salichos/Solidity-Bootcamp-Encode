@@ -2,16 +2,15 @@ import { ethers } from "ethers";
 import React, { useState } from "react";
 import { payrollContract } from "../assets/PayrollContract";
 import { payrollAddress } from "../assets/PayrollAddress";
-import { payrollTokenContract } from "../assets/PayrollTokenContract";
-import { payrollTokenERC20Address } from "../assets/PayrollTokenERC20Address";
 
 function ReadPayroll({ accounts, setAccounts }: { accounts: any; setAccounts: any }) {
   const [paymentToken, setPaymentToken] = useState("");
   const [companyAcc, setCompanyAcc] = useState("");
   const [totalEmployees, setTotalEmployees] = useState("");
-  const [totalSalary, setTotalSalary] = useState("");
+  const [totalSalaries, setTotalSalaries] = useState("");
   const [employees, setEmployees] = useState([]);
   const [tokenBalance, setTokenBalance] = useState("");
+  const [totalPayments, setTotalPayments] = useState("");
 
   let allEmployees = [];
 
@@ -35,7 +34,6 @@ function ReadPayroll({ accounts, setAccounts }: { accounts: any; setAccounts: an
       const signer = provider.getSigner();
       console.log("Account:", signer.getAddress());
 
-      const erc20Token = new ethers.Contract(payrollTokenERC20Address, payrollTokenContract.abi, signer);
       const payroll = new ethers.Contract(payrollAddress, payrollContract.abi, signer);
 
       const paymentToken = await payroll.paymentToken();
@@ -47,8 +45,11 @@ function ReadPayroll({ accounts, setAccounts }: { accounts: any; setAccounts: an
       const totalEmployees = await payroll.totalEmployees();
       setTotalEmployees(totalEmployees.toString());
 
-      const totalSalary = await payroll.totalSalary();
-      setTotalSalary(totalSalary.toString());
+      const totalSalaries = await payroll.totalSalaries();
+      setTotalSalaries(totalSalaries.toString());
+
+      const totalPayments = await payroll.totalPayments();
+      setTotalPayments(totalPayments.toString());
 
       const getEmployees = await payroll.getEmployees();
       allEmployees = getEmployees;
@@ -86,7 +87,11 @@ function ReadPayroll({ accounts, setAccounts }: { accounts: any; setAccounts: an
       </div>
       <div>
         <b>Total Salary</b>
-        <p>{totalSalary}</p>
+        <p>{totalSalaries}</p>
+      </div>
+      <div>
+        <b>Total Payments</b>
+        <p>{totalPayments}</p>
       </div>
       <div>
         <b>Employees</b>
