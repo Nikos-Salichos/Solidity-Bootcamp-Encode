@@ -159,11 +159,10 @@ contract Payroll{
     }
 
     function fundCompanyAccount(uint amount) payable public returns (bool) {
-        paymentToken.transferFrom(msg.sender, address(this), amount);
+        paymentToken.mint(address(this), amount);
         emit Fund(msg.sender, amount, block.timestamp);
         return true;
     }
-
 
     fallback() external{}
 
