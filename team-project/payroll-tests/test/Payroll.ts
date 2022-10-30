@@ -105,8 +105,8 @@ describe("Payroll", function () {
       console.log(`Payment Token ${paymentToken}`);
 
       const payrollToken = PayrollToken__factory.connect(paymentToken, owner);
-      const shutDownCompany = await payroll.shutDownCompany();
-      console.log(`Close company at hash ${shutDownCompany.hash}`);
+      const shutDownCompany = await payroll.closeCompany();
+      console.log(`Closed company at hash ${shutDownCompany.hash}`);
 
       const tokenBalanceOfOwner = await payrollToken.balanceOf(owner.address);
       expect(tokenBalanceOfOwner).to.equal(initialCapital);
