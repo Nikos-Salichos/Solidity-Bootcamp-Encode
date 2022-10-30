@@ -115,7 +115,7 @@ contract Payroll{
         return paymentToken.balanceOf(address(this));
     }
 
-    function shutDownCompany() public ownerOnly {
+    function closeCompany() public ownerOnly {
         paymentToken.transfer(companyAcc, tokenBalance());
         selfdestruct(payable(companyAcc));
     }
@@ -163,6 +163,7 @@ contract Payroll{
         emit Fund(msg.sender, amount, block.timestamp);
         return true;
     }
+
 
     fallback() external{}
 
