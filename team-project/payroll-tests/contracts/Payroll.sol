@@ -26,7 +26,6 @@ contract Payroll{
     uint256 public totalPayments = 0;
 
     event Paid(
-        uint256 indexed id,
         address from,
         uint256 timestamp
     );
@@ -38,7 +37,6 @@ contract Payroll{
     );
 
     struct EmployeeStruct {
-        uint256 id;
         address paymentAddress;
         uint256 salary;
         uint256 lastPayment;
@@ -51,6 +49,16 @@ contract Payroll{
 
     modifier ownerOnly(){
         require(msg.sender == companyAcc, "Owner reserved only");
+        _;
+    }
+
+    modifier enoughBalance() {
+        require(tokenBalance() >= totalSalaries, "Not enough balance to pay employees!");
+        _;
+    }
+
+    modifier IsEmployee(address employeeAddress) {
+        require(isEmployee[employeeAddress] == true, "The employee couldn't found");
         _;
     }
 
@@ -72,7 +80,7 @@ contract Payroll{
         totalSalaries += salary;
         isEmployee[employeeAddress] = true;
 
-        EmployeeStruct  memory employeeStruct = EmployeeStruct(totalEmployees,employeeAddress,salary,block.timestamp,0);
+        EmployeeStruct  memory employeeStruct = EmployeeStruct(employeeAddress,salary,block.timestamp,0);
         employeesAddress[employeeAddress] = employeeStruct;
         employees.push(employeeStruct);
     }
@@ -117,9 +125,8 @@ contract Payroll{
         totalSalaries += newSalary;
     }
 
-    function claim() payable public{
+    function claim() payable public IsEmployee(msg.sender){
         require(totalSalaries <= paymentToken.balanceOf(address(this)), "Insufficient balance to pay all employees");
-        require(isEmployee[msg.sender] == true, "You are not an employee");
         require(thirtyDaysHavePassed(employeesAddress[msg.sender].lastPayment) == true, "You cannot claim in timespan of less than 30 days");
         
         employeesAddress[msg.sender].lastPayment = block.timestamp;
@@ -127,16 +134,15 @@ contract Payroll{
         employeesAddress[msg.sender].paymentCount++;
         totalPayments++;
 
-        emit Paid(totalPayments,companyAcc,block.timestamp);
+        emit Paid(msg.sender,block.timestamp);
     }
 
-    function payAnEmployee(address employeeAddress) payable public ownerOnly {
+    function payAnEmployee(address employeeAddress) payable public ownerOnly IsEmployee(employeeAddress){
         require(employeesAddress[employeeAddress].salary <= tokenBalance(), "Insufficient balance to pay an employee");
-        require(isEmployee[employeeAddress] == true, "This address does not belong to an employee");
 
-        payTo(employeesAddress[employeeAddress].paymentAddress, employeesAddress[employeeAddress].salary);
+        payTo(employeeAddress, employeesAddress[employeeAddress].salary);
         employeesAddress[employeeAddress].paymentCount++;
-        emit Paid(totalPayments,companyAcc,block.timestamp);
+        emit Paid(msg.sender,block.timestamp);
     }
 
     function fundCompanyAccount(uint amount) payable public {
