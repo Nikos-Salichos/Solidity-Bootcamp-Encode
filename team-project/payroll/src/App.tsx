@@ -1,28 +1,27 @@
 import React, { useState } from "react";
 import "./App.css";
-import ReadPayroll from "./components/readPayroll";
-import AddEmployee from "./components/addEmployee";
-import RemoveEmployee from "./components/removeEmployee";
-import FundCompanyAccount from "./components/FundCompanyAccount";
-import PayEmployees from "./components/PayEmployees";
-import PayAnEmployee from "./components/PayAnEmployee";
 import Navbar from "./components/Navbar/Navbar";
 import "./index.css";
 import Footer from "./components/Footer/Footer";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Homepage from "./components/Pages/Homepage/homepage";
+import AdminPanel from "./components/Pages/Admin Panel/admin-panel";
+import EmployeePanel from "./components/Pages/Employee Panel/employee-panel";
 
 function App() {
   const [accounts, setAccounts] = useState("");
 
   return (
     <div className="App">
-      <Navbar />
-      <ReadPayroll accounts={accounts} setAccounts={setAccounts}></ReadPayroll>
-      <AddEmployee accounts={accounts} setAccounts={setAccounts}></AddEmployee>
-      <RemoveEmployee accounts={accounts} setAccounts={setAccounts}></RemoveEmployee>
-      <FundCompanyAccount accounts={accounts} setAccounts={setAccounts}></FundCompanyAccount>
-      <PayEmployees accounts={accounts} setAccounts={setAccounts}></PayEmployees>
-      <PayAnEmployee accounts={accounts} setAccounts={setAccounts}></PayAnEmployee>
-      <Footer />
+      <Router>
+        <Navbar />
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/admin-panel" element={<AdminPanel />} />
+            <Route path="/employee-panel" element={<EmployeePanel />} />
+          </Routes>
+        <Footer />
+      </Router>
     </div>
   );
 }

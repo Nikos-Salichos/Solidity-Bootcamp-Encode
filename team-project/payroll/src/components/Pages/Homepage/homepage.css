@@ -1,0 +1,22 @@
+.homepage {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+}
+
+.homepage-container {
+    margin: auto;
+    max-width: 1000px;
+}
+
+.homepage-container h1 {
+    font-size: 6rem;
+    font-weight: 900;
+    margin: 0;
+}
+
+.homepage-container span {
+    color: rgb(118, 116, 116);
+}
+
+
