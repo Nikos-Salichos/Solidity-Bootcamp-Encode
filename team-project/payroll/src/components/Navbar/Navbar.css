@@ -1,0 +1,61 @@
+.navbar {
+    width: 100%;
+}
+
+.navbar-container {
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    min-height: 80px;
+    max-width: 1376px;
+}
+
+.navbar h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.navbar-link {
+    display: flex;
+    font-size: 1.3rem;
+    align-items: center;
+}
+
+
+.navbar-link a {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: black;
+    padding: 16px 20px;
+    text-decoration: none;
+}
+
+.button-container {
+    padding: 16px;
+}
+
+.navbar-link a:hover {
+    color: #5e5d5d;
+}
+
+.wallet-connected {
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    background-color: #e9e9e9;
+    padding: 5px 10px;
+
+}
+
+.wallet-connected p {
+    color: rgb(0, 0, 0);
+}
+
+.wallet-connected img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
