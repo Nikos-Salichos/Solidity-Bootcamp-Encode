@@ -5,12 +5,14 @@ import jazzicon from "../../assets/jazzicon.png";
 import "./Navbar.css";
 import { payrollAddress } from "../../assets/PayrollAddress";
 import { payrollContract } from "../../assets/PayrollContract";
+import { Link } from "react-router-dom";
 
 function Navbar() {
     const [accounts, setAccounts] = useState("");
     const [transactionHash, setTransactionHash] = useState("");
     const [companyAcc, setCompanyAcc] = useState("");
     const [ownerMatch, setOwnerMatch] = useState(false);
+    const [employeeMatch, setEmployeeMatch] = useState(false);
 
     async function Connect() {
         const { ethereum } = window;
@@ -26,6 +28,7 @@ function Navbar() {
             const account = accounts[0];
             setAccounts(account);
             await isOwner(account);
+            await isEmployee(account);
             console.log("Found an authorized account:", account);
         } else {
             console.log("No authorized account found");
@@ -57,20 +60,51 @@ function Navbar() {
           }
     }
 
+    async function isEmployee(string: string) {
+        if (accounts[0] !== "undefined") {
+            const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+            provider.send("eth_requestAccounts", []);
+            const signer = provider.getSigner();
+            console.log("Account:", signer.getAddress());
+      
+            const payroll = new ethers.Contract(payrollAddress, payrollContract.abi, signer);
+      
+            let employee = await payroll.isEmployee(string);
+            
+            
+            if(employee) {
+                console.log("You are an employee");
+                setEmployeeMatch(true);
+            } else {
+                console.log("You are not an employee");
+                setEmployeeMatch(false);
+            }
+        }
+    }
+
     return (
         <>
             <div className="navbar">
                 <div className="navbar-container">
-                    <h1>N&E</h1>
+                    <Link to="/" style={{ textDecoration:"none", color: 'black'}}><h1>N&E</h1></Link>
                     <div className="navbar-link">
                         {
                             ownerMatch === false ? (
                                 <a></a>
                             ) : (
                                 // Redirect to the Admin Panel Page
-                                <a>Admin Panel</a>
+                                <Link to="admin-panel" style={{ textDecoration:"none", color: 'black'}}><a>Admin Panel</a></Link>
                             )
                         }
+                        {
+                            employeeMatch === false ? (
+                                <a></a>
+                            ) : (
+                                // Redirect to the Employee Page
+                                <Link to="employee-panel" style={{ textDecoration:"none", color: 'black'}}><a>Employee</a></Link>
+                            )
+                        }
+                        <a target="_blank" href={`https://goerli.etherscan.io/address/`} className="link">Etherscan</a>
                         {
                             accounts === "" ? (
                                 <div className="button-container">

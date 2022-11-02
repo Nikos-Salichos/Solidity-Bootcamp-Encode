@@ -13,10 +13,11 @@
 }
 
 .navbar h1 {
-    font-size: 1.5rem;
-    font-weight: 500;
+    font-size: 2rem;
+    font-weight: 900;
     margin: 0;
 }
+
 
 .navbar-link {
     display: flex;
@@ -25,12 +26,17 @@
 }
 
 
+
 .navbar-link a {
     font-size: 1.3rem;
     font-weight: 500;
     color: black;
     padding: 16px 20px;
     text-decoration: none;
+}
+
+Link {
+    color: black;
 }
 
 .button-container {
