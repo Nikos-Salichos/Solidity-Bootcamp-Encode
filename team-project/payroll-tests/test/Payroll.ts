@@ -89,6 +89,13 @@ describe("Payroll", function () {
       const getStake = await payroll.stakes([1]);
       expect(getStake[0]).to.equal(1);
 
+      let employeeBalance = await paymentToken.connect(employee).balanceOf(employee.address);
+      console.log(`${employee.address} has balance of ${employeeBalance}`);
+      expect(employeeBalance).to.equal(0);
+
+      let mint = await paymentToken.connect(owner).mint(payroll.address, employeeSalary);
+      tokenBalance = await payroll.tokenBalance();
+      console.log(`New Token balance after funding ${tokenBalance}`);
     });
 
     it("Should close company", async function () {
