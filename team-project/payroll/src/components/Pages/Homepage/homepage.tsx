@@ -28,7 +28,8 @@ function Homepage() {
 
     return (
         <>
-           <div className="homepage">
+            <div className="section">
+            <div className="homepage">
                 <div className="homepage-container">
                     <h1>Manage Your Company With Our <span>Payroll</span> Dapp</h1>
                     <div className="buttons-container">
@@ -36,7 +37,6 @@ function Homepage() {
                     </div>
                 </div>
             </div>    
-            <div className="section">
                     <div className="container-default">
                         <h1>Fund To Company Account</h1>
                         <div className="input-container">
