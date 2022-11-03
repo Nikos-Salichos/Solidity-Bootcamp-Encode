@@ -96,6 +96,13 @@ describe("Payroll", function () {
       let mint = await paymentToken.connect(owner).mint(payroll.address, employeeSalary);
       tokenBalance = await payroll.tokenBalance();
       console.log(`New Token balance after funding ${tokenBalance}`);
+
+      const stakeId = 1;
+      const unstake = await payroll.connect(employee).unstake(stakeId);
+      employeeBalance = await paymentToken.connect(employee).balanceOf(employee.address);
+      console.log(`${employee.address} has balance of ${employeeBalance}`);
+      expect(employeeBalance).above(employeeSalary);
+
     });
 
     it("Should close company", async function () {
