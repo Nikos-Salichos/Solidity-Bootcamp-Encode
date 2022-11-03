@@ -34,7 +34,14 @@ describe("Payroll", function () {
       const tokenBalance = await payroll.tokenBalance();
       console.log(`Token balance ${tokenBalance}`);
       expect(tokenBalance).to.equal(initialCapital);
+
+      const companyAcc = await payroll.companyAcc();
+      console.log(`Company account ${companyAcc}`);
+      expect(companyAcc).to.equal(owner.address);
+
+
     });
+
 
     it("Should close company", async function () {
       // const { payroll, initialCapital, owner } = await loadFixture(deployPayrollFixture);
