@@ -44,7 +44,6 @@ describe("Payroll", function () {
       console.log(`paymentToken address`, paymentToken.address);
     });
 
-
     it("Should add 1 employee, check employee details, pay employees,  update his salary ,fund company account, pay him the new salary then remove him", async function () {
       const { paymentToken, payroll, initialCapital, owner, employee } = await loadFixture(deployPayrollFixture);
       const employeeSalary = 1000;
@@ -64,8 +63,12 @@ describe("Payroll", function () {
       console.log(`Employee Last payment ${getEmployees[0][2]}`);
       expect(getEmployees[0][3]).to.equal(0);
       console.log(`Employee payment count ${getEmployees[0][3]}`);
-    });
 
+      let newSalary = employeeSalary;
+      const fundCompanyAccount = await payroll.connect(owner).fundCompanyAccount(newSalary);
+      console.log(`Company account has been funded with ${newSalary} at hash ${fundCompanyAccount.hash}`);
+      expect(await payroll.tokenBalance()).to.equal(newSalary.toString());
+    });
 
     it("Should close company", async function () {
       // const { payroll, initialCapital, owner } = await loadFixture(deployPayrollFixture);
