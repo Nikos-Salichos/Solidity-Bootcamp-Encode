@@ -20,9 +20,11 @@ function FundCompanyAccount({ accounts, setAccounts }: { accounts: any; setAccou
 
       const payroll = new ethers.Contract(payrollAddress, payrollContract.abi, signer);
 
-      const amount = ethers.utils.parseEther(fundAmount);
-      const removeEmployee = await payroll.fundCompanyAccount(amount);
-      const receipt = await removeEmployee.wait();
+      const options = { value: ethers.utils.parseEther("0") };
+      const amount = ethers.utils.parseEther(fundAmount.toString());
+      console.log(fundAmount);
+      const fundCompanyAccount = await payroll.fundCompanyAccount(amount, options);
+      const receipt = await fundCompanyAccount.wait();
       console.log(`receipt.transactionHash ${receipt.transactionHash}`);
 
       setFundAmount("");
