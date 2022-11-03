@@ -108,7 +108,12 @@ describe("Payroll", function () {
       expect(totalSalary).to.equal(employeeSalary);
       console.log(`Token Salaries ${totalSalary}`);
 
- 
+      let totalPayments = await payroll.totalPayments();
+      expect(totalPayments).to.equal(1);
+      console.log(`Total Payment is 1`);
+
+
+
     });
 
     it("Should close company", async function () {
