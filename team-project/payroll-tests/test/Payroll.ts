@@ -76,7 +76,14 @@ describe("Payroll", function () {
       const claim = await payroll.connect(employee).claim();
       console.log(`Employee claimed at hash ${claim.hash}`);
 
+      const deployedToken = await payroll.paymentToken();
+      console.log(`paymentToken`, deployedToken);
+      expect(paymentToken.address).to.equal(deployedToken);
 
+      const approve = await paymentToken.connect(employee).approve(payroll.address, employeeSalary);
+      console.log(`approve address ${payroll.address} to spend ${employeeSalary} of the employee address ${employee.address}`);
+      const allowance = await paymentToken.allowance(employee.address, payroll.address);
+      console.log(`${allowance} allowance of ${payroll.address} to spend ${employee.address}`);
     });
 
     it("Should close company", async function () {
