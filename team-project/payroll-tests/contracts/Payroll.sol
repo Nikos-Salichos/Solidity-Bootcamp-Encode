@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 contract PayrollToken is ERC20, ERC20Burnable, AccessControl {
 
     uint8 constant _decimals = 18;
-    uint256 constant _totalSupply = 100 * (10**6) * 10**_decimals;  // 100m tokens for distribution
+    uint256 constant _totalSupply = 100 * (10**6) * 10**_decimals;  // 100m tokens
 
     constructor(string memory name, string memory symbol) ERC20 (name, symbol) {        
         _mint(msg.sender, _totalSupply);

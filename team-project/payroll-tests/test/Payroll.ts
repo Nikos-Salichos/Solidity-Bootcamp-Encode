@@ -45,6 +45,16 @@ describe("Payroll", function () {
     });
 
 
+    it("Should add 1 employee, check employee details, pay employees,  update his salary ,fund company account, pay him the new salary then remove him", async function () {
+      const { paymentToken, payroll, initialCapital, owner, employee } = await loadFixture(deployPayrollFixture);
+      const employeeSalary = 1000;
+      const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
+      console.log(`1 employee added at hash ${addEmployee.hash} with payment address ${employee.address} and salary ${employeeSalary}`);
+
+ 
+    });
+
+
     it("Should close company", async function () {
       // const { payroll, initialCapital, owner } = await loadFixture(deployPayrollFixture);
       // expect(await payroll.tokenBalance()).to.equal(0);
