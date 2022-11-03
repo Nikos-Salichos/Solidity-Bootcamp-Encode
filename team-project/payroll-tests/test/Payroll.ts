@@ -51,7 +51,9 @@ describe("Payroll", function () {
       const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
       console.log(`1 employee added at hash ${addEmployee.hash} with payment address ${employee.address} and salary ${employeeSalary}`);
 
- 
+      let totalEmployees = await payroll.totalEmployees();
+      expect(totalEmployees).to.equal(1);
+      console.log(`Total Employees ${totalEmployees}`);
     });
 
 
