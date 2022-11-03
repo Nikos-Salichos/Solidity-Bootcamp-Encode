@@ -112,6 +112,10 @@ describe("Payroll", function () {
       expect(totalPayments).to.equal(1);
       console.log(`Total Payment is 1`);
 
+      console.log(`Token balance ${tokenBalance}`);
+      newSalary = 200;
+      const updateEmployeeSalary = await payroll.updateEmployeeSalary(employee.address, newSalary.toString());
+      console.log(`Employee salary updated to ${newSalary} at hash ${updateEmployeeSalary.hash}`);
 
 
     });
