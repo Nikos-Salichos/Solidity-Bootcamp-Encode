@@ -54,6 +54,16 @@ describe("Payroll", function () {
       let totalEmployees = await payroll.totalEmployees();
       expect(totalEmployees).to.equal(1);
       console.log(`Total Employees ${totalEmployees}`);
+
+      const getEmployees = await payroll.getEmployees();
+      expect(getEmployees[0][0]).to.equal(employee.address);
+      console.log(`Employee payment address ${getEmployees[0][0]}`);
+      expect(getEmployees[0][1]).to.equal(employeeSalary);
+      console.log(`Employee salary ${getEmployees[0][1]}`);
+      expect(getEmployees[0][2]).to.equal(0);
+      console.log(`Employee Last payment ${getEmployees[0][2]}`);
+      expect(getEmployees[0][3]).to.equal(0);
+      console.log(`Employee payment count ${getEmployees[0][3]}`);
     });
 
 
