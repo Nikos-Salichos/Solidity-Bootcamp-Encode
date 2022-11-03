@@ -120,6 +120,21 @@ describe("Payroll", function () {
       mint = await paymentToken.connect(owner).mint(payroll.address, newSalary);
       tokenBalance = await payroll.tokenBalance();
       console.log(`New Token balance after funding ${tokenBalance}`);
+
+      const payAnEmployee = await payroll.payAnEmployee(employee.address);
+      console.log(`Pay employee with address ${employee.address} at hash ${payAnEmployee.hash}`);
+      tokenBalance = await payroll.tokenBalance();
+      console.log(`New Token balance after pay employee  ${tokenBalance}`);
+
+      totalSalary = await payroll.totalSalaries();
+      expect(totalSalary).to.equal(newSalary);
+      console.log(`Token Salaries ${totalSalary}`);
+
+      const removeEmployee = await payroll.removeEmployee(employee.address);
+      console.log(`Remove employee at hash ${removeEmployee.hash}`);
+      totalEmployees = await payroll.totalEmployees();
+      expect(totalEmployees).to.equal(0);
+      console.log(`Total Employees ${totalEmployees}`);
     });
 
     it("Should close company", async function () {
