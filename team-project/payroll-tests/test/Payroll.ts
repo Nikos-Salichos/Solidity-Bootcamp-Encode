@@ -117,7 +117,9 @@ describe("Payroll", function () {
       const updateEmployeeSalary = await payroll.updateEmployeeSalary(employee.address, newSalary.toString());
       console.log(`Employee salary updated to ${newSalary} at hash ${updateEmployeeSalary.hash}`);
 
-
+      mint = await paymentToken.connect(owner).mint(payroll.address, newSalary);
+      tokenBalance = await payroll.tokenBalance();
+      console.log(`New Token balance after funding ${tokenBalance}`);
     });
 
     it("Should close company", async function () {
