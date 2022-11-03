@@ -39,7 +39,9 @@ describe("Payroll", function () {
       console.log(`Company account ${companyAcc}`);
       expect(companyAcc).to.equal(owner.address);
 
-
+      const deployedToken = await payroll.paymentToken();
+      expect(paymentToken.address).to.equal(deployedToken);
+      console.log(`paymentToken address`, paymentToken.address);
     });
 
 
