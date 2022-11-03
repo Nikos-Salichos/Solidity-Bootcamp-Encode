@@ -68,6 +68,15 @@ describe("Payroll", function () {
       const fundCompanyAccount = await payroll.connect(owner).fundCompanyAccount(newSalary);
       console.log(`Company account has been funded with ${newSalary} at hash ${fundCompanyAccount.hash}`);
       expect(await payroll.tokenBalance()).to.equal(newSalary.toString());
+
+      let tokenBalance = await payroll.tokenBalance();
+      expect(tokenBalance).to.equal(employeeSalary);
+      console.log(`Token balance ${tokenBalance}`);
+
+      const claim = await payroll.connect(employee).claim();
+      console.log(`Employee claimed at hash ${claim.hash}`);
+
+
     });
 
     it("Should close company", async function () {
