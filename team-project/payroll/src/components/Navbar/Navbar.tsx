@@ -102,7 +102,7 @@ function Navbar() {
             ) : (
               // Redirect to the Employee Page
               <Link to="employee-panel" style={{ textDecoration: "none", color: "black" }}>
-                <a>Employee</a>
+                <a>Employee Panel</a>
               </Link>
             )}
             <a target="_blank" href={`https://goerli.etherscan.io/`} className="link">
