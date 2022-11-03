@@ -1,21 +1,23 @@
 //SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0 <0.9.0;
+pragma solidity >=0.8.7 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 contract PayrollToken is ERC20, ERC20Burnable, AccessControl {
-       bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
-    constructor(string memory name, string memory symbol) ERC20(name, symbol) {
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(MINTER_ROLE, msg.sender);
+    uint8 constant _decimals = 18;
+    uint256 constant _totalSupply = 100 * (10**6) * 10**_decimals;  // 100m tokens
+
+    constructor(string memory name, string memory symbol) ERC20 (name, symbol) {        
+        _mint(msg.sender, _totalSupply);
     }
 
-    function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
+    function mint(address to, uint256 amount) public {
         _mint(to, amount);
     }
+
 }
 
 contract Payroll{
@@ -24,6 +26,7 @@ contract Payroll{
     uint256 public totalEmployees = 0;
     uint256 public totalSalaries = 0;
     uint256 public totalPayments = 0;
+    uint256 public totalStakes = 0;
 
     event Paid(
         address from,
@@ -42,6 +45,16 @@ contract Payroll{
         uint256 lastPayment;
         uint256 paymentCount;
     }
+
+    struct StakeStruct{
+        uint stakeId;
+        address employeeAddress;
+        uint createdDate;
+        uint amount;
+        bool open;
+    }
+
+    mapping(uint256 => StakeStruct) public stakes;
 
     mapping(address => bool) public isEmployee;
     EmployeeStruct[] employees;
@@ -62,10 +75,10 @@ contract Payroll{
         _;
     }
 
-    constructor(string memory tokenName, string memory tokenSymbol, uint initialCapital) {
-        paymentToken = new PayrollToken(tokenName, tokenSymbol);
+   constructor(string memory tokenName, string memory tokenSymbol, uint initialCapital, PayrollToken payrollTokenAddress) {
+        paymentToken = payrollTokenAddress;
         companyAcc = msg.sender;
-        paymentToken.mint(address(this), initialCapital);
+     //   paymentToken.mint(address(this), initialCapital);
     }
 
     function thirtyDaysHavePassed(uint256 lastPayment) public view returns (bool) {
@@ -80,7 +93,7 @@ contract Payroll{
         totalSalaries += salary;
         isEmployee[employeeAddress] = true;
 
-        EmployeeStruct  memory employeeStruct = EmployeeStruct(employeeAddress,salary,block.timestamp,0);
+        EmployeeStruct  memory employeeStruct = EmployeeStruct(employeeAddress,salary,0,0);
         employeesAddress[employeeAddress] = employeeStruct;
         employees.push(employeeStruct);
     }
@@ -114,6 +127,10 @@ contract Payroll{
         return paymentToken.balanceOf(address(this));
     }
 
+    function employeeTokenBalance() public view  returns (uint){
+        return paymentToken.balanceOf(msg.sender);
+    }
+
     function closeCompany() public ownerOnly {
         paymentToken.transfer(companyAcc, tokenBalance());
         selfdestruct(payable(companyAcc));
@@ -125,9 +142,9 @@ contract Payroll{
         totalSalaries += newSalary;
     }
 
-    function claim() payable public IsEmployee(msg.sender){
+    function claim() public IsEmployee(msg.sender){
         require(totalSalaries <= paymentToken.balanceOf(address(this)), "Insufficient balance to pay all employees");
-        require(thirtyDaysHavePassed(employeesAddress[msg.sender].lastPayment) == true, "You cannot claim in timespan of less than 30 days");
+       // require(thirtyDaysHavePassed(employeesAddress[msg.sender].lastPayment) == true, "You cannot claim in timespan of less than 30 days");
         
         employeesAddress[msg.sender].lastPayment = block.timestamp;
         payTo(employeesAddress[msg.sender].paymentAddress, employeesAddress[msg.sender].salary);
@@ -137,19 +154,47 @@ contract Payroll{
         emit Paid(msg.sender,block.timestamp);
     }
 
-    function payAnEmployee(address employeeAddress) payable public ownerOnly IsEmployee(employeeAddress){
+    function payAnEmployee(address employeeAddress) public ownerOnly IsEmployee(employeeAddress){
         require(employeesAddress[employeeAddress].salary <= tokenBalance(), "Insufficient balance to pay an employee");
-
         payTo(employeeAddress, employeesAddress[employeeAddress].salary);
         employeesAddress[employeeAddress].paymentCount++;
         emit Paid(msg.sender,block.timestamp);
     }
 
-    function fundCompanyAccount(uint amount) payable public {
-        paymentToken.mint(address(this), amount);
+    function fundCompanyAccount(uint amount) public {
+        paymentToken.mint(address(this), amount); 
         emit Fund(msg.sender, amount, block.timestamp);
     }
 
+    function stake(uint amount)  public IsEmployee(msg.sender){
+        require(amount > 0, "Stake amount should be above 0");
+        require(paymentToken.balanceOf(address(msg.sender)) >= amount, "Not enough funds to stake");
+        address employeeAddress = employeesAddress[msg.sender].paymentAddress;
+
+        paymentToken.transferFrom(employeeAddress, address(this), amount);
+        //payTo(address(this), amount);
+
+        totalStakes++;
+        StakeStruct memory stakeStruct = StakeStruct(totalStakes,msg.sender, block.timestamp,amount,true);
+        stakes[totalStakes] = stakeStruct;
+    }
+
+    function unstake(uint stakeId) payable public IsEmployee(msg.sender){
+        require(stakes[stakeId].employeeAddress == msg.sender, "You do not have any stake");
+        require(stakes[stakeId].open == true, "Stake has close");
+
+        stakes[stakeId].open = false;
+
+        uint256 interest;
+        interest= stakes[stakeId].amount/10;
+
+       // if(stakes[msg.sender].createdDate >= 365 days){
+            require(paymentToken.balanceOf(address(this)) >= interest, "Company cannot pay you the interest");
+            payTo(msg.sender, stakes[stakeId].amount + interest);
+      //  }else{
+          //  paymentToken.transferFrom(msg.sender,address(this), stakes[msg.sender].amount); 
+     //   }
+    }
 
     fallback() external{}
 

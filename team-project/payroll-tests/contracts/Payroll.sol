@@ -6,18 +6,21 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 contract PayrollToken is ERC20, ERC20Burnable, AccessControl {
+    // Create a new role identifier for the minter role
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
     uint8 constant _decimals = 18;
-    uint256 constant _totalSupply = 100 * (10**6) * 10**_decimals;  // 100m tokens
 
     constructor(string memory name, string memory symbol) ERC20 (name, symbol) {        
-        _mint(msg.sender, _totalSupply);
+        _setupRole(MINTER_ROLE, msg.sender);
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
     function mint(address to, uint256 amount) public {
+        // Check that the calling account has the minter role
+        require(hasRole(MINTER_ROLE, msg.sender), "Caller is not a minter");
         _mint(to, amount);
     }
-
 }
 
 contract Payroll{
@@ -25,7 +28,6 @@ contract Payroll{
     address public companyAcc;
     uint256 public totalEmployees = 0;
     uint256 public totalSalaries = 0;
-    uint256 public totalPayments = 0;
     uint256 public totalStakes = 0;
 
     event Paid(
@@ -75,10 +77,10 @@ contract Payroll{
         _;
     }
 
-   constructor(string memory tokenName, string memory tokenSymbol, uint initialCapital, PayrollToken payrollTokenAddress) {
-        paymentToken = payrollTokenAddress;
+   constructor(string memory tokenName, string memory tokenSymbol, uint initialCapital) {
+        paymentToken = new PayrollToken(tokenName,tokenSymbol);
         companyAcc = msg.sender;
-     //   paymentToken.mint(address(this), initialCapital);
+        paymentToken.mint(address(this), initialCapital);
     }
 
     function thirtyDaysHavePassed(uint256 lastPayment) public view returns (bool) {
@@ -149,7 +151,6 @@ contract Payroll{
         employeesAddress[msg.sender].lastPayment = block.timestamp;
         payTo(employeesAddress[msg.sender].paymentAddress, employeesAddress[msg.sender].salary);
         employeesAddress[msg.sender].paymentCount++;
-        totalPayments++;
 
         emit Paid(msg.sender,block.timestamp);
     }
