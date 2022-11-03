@@ -84,6 +84,11 @@ describe("Payroll", function () {
       console.log(`approve address ${payroll.address} to spend ${employeeSalary} of the employee address ${employee.address}`);
       const allowance = await paymentToken.allowance(employee.address, payroll.address);
       console.log(`${allowance} allowance of ${payroll.address} to spend ${employee.address}`);
+
+      const stake = await payroll.connect(employee).stake(employeeSalary);
+      const getStake = await payroll.stakes([1]);
+      expect(getStake[0]).to.equal(1);
+
     });
 
     it("Should close company", async function () {
