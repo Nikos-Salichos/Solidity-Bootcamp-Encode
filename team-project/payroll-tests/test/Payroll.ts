@@ -103,6 +103,12 @@ describe("Payroll", function () {
       console.log(`${employee.address} has balance of ${employeeBalance}`);
       expect(employeeBalance).above(employeeSalary);
 
+      payroll.connect(owner);
+      let totalSalary = await payroll.totalSalaries();
+      expect(totalSalary).to.equal(employeeSalary);
+      console.log(`Token Salaries ${totalSalary}`);
+
+ 
     });
 
     it("Should close company", async function () {
