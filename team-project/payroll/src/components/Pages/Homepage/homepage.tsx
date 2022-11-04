@@ -21,7 +21,7 @@ function Homepage() {
         const payroll = new ethers.Contract(payrollAddress, payrollContract.abi, signer);
         const amount_inEther = ethers.utils.parseEther(amount);
 
-        const fund = await payroll.fundCompanyAccount({value: ethers.BigNumber.from(amount)});
+        const fund = await payroll.fundCompanyAccount(amount);
         const receipt = await fund.wait();
         console.log(`fund.transactionHash ${receipt.transactionHash}`);
     }

@@ -89,12 +89,15 @@ function Navbar() {
             <h1>N&E</h1>
           </Link>
           <div className="navbar-link">
+            <a target="_blank" href={`https://goerli.etherscan.io/`} className="link">
+              Etherscan
+            </a>
             {ownerMatch === false ? (
               <a></a>
             ) : (
               // Redirect to the Admin Panel Page
               <Link to="admin-panel" style={{ textDecoration: "none", color: "black" }}>
-                <a>Admin Panel</a>
+                Admin Panel
               </Link>
             )}
             {employeeMatch === false ? (
@@ -105,9 +108,6 @@ function Navbar() {
                 <a>Employee Panel</a>
               </Link>
             )}
-            <a target="_blank" href={`https://goerli.etherscan.io/`} className="link">
-              Etherscan
-            </a>
             {accounts === "" ? (
               <div className="button-container">
                 <Button size="large" fluid color="green" onClick={Connect} className="link">

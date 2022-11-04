@@ -1,9 +1,7 @@
-import { time, loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
+import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { tokenName, tokenSymbol } from "../payrollConstructor/arguments";
-import { PayrollToken__factory } from "../typechain-types";
 
 describe("Payroll", function () {
   // We define a fixture to reuse the same setup in every test.
