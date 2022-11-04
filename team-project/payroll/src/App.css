@@ -28,7 +28,6 @@
 .container-default h1 {
   font-size: 3rem;
   font-weight: 900;
-  margin: 0;
 }
 
 .input-container {
@@ -45,7 +44,7 @@
   justify-content: space-between;
   align-items: center;
   min-height: 80px;
-  margin: 0 auto;
+  max-width: 1200px;
   owerflow: hidden;
 }
 
@@ -54,7 +53,6 @@
 }
 
 .inner-container-right {
-  display: flex;
   text-align: left;
 }
 

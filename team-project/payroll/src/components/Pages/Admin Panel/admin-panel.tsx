@@ -4,6 +4,7 @@ import { payrollContract } from "../../../assets/PayrollContract";
 import { payrollAddress } from "../../../assets/PayrollAddress";
 import { Button, Icon, Table } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import EmployeeTable from "./employee-table";
 
 function AdminPanel() {
     const [companyAcc, setCompanyAcc] = useState("");
@@ -11,7 +12,7 @@ function AdminPanel() {
     const [totalSalaries, setTotalSalaries] = useState("");
     const [employees, setEmployees] = useState([]);
     const [tokenBalance, setTokenBalance] = useState("");
-    const [totalPayments, setTotalPayments] = useState("");
+    const [totalStakes, setTotalStakes] = useState("");
 
     async function readTheContract() {
         const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
@@ -30,26 +31,17 @@ function AdminPanel() {
         const totalSalaries = await payroll.totalSalaries();
         setTotalSalaries(totalSalaries.toString());
 
-        const totalPayments = await payroll.totalPayments();
-        setTotalPayments(totalPayments.toString());
+        const totalStakes = await payroll.totalStakes();
+        setTotalStakes(totalStakes.toString());
 
         const getEmployees = await payroll.getEmployees();
         setEmployees(getEmployees.map((key: string, index: string) => index + ")" + key + " "));
 
         const tokenBalance = await payroll.tokenBalance();
         setTokenBalance(tokenBalance.toString() + " wei");
+
     }
 
-    async function payAllEmployees() {
-        const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-        provider.send("eth_requestAccounts", []);
-        const signer = provider.getSigner();
-        console.log("Account:", signer.getAddress());
-
-        const payroll = new ethers.Contract(payrollAddress, payrollContract.abi, signer);
-        const payAll = await payroll.payAll();
-        console.log("Paid all employees");
-    }
     return (
         <>
             <div className="admin-panel">
@@ -78,67 +70,15 @@ function AdminPanel() {
                                     <p>{payrollAddress}</p>
                                     <h3>Total Salaries</h3>
                                     <p>{totalSalaries}</p>
-                                    <h3>Total Payments</h3>
-                                    <p>{totalPayments}</p>
+                                    <h3>Total Stakes</h3>
+                                    <p>{totalStakes}</p>
                                 </div>
                             </div>
                         </div>
                         <div className="inner-container">
-                            <div className="employees-list">
-                            <h2>Employees List</h2>
-                            <Table celled compact definition>
-                                <Table.Header fullWidth>
-                                <Table.Row>
-                                    <Table.HeaderCell>ID</Table.HeaderCell>
-                                    <Table.HeaderCell>Payment Adress</Table.HeaderCell>
-                                    <Table.HeaderCell>Salary</Table.HeaderCell>
-                                    <Table.HeaderCell>Last Payment</Table.HeaderCell>
-                                    <Table.HeaderCell>Payment Count</Table.HeaderCell>
-                                </Table.Row>
-                                </Table.Header>
-
-                                <Table.Body>
-                                <Table.Row>
-                                    <Table.Cell>0</Table.Cell>
-                                    <Table.Cell>0x4aA8A5b66a16108894D086ab942B249cE8e85387</Table.Cell>
-                                    <Table.Cell>1000 NET</Table.Cell>
-                                    <Table.Cell>No</Table.Cell>
-                                    <Table.Cell>No</Table.Cell>
-                                </Table.Row>
-                                <Table.Row>
-                                    <Table.Cell>Jamie Harington</Table.Cell>
-                                    <Table.Cell>January 11, 2014</Table.Cell>
-                                    <Table.Cell>jamieharingonton@yahoo.com</Table.Cell>
-                                    <Table.Cell>Yes</Table.Cell>
-                                    <Table.Cell>Yes</Table.Cell>
-                                </Table.Row>
-                                <Table.Row>
-                                    <Table.Cell>Jill Lewis</Table.Cell>
-                                    <Table.Cell>May 11, 2014</Table.Cell>
-                                    <Table.Cell>jilsewris22@yahoo.com</Table.Cell>
-                                    <Table.Cell>Yes</Table.Cell>
-                                    <Table.Cell>No</Table.Cell>
-                                </Table.Row>
-                                </Table.Body>
-
-                                <Table.Footer fullWidth>
-                                <Table.Row>
-                                    <Table.HeaderCell colSpan='5'>
-                                    <Link to="/add-employee">
-                                        <Button
-                                            floated='right'
-                                            icon
-                                            labelPosition='left'
-                                            primary
-                                            size='big'
-                                        >
-                                            <Icon name='user' /> Add An Employee
-                                        </Button>
-                                    </Link>
-                                    </Table.HeaderCell>
-                                </Table.Row>
-                                </Table.Footer>
-                            </Table>
+                            <div className="employees-list" >
+                            <h2 style={{ marginTop: "20px" }}>Employees List</h2>
+                            <EmployeeTable />
 
                             </div>
                         </div>
@@ -150,3 +90,5 @@ function AdminPanel() {
 }
 
 export default AdminPanel;
+
+
