@@ -69,17 +69,18 @@ describe("Payroll", function () {
       const minterRole = await payrollToken.MINTER_ROLE();
       console.log(`minterRole ${minterRole}`);
 
-      const companyOwnerAddressMinterRole = await payrollToken.hasRole(minterRole, owner.address);
-      console.log(`companyOwnerAddressMinterRole ${companyOwnerAddressMinterRole}`);
-
       const companyAddressHasMinterRole = await payrollToken.hasRole(minterRole, payroll.address);
       console.log(`companyAddressHasMinterRole ${companyAddressHasMinterRole}`);
+
+      let tokenBalance = await payroll.tokenBalance();
+      console.log(`Token balance before funding: ${tokenBalance}`);
+      expect(tokenBalance).to.equal(0);
 
       const fundAmount = 1000;
       const fundCompanyAccount = await payroll.connect(funder).fundCompanyAccount(fundAmount);
 
-      const tokenBalance = await payroll.tokenBalance();
-      console.log(`Token balance ${tokenBalance}`);
+      tokenBalance = await payroll.tokenBalance();
+      console.log(`Token balance after funding: ${tokenBalance}`);
       const currentSupply = initialCapital + fundAmount;
       expect(tokenBalance).to.equal(currentSupply.toString());
     });
