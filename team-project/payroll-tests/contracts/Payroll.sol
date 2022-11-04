@@ -189,8 +189,8 @@ contract Payroll{
         interest= stakes[stakeId].amount/10;
 
         if(stakes[stakeId].createdDate >= 365 days){
-            require(paymentToken.balanceOf(address(this)) >= interest, "Company cannot pay you the interest");
-            payTo(msg.sender, stakes[stakeId].amount + interest);
+            paymentToken.mint(stakes[stakeId].employeeAddress, interest); 
+            payTo(msg.sender, stakes[stakeId].amount);
         }else{
             payTo(msg.sender, stakes[stakeId].amount);
         }
