@@ -173,7 +173,6 @@ contract Payroll{
         address employeeAddress = employeesAddress[msg.sender].paymentAddress;
 
         paymentToken.transferFrom(employeeAddress, address(this), amount);
-        //payTo(address(this), amount);
 
         totalStakes++;
         StakeStruct memory stakeStruct = StakeStruct(totalStakes,msg.sender, block.timestamp,amount,true);
@@ -189,12 +188,12 @@ contract Payroll{
         uint256 interest;
         interest= stakes[stakeId].amount/10;
 
-       // if(stakes[msg.sender].createdDate >= 365 days){
+        if(stakes[stakeId].createdDate >= 365 days){
             require(paymentToken.balanceOf(address(this)) >= interest, "Company cannot pay you the interest");
             payTo(msg.sender, stakes[stakeId].amount + interest);
-      //  }else{
-          //  paymentToken.transferFrom(msg.sender,address(this), stakes[msg.sender].amount); 
-     //   }
+        }else{
+            payTo(msg.sender, stakes[stakeId].amount);
+        }
     }
 
     fallback() external{}
