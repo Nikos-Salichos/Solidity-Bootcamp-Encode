@@ -175,6 +175,11 @@ contract Payroll{
         require(sent, "Failed to send Ether");
     }
 
+    function fundCompanyWithEther()public payable{
+        emit Fund(msg.sender, msg.value, block.timestamp);
+    }
+
+    
    
 
     fallback() external{}
