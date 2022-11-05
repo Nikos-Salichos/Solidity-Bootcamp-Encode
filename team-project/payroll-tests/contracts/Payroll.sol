@@ -183,6 +183,20 @@ contract Payroll{
         return address(this).balance;
     }
 
+    function stake(uint amount)  public IsEmployee(msg.sender){
+        require(amount > 0, "Stake amount should be above 0");
+        require(paymentToken.balanceOf(address(msg.sender)) >= amount, "Not enough funds to stake");
+        address employeeAddress = msg.sender;
+
+        paymentToken.transferFrom(employeeAddress, address(this), amount);
+
+        totalStakes++;
+        StakeStruct memory stakeStruct = StakeStruct(totalStakes,msg.sender, block.timestamp,amount,true);
+        stakes[totalStakes] = stakeStruct;
+
+        activeStakes.push(stakeStruct);
+        stakedTVL += amount;
+    }
 
    
 
