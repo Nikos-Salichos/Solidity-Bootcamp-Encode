@@ -4,6 +4,7 @@ import { payrollContract } from "../../../assets/PayrollContract";
 import { payrollAddress } from "../../../assets/PayrollAddress";
 import { Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import StakeTable from "./stake-table";
 
 function EmployeePanel() {
     const [employeeAcc, setEmployeeAcc] = useState("");
@@ -84,7 +85,7 @@ function EmployeePanel() {
                                 <div className="inner-container-left-header">
                                     <h3>Employee Account Address</h3>
                                     <p>{employeeAcc}</p>
-                                    <h3>Last Payment</h3>
+                                    <h3>Last Payment Time</h3>
                                     <p>{employeeLastPayment}</p>
                                 </div>
                             </div>
@@ -97,6 +98,7 @@ function EmployeePanel() {
                                 </div>
                             </div>
                         </div>
+                        <StakeTable />
                     </div>
                 </div>
             </div>

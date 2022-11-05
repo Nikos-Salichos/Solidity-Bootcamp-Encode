@@ -30,6 +30,20 @@ class EmployeeTable extends Component<any , any> {
 
     }
 
+    async removeEmployee(address: string) {
+        const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+        provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+        console.log("Account:", signer.getAddress());
+
+        const payroll = new ethers.Contract(payrollAddress, payrollContract.abi, signer);
+
+        const removeEmployee = await payroll.removeEmployee(address);
+
+        const receipt = await removeEmployee.wait();
+        console.log(receipt);
+    }
+
     renderRow() {
         return this.state.employees.map((employee: any, index: any) => {
             return (
@@ -39,6 +53,12 @@ class EmployeeTable extends Component<any , any> {
                     <Table.Cell>{employee[1].toString()}</Table.Cell>
                     <Table.Cell>{employee[2].toString()}</Table.Cell>
                     <Table.Cell>{employee[3].toString()}</Table.Cell>
+                    <Table.Cell>
+                        <Button floated='right' icon labelPosition='left' color="red" size='small' onClick={() => this.removeEmployee(employee[0].toString())}>
+                            <Icon name='edit' />
+                                Remove Employee
+                        </Button>
+                    </Table.Cell>
                 </Table.Row>
             );
         });
@@ -55,6 +75,7 @@ class EmployeeTable extends Component<any , any> {
                                     <Table.HeaderCell>Salary</Table.HeaderCell>
                                     <Table.HeaderCell>Last Payment</Table.HeaderCell>
                                     <Table.HeaderCell>Payment Count</Table.HeaderCell>
+                                    <Table.HeaderCell>Remove Employee</Table.HeaderCell>
                                 </Table.Row>
                                 </Table.Header>
                                 <Table.Body>
@@ -62,7 +83,7 @@ class EmployeeTable extends Component<any , any> {
                                 </Table.Body>
                                 <Table.Footer fullWidth>
                                 <Table.Row>
-                                    <Table.HeaderCell colSpan='5'>
+                                    <Table.HeaderCell colSpan='6'>
                                     <Link to="/add-employee">
                                         <Button
                                             floated='right'
