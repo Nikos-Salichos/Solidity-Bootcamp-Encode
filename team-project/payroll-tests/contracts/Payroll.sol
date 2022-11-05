@@ -179,7 +179,11 @@ contract Payroll{
         emit Fund(msg.sender, msg.value, block.timestamp);
     }
 
-    
+    function getCompanyEtherBalance() public view ownerOnly returns (uint){
+        return address(this).balance;
+    }
+
+
    
 
     fallback() external{}
