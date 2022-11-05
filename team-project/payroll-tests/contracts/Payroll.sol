@@ -60,6 +60,8 @@ contract Payroll{
 
     StakeStruct[] public activeStakes;
     mapping(uint256 => StakeStruct) public stakes;
+    mapping(address => StakeStruct []) public employeeStakes;
+    StakeStruct[] public allEmployeeActiveStakes;
 
     mapping(address => bool) public isEmployee;
     EmployeeStruct[] employees;
@@ -196,14 +198,14 @@ contract Payroll{
 
         activeStakes.push(stakeStruct);
         stakedTVL += amount;
+        
+        allEmployeeActiveStakes.push(stakeStruct);
+        employeeStakes[msg.sender] = allEmployeeActiveStakes;
     }
 
-    // function getEmployeeStakes() public view IsEmployee(msg.sender) returns (StakeStruct[] memory) {
-    //     for (uint256 i = 0; i < stakes; i++) {
-            
-    //     }
-    //     return employeeStakes[msg.sender];
-    // }
+     function getEmployeeStakes() public view IsEmployee(msg.sender) returns (StakeStruct[] memory ) {
+        return employeeStakes[msg.sender];
+     }
 
     function unstake(uint stakeId) payable public IsEmployee(msg.sender){
         require(stakes[stakeId].employeeAddress == msg.sender, "No stakes from this wallet");
@@ -232,7 +234,6 @@ contract Payroll{
             }
         }
     }
-   
 
     fallback() external{}
 

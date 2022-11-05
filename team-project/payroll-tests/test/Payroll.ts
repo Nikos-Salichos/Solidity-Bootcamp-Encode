@@ -133,134 +133,152 @@ describe("Payroll", function () {
       const allowance = await payrollToken.allowance(employee.address, payroll.address);
       console.log(`company address ${payroll.address} has the allowance to spend ${allowance} from employee address ${employee.address}`);
 
-      const stake = await payroll.connect(employee).stake(employeeSalary);
-      const getStake = await payroll.stakes([1]);
+      let stake = await payroll.connect(employee).stake(employeeSalary / 2);
+      let getStake = await payroll.stakes([1]);
       expect(getStake[0]).to.equal(1);
+
+      stake = await payroll.connect(employee).stake(employeeSalary / 2);
+      getStake = await payroll.stakes([2]);
+      expect(getStake[0]).to.equal(2);
 
       employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
       console.log(`Employee has balance of ${employeeBalance} after staking his salary`);
       expect(employeeBalance).to.equal(0);
-    });
 
-    it("Employee should unstake", async function () {
-      const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
-
-      const fundAmount = 1000;
-      const fundCompanyWithEther = await payroll.fundCompanyWithEther({ value: fundAmount });
-
-      let getCompanyEtherBalance = await payroll.getCompanyEtherBalance();
-      expect(getCompanyEtherBalance).to.equal(fundAmount);
-
-      const clientGetEthPayTokens = await payroll.clientGetEthPayTokens(fundAmount);
-
-      const employeeSalary = 1000;
-      const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
-      const claim = await payroll.connect(employee).claim();
-      const approve = await payrollToken.connect(employee).approve(payroll.address, employeeSalary);
-      const allowance = await payrollToken.allowance(employee.address, payroll.address);
-
-      let latestBlock = await ethers.provider.getBlock("latest");
-      console.log(`latest block number ${latestBlock.timestamp} before stake`);
-
-      const stake = await payroll.connect(employee).stake(employeeSalary);
-      const getStake = await payroll.stakes([1]);
-      expect(getStake[0]).to.equal(1);
-
-      latestBlock = await ethers.provider.getBlock("latest");
-      console.log(`latest block number ${latestBlock.timestamp} after stake`);
-
-      let employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
-      console.log(`Employee has balance of ${employeeBalance} after staking`);
-      expect(employeeBalance).to.equal(0);
-
-      const activeStake = await payroll.activeStakes([0]);
+      let activeStake = await payroll.activeStakes([0]);
       expect(activeStake.stakeId).to.equal(1);
-      expect(activeStake.amount).to.equal(employeeSalary);
+      expect(activeStake.amount).to.equal(employeeSalary / 2);
 
-      const stakeId = 1;
-      const unstake = await payroll.connect(employee).unstake(stakeId);
+      activeStake = await payroll.activeStakes([1]);
+      expect(activeStake.stakeId).to.equal(2);
+      expect(activeStake.amount).to.equal(employeeSalary / 2);
 
-      latestBlock = await ethers.provider.getBlock("latest");
-      console.log(`latest block number ${latestBlock.timestamp} after unstake`);
 
-      employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
-      console.log(`Employee has balance of ${employeeBalance} after unstaking`);
-      const interest = employeeSalary / 10;
-      expect(employeeBalance).to.equal(employeeSalary + interest);
     });
 
-    it("Should update employee salary", async function () {
-      const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
+    // it("Employee should unstake", async function () {
+    //   const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
 
-      const employeeSalary = 1000;
-      const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
+    //   const fundAmount = 1000;
+    //   const fundCompanyWithEther = await payroll.fundCompanyWithEther({ value: fundAmount });
 
-      const newSalary = 2000;
-      const updateEmployeeSalary = await payroll.connect(owner).updateEmployeeSalary(employee.address, newSalary.toString());
+    //   let getCompanyEtherBalance = await payroll.getCompanyEtherBalance();
+    //   expect(getCompanyEtherBalance).to.equal(fundAmount);
 
-      const employeeUpdated = await payroll.employeesAddress(employee.address);
-      expect(employeeUpdated[1]).to.equal(newSalary);
-      console.log(`Employee salary updated to ${employeeUpdated[1]}`);
+    //   const clientGetEthPayTokens = await payroll.clientGetEthPayTokens(fundAmount);
 
-      const getEmployees = await payroll.getEmployee(employee.address);
-      console.log(`Employee payment address ${getEmployees[0]}`);
-      console.log(`Employee salary ${getEmployees[1]}`);
-      console.log(`Employee Last payment ${getEmployees[2]}`);
-      console.log(`Employee payment count ${getEmployees[3]}`);
-    });
+    //   const employeeSalary = 1000;
+    //   const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
+    //   const claim = await payroll.connect(employee).claim();
+    //   const approve = await payrollToken.connect(employee).approve(payroll.address, employeeSalary);
+    //   const allowance = await payrollToken.allowance(employee.address, payroll.address);
 
-    it("Should pay an employee", async function () {
-      const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
+    //   let latestBlock = await ethers.provider.getBlock("latest");
+    //   console.log(`latest block number ${latestBlock.timestamp} before stake`);
 
-      const employeeSalary = 1000;
-      const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
+    //   const stake = await payroll.connect(employee).stake(employeeSalary);
+    //   const getStake = await payroll.stakes([1]);
+    //   expect(getStake[0]).to.equal(1);
 
-      const payAnEmployee = await payroll.payAnEmployee(employee.address);
-      console.log(`Pay employee with address ${employee.address} at hash ${payAnEmployee.hash}`);
+    //   latestBlock = await ethers.provider.getBlock("latest");
+    //   console.log(`latest block number ${latestBlock.timestamp} after stake`);
 
-      const tokenBalance = await payroll.tokenBalance();
-      console.log(`New Token balance after pay employee  ${tokenBalance}`);
-      expect(tokenBalance).to.equal(0);
+    //   let employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
+    //   console.log(`Employee has balance of ${employeeBalance} after staking`);
+    //   expect(employeeBalance).to.equal(0);
 
-      const employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
-      console.log(`${employee.address} has balance of ${employeeBalance}`);
-      expect(employeeBalance).to.equal(employeeSalary);
+    //   const activeStake = await payroll.activeStakes([0]);
+    //   expect(activeStake.stakeId).to.equal(1);
+    //   expect(activeStake.amount).to.equal(employeeSalary);
 
-      payroll.connect(owner);
-      let totalSalary = await payroll.totalSalaries();
-      expect(totalSalary).to.equal(employeeSalary);
-      console.log(`Token Salaries ${totalSalary}`);
-    });
+    //   const stakeId = 1;
+    //   const unstake = await payroll.connect(employee).unstake(stakeId);
 
-    it("Should remove an employee", async function () {
-      const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
+    //   latestBlock = await ethers.provider.getBlock("latest");
+    //   console.log(`latest block number ${latestBlock.timestamp} after unstake`);
 
-      const employeeSalary = 1000;
-      const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
+    //   employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
+    //   console.log(`Employee has balance of ${employeeBalance} after unstaking`);
+    //   const interest = employeeSalary / 10;
+    //   expect(employeeBalance).to.equal(employeeSalary + interest);
+    // });
 
-      const removeEmployee = await payroll.removeEmployee(employee.address);
+    // it("Should update employee salary", async function () {
+    //   const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
 
-      const totalEmployees = await payroll.totalEmployees();
-      expect(totalEmployees).to.equal(0);
-      console.log(`Total Employees ${totalEmployees}`);
-    });
+    //   const employeeSalary = 1000;
+    //   const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
 
-    it("Should close company", async function () {
-      const { payrollToken, payroll, initialCapital, owner } = await loadFixture(deployPayrollFixture);
+    //   const newSalary = 2000;
+    //   const updateEmployeeSalary = await payroll.connect(owner).updateEmployeeSalary(employee.address, newSalary.toString());
 
-      expect(await payroll.tokenBalance()).to.equal(initialCapital);
-      expect(await payroll.companyAcc()).to.equal(owner.address);
+    //   const employeeUpdated = await payroll.employeesAddress(employee.address);
+    //   expect(employeeUpdated[1]).to.equal(newSalary);
+    //   console.log(`Employee salary updated to ${employeeUpdated[1]}`);
 
-      let paymentToken = await payroll.paymentToken();
-      expect(paymentToken).to.not.equal("0x0000000000000000000000000000000000000000");
-      console.log(`Payment Token ${paymentToken}`);
+    //   const getEmployees = await payroll.getEmployee(employee.address);
+    //   console.log(`Employee payment address ${getEmployees[0]}`);
+    //   console.log(`Employee salary ${getEmployees[1]}`);
+    //   console.log(`Employee Last payment ${getEmployees[2]}`);
+    //   console.log(`Employee payment count ${getEmployees[3]}`);
+    // });
 
-      const shutDownCompany = await payroll.closeCompany();
-      console.log(`Closed company at hash ${shutDownCompany.hash}`);
+    // it("Should pay an employee", async function () {
+    //   const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
 
-      const tokenBalanceOfOwner = await payrollToken.balanceOf(owner.address);
-      expect(tokenBalanceOfOwner).to.equal(initialCapital);
-      console.log(`Balance of company owner account ${owner.address} has ${tokenBalanceOfOwner} tokens after company closed`);
-    });
+    //   const employeeSalary = 1000;
+    //   const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
+
+    //   const payAnEmployee = await payroll.payAnEmployee(employee.address);
+    //   console.log(`Pay employee with address ${employee.address} at hash ${payAnEmployee.hash}`);
+
+    //   const tokenBalance = await payroll.tokenBalance();
+    //   console.log(`New Token balance after pay employee  ${tokenBalance}`);
+    //   expect(tokenBalance).to.equal(0);
+
+    //   const employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
+    //   console.log(`${employee.address} has balance of ${employeeBalance}`);
+    //   expect(employeeBalance).to.equal(employeeSalary);
+
+    //   payroll.connect(owner);
+    //   let totalSalary = await payroll.totalSalaries();
+    //   expect(totalSalary).to.equal(employeeSalary);
+    //   console.log(`Token Salaries ${totalSalary}`);
+    // });
+
+    // it("Should remove an employee", async function () {
+    //   const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
+
+    //   const employeeSalary = 1000;
+    //   const addEmployee1 = await payroll.addEmployee(employee.address, employeeSalary);
+
+    //   const addEmployee2 = await payroll.addEmployee(funder.address, employeeSalary);
+
+    //   const addEmployee3 = await payroll.addEmployee(owner.address, employeeSalary);
+
+    //   const removeEmployee = await payroll.removeEmployee(employee.address);
+
+    //   const totalEmployees = await payroll.totalEmployees();
+    //   expect(totalEmployees).to.equal(2);
+    //   console.log(`Total Employees ${totalEmployees}`);
+    // });
+
+    // it("Should close company", async function () {
+    //   const { payrollToken, payroll, initialCapital, owner } = await loadFixture(deployPayrollFixture);
+
+    //   expect(await payroll.tokenBalance()).to.equal(initialCapital);
+    //   expect(await payroll.companyAcc()).to.equal(owner.address);
+
+    //   let paymentToken = await payroll.paymentToken();
+    //   expect(paymentToken).to.not.equal("0x0000000000000000000000000000000000000000");
+    //   console.log(`Payment Token ${paymentToken}`);
+
+    //   const shutDownCompany = await payroll.closeCompany();
+    //   console.log(`Closed company at hash ${shutDownCompany.hash}`);
+
+    //   const tokenBalanceOfOwner = await payrollToken.balanceOf(owner.address);
+    //   expect(tokenBalanceOfOwner).to.equal(initialCapital);
+    //   console.log(`Balance of company owner account ${owner.address} has ${tokenBalanceOfOwner} tokens after company closed`);
+    // });
   });
 });
