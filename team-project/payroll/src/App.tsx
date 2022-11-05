@@ -8,6 +8,7 @@ import Homepage from "./components/Pages/Homepage/homepage";
 import AdminPanel from "./components/Pages/Admin Panel/admin-panel";
 import EmployeePanel from "./components/Pages/Employee Panel/employee-panel";
 import AddEmployee from "./components/Pages/Add An Employee/add-employee";
+import Stake from "./components/Pages/Employee Panel/stake";
 
 function App() {
   const [accounts, setAccounts] = useState("");
@@ -21,6 +22,7 @@ function App() {
             <Route path="/admin-panel" element={<AdminPanel />} />
             <Route path="/employee-panel" element={<EmployeePanel />} />
             <Route path="/add-employee" element={<AddEmployee />} />
+            <Route path="/stake" element={<Stake />} />
           </Routes>
         <Footer />
       </Router>

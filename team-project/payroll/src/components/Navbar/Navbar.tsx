@@ -93,7 +93,7 @@ function Navbar() {
               Etherscan
             </a>
             {ownerMatch === false ? (
-              <a></a>
+              null
             ) : (
               // Redirect to the Admin Panel Page
               <Link to="admin-panel" style={{ textDecoration: "none", color: "black" }}>
@@ -101,11 +101,11 @@ function Navbar() {
               </Link>
             )}
             {employeeMatch === false ? (
-              <a></a>
+              null
             ) : (
               // Redirect to the Employee Page
               <Link to="employee-panel" style={{ textDecoration: "none", color: "black" }}>
-                <a>Employee Panel</a>
+                Employee Panel
               </Link>
             )}
             {accounts === "" ? (

@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import React, { useState } from "react";
 import { payrollContract } from "../../../assets/PayrollContract";
 import { payrollAddress } from "../../../assets/PayrollAddress";
-import { Button, Icon, Table } from "semantic-ui-react";
+import { Button, Icon, Input, Table } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import EmployeeTable from "./employee-table";
 
@@ -42,6 +42,25 @@ function AdminPanel() {
 
     }
 
+    const[amount, setAmount] = React.useState("");
+
+    const handleFundAmount = (event: { target: { value: any } }) => {
+        setAmount(event.target.value);
+    };
+
+    async function fund() {
+        const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+        provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+        console.log("Account:", signer.getAddress());
+      
+        const payroll = new ethers.Contract(payrollAddress, payrollContract.abi, signer);
+
+        const fund = await payroll.fundCompanyAccount(amount.toString());
+        const receipt = await fund.wait();
+        console.log(`fund.transactionHash ${receipt.transactionHash}`);
+    }
+
     return (
         <>
             <div className="admin-panel">
@@ -79,9 +98,19 @@ function AdminPanel() {
                             <div className="employees-list" >
                             <h2 style={{ marginTop: "20px" }}>Employees List</h2>
                             <EmployeeTable />
-
                             </div>
                         </div>
+                        <div className="inner-container-left" style={{ marginTop: "20px" }}>
+                            <div className="header-container">
+                                <h2>Fund The Company Account</h2>
+                            </div>
+                        <div className="input-container" style={{ marginTop: "0" }}>
+                            <Input type='number' placeholder='Amount' fluid action>
+                                <input type="number" onChange={handleFundAmount} value={amount} />
+                                <Button onClick={fund} secondary type='submit'>Fund</Button>
+                            </Input>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
