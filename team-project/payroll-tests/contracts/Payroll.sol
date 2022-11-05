@@ -29,6 +29,8 @@ contract Payroll{
     uint256 public totalEmployees = 0;
     uint256 public totalSalaries = 0;
     uint256 public totalStakes = 0;
+    uint256 public tokenRatioToEther = 1;
+    uint256 public stakedTVL = 0;
 
     event Paid(
         address from,
@@ -56,6 +58,7 @@ contract Payroll{
         bool open;
     }
 
+    StakeStruct[] public activeStakes;
     mapping(uint256 => StakeStruct) public stakes;
 
     mapping(address => bool) public isEmployee;
@@ -77,10 +80,11 @@ contract Payroll{
         _;
     }
 
-   constructor(string memory tokenName, string memory tokenSymbol, uint initialCapital) {
+   constructor(string memory tokenName, string memory tokenSymbol, uint initialCapital, uint ratio) {
         paymentToken = new PayrollToken(tokenName,tokenSymbol);
         companyAcc = msg.sender;
         paymentToken.mint(address(this), initialCapital);
+        tokenRatioToEther = ratio;
     }
 
     function thirtyDaysHavePassed(uint256 lastPayment) public view returns (bool) {
@@ -129,12 +133,14 @@ contract Payroll{
         return paymentToken.balanceOf(address(this));
     }
 
-    function employeeTokenBalance() public view  returns (uint){
+    function employeeTokenBalance() public view returns (uint){
         return paymentToken.balanceOf(msg.sender);
     }
 
     function closeCompany() public ownerOnly {
         paymentToken.transfer(companyAcc, tokenBalance());
+        (bool sent, ) = msg.sender.call{value: getCompanyEtherBalance()}("");
+        require(sent, "Failed to send Ether");
         selfdestruct(payable(companyAcc));
     }
 
@@ -162,39 +168,14 @@ contract Payroll{
         emit Paid(msg.sender,block.timestamp);
     }
 
-    function fundCompanyAccount(uint amount) public {
-        paymentToken.mint(address(this), amount); 
-        emit Fund(msg.sender, amount, block.timestamp);
+    function clientGetEthPayTokens(uint amount) public  {
+        require(amount <= getCompanyEtherBalance(), "Not enough ether in company");
+        paymentToken.mint(address(this), tokenRatioToEther * amount);
+        (bool sent, ) = msg.sender.call{value: amount}("");
+        require(sent, "Failed to send Ether");
     }
 
-    function stake(uint amount)  public IsEmployee(msg.sender){
-        require(amount > 0, "Stake amount should be above 0");
-        require(paymentToken.balanceOf(address(msg.sender)) >= amount, "Not enough funds to stake");
-        address employeeAddress = employeesAddress[msg.sender].paymentAddress;
-
-        paymentToken.transferFrom(employeeAddress, address(this), amount);
-
-        totalStakes++;
-        StakeStruct memory stakeStruct = StakeStruct(totalStakes,msg.sender, block.timestamp,amount,true);
-        stakes[totalStakes] = stakeStruct;
-    }
-
-    function unstake(uint stakeId) payable public IsEmployee(msg.sender){
-        require(stakes[stakeId].employeeAddress == msg.sender, "You do not have any stake");
-        require(stakes[stakeId].open == true, "Stake has close");
-
-        stakes[stakeId].open = false;
-
-        uint256 interest;
-        interest= stakes[stakeId].amount/10;
-
-        if(stakes[stakeId].createdDate >= 365 days){
-            paymentToken.mint(stakes[stakeId].employeeAddress, interest); 
-            payTo(msg.sender, stakes[stakeId].amount);
-        }else{
-            payTo(msg.sender, stakes[stakeId].amount);
-        }
-    }
+   
 
     fallback() external{}
 

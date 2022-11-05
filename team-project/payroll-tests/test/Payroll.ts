@@ -1,6 +1,6 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
-import { ethers } from "hardhat";
+import { ethers, network } from "hardhat";
 import { tokenName, tokenSymbol } from "../payrollConstructor/arguments";
 
 describe("Payroll", function () {
@@ -13,8 +13,9 @@ describe("Payroll", function () {
 
     const Payroll = await ethers.getContractFactory("Payroll");
     Payroll.connect(owner);
-    const initialCapital = 0;
-    const payroll = await Payroll.deploy(tokenName, tokenSymbol, initialCapital.toString());
+    const initialCapital = 1000;
+    const tokenRatioToEther = 1;
+    const payroll = await Payroll.deploy(tokenName, tokenSymbol, initialCapital.toString(), tokenRatioToEther);
 
     const receipt = await payroll.deployed();
     console.log(`Payroll contract deployed at ${receipt.address}`);
@@ -40,6 +41,16 @@ describe("Payroll", function () {
       expect(companyAcc).to.equal(owner.address);
     });
 
+    it("Should fund company product with 1 Ether", async function () {
+      const { payrollToken, payroll, employee } = await loadFixture(deployPayrollFixture);
+
+      const fundCompanyWithEther = await payroll.fundCompanyWithEther({ value: 1 });
+      console.log(`Company funded with 1 ether`);
+      const getCompanyEtherBalance = await payroll.getCompanyEtherBalance();
+      expect(getCompanyEtherBalance).to.equal(1);
+      console.log(`Company ether balance with ${getCompanyEtherBalance} ether`);
+    });
+
     it("Should add 1 employee, and confirm employee details", async function () {
       const { payroll, employee } = await loadFixture(deployPayrollFixture);
       const employeeSalary = 1000;
@@ -61,103 +72,121 @@ describe("Payroll", function () {
       console.log(`Employee payment count ${getEmployees[0][3]}`);
     });
 
-    it("Should fund with 1000 capital", async function () {
+    it("Should get 1 token for 1 eth", async function () {
       const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
-
-      const minterRole = await payrollToken.MINTER_ROLE();
-      console.log(`minterRole ${minterRole}`);
-
-      const companyAddressHasMinterRole = await payrollToken.hasRole(minterRole, payroll.address);
-      console.log(`companyAddressHasMinterRole ${companyAddressHasMinterRole}`);
 
       let tokenBalance = await payroll.tokenBalance();
       console.log(`Token balance before funding: ${tokenBalance}`);
-      expect(tokenBalance).to.equal(0);
+      expect(tokenBalance).to.equal(initialCapital);
 
-      const fundAmount = 1000;
-      const fundCompanyAccount = await payroll.connect(funder).fundCompanyAccount(fundAmount);
+      const fundAmount = 100;
+      const fundCompanyWithEther = await payroll.fundCompanyWithEther({ value: fundAmount });
+
+      let getCompanyEtherBalance = await payroll.getCompanyEtherBalance();
+      console.log(`Ether balance before clientGetEthPayTokens: ${getCompanyEtherBalance}`);
+      expect(getCompanyEtherBalance).to.equal(fundAmount);
+
+      const clientGetEthPayTokens = await payroll.clientGetEthPayTokens(fundAmount);
+
+      getCompanyEtherBalance = await payroll.getCompanyEtherBalance();
+      console.log(`Ether balance after clientGetEthPayTokens: ${getCompanyEtherBalance}`);
+      expect(getCompanyEtherBalance).to.equal(0);
 
       tokenBalance = await payroll.tokenBalance();
-      console.log(`Token balance after funding: ${tokenBalance}`);
+      console.log(`Token balance after clientGetEthPayTokens: ${tokenBalance}`);
       const currentSupply = initialCapital + fundAmount;
-      expect(tokenBalance).to.equal(currentSupply.toString());
+      expect(tokenBalance).to.equal(currentSupply);
     });
 
     it("Employee should claim his salary", async function () {
       const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
 
-      const fundAmount = 1000;
-      const fundCompanyAccount = await payroll.connect(funder).fundCompanyAccount(fundAmount);
-
       const employeeSalary = 1000;
       const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
 
+      let employeeBalance = await payroll.connect(employee).employeeTokenBalance();
+      console.log(`Employee token balance before claim his salary ${employeeBalance}`);
+      expect(employeeBalance).to.equal(0);
+
       const claim = await payroll.connect(employee).claim();
 
-      const employeeBalance = await payroll.connect(employee).employeeTokenBalance();
-      console.log(`Employee token balance ${employeeBalance}`);
+      employeeBalance = await payroll.connect(employee).employeeTokenBalance();
+      console.log(`Employee token balance after claim his salary ${employeeBalance}`);
       expect(employeeBalance).to.equal(employeeSalary);
     });
 
     it("Employee should get approval and stake his salary", async function () {
       const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
 
-      const fundAmount = 1000;
-      const fundCompanyAccount = await payroll.connect(funder).fundCompanyAccount(fundAmount);
-
       const employeeSalary = 1000;
       const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
 
       const claim = await payroll.connect(employee).claim();
 
+      let employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
+      console.log(`Employee has balance of ${employeeBalance} after claim his salary`);
+      expect(employeeBalance).to.equal(employeeSalary);
+
       const approve = await payrollToken.connect(employee).approve(payroll.address, employeeSalary);
-      console.log(`approve address ${payroll.address} to spend ${employeeSalary} of the employee address ${employee.address}`);
+      console.log(`approve address of ${payroll.address} company contract to spend employee salary ${employeeSalary} of the employee address ${employee.address}`);
 
       const allowance = await payrollToken.allowance(employee.address, payroll.address);
-      console.log(`${allowance} allowance of ${payroll.address} to spend ${employee.address}`);
+      console.log(`company address ${payroll.address} has the allowance to spend ${allowance} from employee address ${employee.address}`);
 
       const stake = await payroll.connect(employee).stake(employeeSalary);
       const getStake = await payroll.stakes([1]);
       expect(getStake[0]).to.equal(1);
 
-      const employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
-      console.log(`${employee.address} has balance of ${employeeBalance}`);
+      employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
+      console.log(`Employee has balance of ${employeeBalance} after staking his salary`);
       expect(employeeBalance).to.equal(0);
     });
 
     it("Employee should unstake", async function () {
       const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
 
-      const fundAmount = 10000;
-      const fundCompanyAccount = await payroll.connect(funder).fundCompanyAccount(fundAmount);
+      const fundAmount = 1000;
+      const fundCompanyWithEther = await payroll.fundCompanyWithEther({ value: fundAmount });
+
+      let getCompanyEtherBalance = await payroll.getCompanyEtherBalance();
+      expect(getCompanyEtherBalance).to.equal(fundAmount);
+
+      const clientGetEthPayTokens = await payroll.clientGetEthPayTokens(fundAmount);
 
       const employeeSalary = 1000;
       const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
-
       const claim = await payroll.connect(employee).claim();
-
       const approve = await payrollToken.connect(employee).approve(payroll.address, employeeSalary);
-      console.log(`approve address ${payroll.address} to spend ${employeeSalary} of the employee address ${employee.address}`);
-
       const allowance = await payrollToken.allowance(employee.address, payroll.address);
-      console.log(`${allowance} allowance of ${payroll.address} to spend ${employee.address}`);
+
+      let latestBlock = await ethers.provider.getBlock("latest");
+      console.log(`latest block number ${latestBlock.timestamp} before stake`);
 
       const stake = await payroll.connect(employee).stake(employeeSalary);
       const getStake = await payroll.stakes([1]);
       expect(getStake[0]).to.equal(1);
 
+      latestBlock = await ethers.provider.getBlock("latest");
+      console.log(`latest block number ${latestBlock.timestamp} after stake`);
+
       let employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
-      console.log(`${employee.address} has balance of ${employeeBalance}`);
+      console.log(`Employee has balance of ${employeeBalance} after staking`);
       expect(employeeBalance).to.equal(0);
+
+      const activeStake = await payroll.activeStakes([0]);
+      expect(activeStake.stakeId).to.equal(1);
+      expect(activeStake.amount).to.equal(employeeSalary);
 
       const stakeId = 1;
       const unstake = await payroll.connect(employee).unstake(stakeId);
 
+      latestBlock = await ethers.provider.getBlock("latest");
+      console.log(`latest block number ${latestBlock.timestamp} after unstake`);
+
       employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
-      console.log(`${employee.address} has balance of ${employeeBalance}`);
+      console.log(`Employee has balance of ${employeeBalance} after unstaking`);
       const interest = employeeSalary / 10;
-      const employeeBalanceAndInterest = employeeSalary + interest;
-      expect(employeeBalance).to.equal(employeeBalanceAndInterest);
+      expect(employeeBalance).to.equal(employeeSalary + interest);
     });
 
     it("Should update employee salary", async function () {
@@ -182,9 +211,6 @@ describe("Payroll", function () {
 
     it("Should pay an employee", async function () {
       const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
-
-      const fundAmount = 1000;
-      const fundCompanyAccount = await payroll.connect(funder).fundCompanyAccount(fundAmount);
 
       const employeeSalary = 1000;
       const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
@@ -222,10 +248,7 @@ describe("Payroll", function () {
     it("Should close company", async function () {
       const { payrollToken, payroll, initialCapital, owner } = await loadFixture(deployPayrollFixture);
 
-      const fundAmount = 1000;
-      const fundCompanyAccount = await payroll.fundCompanyAccount(fundAmount);
-
-      expect(await payroll.tokenBalance()).to.equal(fundAmount);
+      expect(await payroll.tokenBalance()).to.equal(initialCapital);
       expect(await payroll.companyAcc()).to.equal(owner.address);
 
       let paymentToken = await payroll.paymentToken();
@@ -236,7 +259,7 @@ describe("Payroll", function () {
       console.log(`Closed company at hash ${shutDownCompany.hash}`);
 
       const tokenBalanceOfOwner = await payrollToken.balanceOf(owner.address);
-      expect(tokenBalanceOfOwner).to.equal(fundAmount);
+      expect(tokenBalanceOfOwner).to.equal(initialCapital);
       console.log(`Balance of company owner account ${owner.address} has ${tokenBalanceOfOwner} tokens after company closed`);
     });
   });

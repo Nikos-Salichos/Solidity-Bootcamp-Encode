@@ -167,6 +167,10 @@ contract Payroll{
         emit Fund(msg.sender, amount, block.timestamp);
     }
 
+    function getStakes() public (StakeStruct[] memory){
+        return stake
+    }
+
     function stake(uint amount)  public IsEmployee(msg.sender){
         require(amount > 0, "Stake amount should be above 0");
         require(paymentToken.balanceOf(address(msg.sender)) >= amount, "Not enough funds to stake");
