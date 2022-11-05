@@ -198,6 +198,40 @@ contract Payroll{
         stakedTVL += amount;
     }
 
+    // function getEmployeeStakes() public view IsEmployee(msg.sender) returns (StakeStruct[] memory) {
+    //     for (uint256 i = 0; i < stakes; i++) {
+            
+    //     }
+    //     return employeeStakes[msg.sender];
+    // }
+
+    function unstake(uint stakeId) payable public IsEmployee(msg.sender){
+        require(stakes[stakeId].employeeAddress == msg.sender, "No stakes from this wallet");
+        require(stakes[stakeId].open == true, "Stake has closed");
+
+        stakes[stakeId].open = false;
+
+        uint256 interest;
+        interest= stakes[stakeId].amount/10;
+
+        uint potentialInterestForAllStakes = stakedTVL / 10;
+
+         if(stakes[stakeId].createdDate + 1 >= stakes[stakeId].createdDate  && paymentToken.balanceOf(address(this)) >=  stakedTVL + potentialInterestForAllStakes){
+             payTo(msg.sender, stakes[stakeId].amount + interest);
+         }else{
+            payTo(msg.sender, stakes[stakeId].amount);
+        }
+
+         stakedTVL -= stakes[stakeId].amount;
+
+        for(uint i=0; i<activeStakes.length; i++){
+            if(activeStakes[i].stakeId == stakeId){
+                delete activeStakes[i];
+                delete stakes[stakeId];
+                break;
+            }
+        }
+    }
    
 
     fallback() external{}
