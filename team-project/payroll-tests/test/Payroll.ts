@@ -157,52 +157,55 @@ describe("Payroll", function () {
       console.log(getEmployeeStakes);
     });
 
-    // it("Employee should unstake", async function () {
-    //   const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
+    it("Employee should unstake", async function () {
+      const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
 
-    //   const fundAmount = 1000;
-    //   const fundCompanyWithEther = await payroll.fundCompanyWithEther({ value: fundAmount });
+      const fundAmount = 1000;
+      const fundCompanyWithEther = await payroll.fundCompanyWithEther({ value: fundAmount });
 
-    //   let getCompanyEtherBalance = await payroll.getCompanyEtherBalance();
-    //   expect(getCompanyEtherBalance).to.equal(fundAmount);
+      let getCompanyEtherBalance = await payroll.getCompanyEtherBalance();
+      expect(getCompanyEtherBalance).to.equal(fundAmount);
 
-    //   const clientGetEthPayTokens = await payroll.clientGetEthPayTokens(fundAmount);
+      const clientGetEthPayTokens = await payroll.clientGetEthPayTokens(fundAmount);
 
-    //   const employeeSalary = 1000;
-    //   const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
-    //   const claim = await payroll.connect(employee).claim();
-    //   const approve = await payrollToken.connect(employee).approve(payroll.address, employeeSalary);
-    //   const allowance = await payrollToken.allowance(employee.address, payroll.address);
+      const employeeSalary = 1000;
+      const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
+      const claim = await payroll.connect(employee).claim();
+      const approve = await payrollToken.connect(employee).approve(payroll.address, employeeSalary);
+      const allowance = await payrollToken.allowance(employee.address, payroll.address);
 
-    //   let latestBlock = await ethers.provider.getBlock("latest");
-    //   console.log(`latest block number ${latestBlock.timestamp} before stake`);
+      let latestBlock = await ethers.provider.getBlock("latest");
+      console.log(`latest block number ${latestBlock.timestamp} before stake`);
 
-    //   const stake = await payroll.connect(employee).stake(employeeSalary);
-    //   const getStake = await payroll.stakes([1]);
-    //   expect(getStake[0]).to.equal(1);
+      const stake = await payroll.connect(employee).stake(employeeSalary);
+      const getStake = await payroll.stakes([1]);
+      expect(getStake[0]).to.equal(1);
 
-    //   latestBlock = await ethers.provider.getBlock("latest");
-    //   console.log(`latest block number ${latestBlock.timestamp} after stake`);
+      latestBlock = await ethers.provider.getBlock("latest");
+      console.log(`latest block number ${latestBlock.timestamp} after stake`);
 
-    //   let employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
-    //   console.log(`Employee has balance of ${employeeBalance} after staking`);
-    //   expect(employeeBalance).to.equal(0);
+      let employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
+      console.log(`Employee has balance of ${employeeBalance} after staking`);
+      expect(employeeBalance).to.equal(0);
 
-    //   const activeStake = await payroll.activeStakes([0]);
-    //   expect(activeStake.stakeId).to.equal(1);
-    //   expect(activeStake.amount).to.equal(employeeSalary);
+      const activeStake = await payroll.activeStakes([0]);
+      expect(activeStake.stakeId).to.equal(1);
+      expect(activeStake.amount).to.equal(employeeSalary);
 
-    //   const stakeId = 1;
-    //   const unstake = await payroll.connect(employee).unstake(stakeId);
+      const stakeId = 1;
+      const unstake = await payroll.connect(employee).unstake(stakeId);
 
-    //   latestBlock = await ethers.provider.getBlock("latest");
-    //   console.log(`latest block number ${latestBlock.timestamp} after unstake`);
+      latestBlock = await ethers.provider.getBlock("latest");
+      console.log(`latest block number ${latestBlock.timestamp} after unstake`);
 
-    //   employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
-    //   console.log(`Employee has balance of ${employeeBalance} after unstaking`);
-    //   const interest = employeeSalary / 10;
-    //   expect(employeeBalance).to.equal(employeeSalary + interest);
-    // });
+      employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
+      console.log(`Employee has balance of ${employeeBalance} after unstaking`);
+      const interest = employeeSalary / 10;
+      expect(employeeBalance).to.equal(employeeSalary + interest);
+
+      const getEmployeeStakes = await payroll.connect(employee).getEmployeeStakes();
+      console.log(getEmployeeStakes);
+    });
 
     // it("Should update employee salary", async function () {
     //   const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);

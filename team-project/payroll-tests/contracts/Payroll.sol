@@ -60,8 +60,8 @@ contract Payroll{
 
     StakeStruct[] public activeStakes;
     mapping(uint256 => StakeStruct) public stakes;
+     StakeStruct[] public allEmployeeActiveStakes;
     mapping(address => StakeStruct []) public employeeStakes;
-    StakeStruct[] public allEmployeeActiveStakes;
 
     mapping(address => bool) public isEmployee;
     EmployeeStruct[] employees;
@@ -226,7 +226,16 @@ contract Payroll{
 
          stakedTVL -= stakes[stakeId].amount;
 
-        for(uint i=0; i<activeStakes.length; i++){
+
+        for(uint i=0; i < allEmployeeActiveStakes.length; i++){
+            if(allEmployeeActiveStakes[i].stakeId == stakeId){
+                delete allEmployeeActiveStakes[i];
+                delete employeeStakes[msg.sender][allEmployeeActiveStakes[i].stakeId];
+                break;
+            }
+        }
+
+        for(uint i=0; i < activeStakes.length; i++){
             if(activeStakes[i].stakeId == stakeId){
                 delete activeStakes[i];
                 delete stakes[stakeId];
