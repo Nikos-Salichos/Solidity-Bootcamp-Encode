@@ -153,7 +153,8 @@ describe("Payroll", function () {
       expect(activeStake.stakeId).to.equal(2);
       expect(activeStake.amount).to.equal(employeeSalary / 2);
 
-
+      const getEmployeeStakes = await payroll.connect(employee).getEmployeeStakes();
+      console.log(getEmployeeStakes);
     });
 
     // it("Employee should unstake", async function () {
