@@ -12,7 +12,7 @@
 }
 
 .buttons-container-single {
-  padding: 30px 0;
+  padding: 20px 0;
 }
 
 .section {
@@ -44,16 +44,23 @@
   justify-content: space-between;
   align-items: center;
   min-height: 80px;
-  max-width: 1200px;
   owerflow: hidden;
 }
 
 .inner-container-left {
   text-align: left;
+  width: 50%;
+  margin-bottom: auto;
 }
 
 .inner-container-right {
   text-align: left;
+  margin-bottom: auto;
+  width: 50%;
+}
+
+.inner-container-right-header {
+  align-content: flex-start;
 }
 
 .header-container {
