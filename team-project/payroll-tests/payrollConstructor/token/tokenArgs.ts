@@ -1,4 +1,4 @@
-const tokenNameArg1 = "Team Project Group 8";
-const tokenNameArg2 = "TPG8";
+const tokenNameArg1 = "NES";
+const tokenNameArg2 = "NES";
 
 module.exports = [tokenNameArg1, tokenNameArg2];
