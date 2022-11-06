@@ -177,7 +177,7 @@ describe("Payroll", function () {
       let latestBlock = await ethers.provider.getBlock("latest");
       console.log(`latest block number ${latestBlock.timestamp} before stake`);
 
-      const stake = await payroll.connect(employee).stake(employeeSalary);
+      const stake = await payroll.connect(employee).stake(1);
       const getStake = await payroll.stakes([1]);
       expect(getStake[0]).to.equal(1);
 
@@ -200,8 +200,8 @@ describe("Payroll", function () {
 
       employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
       console.log(`Employee has balance of ${employeeBalance} after unstaking`);
-      const interest = employeeSalary / 10;
-      expect(employeeBalance).to.equal(employeeSalary + interest);
+      const interest = 1 / 10;
+      expect(employeeBalance).to.equal(1 + interest);
 
       const getEmployeeStakes = await payroll.connect(employee).getEmployeeStakes();
       console.log(getEmployeeStakes);

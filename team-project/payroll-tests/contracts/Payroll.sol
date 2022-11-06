@@ -186,7 +186,7 @@ contract Payroll{
     }
 
     function stake(uint amount)  public IsEmployee(msg.sender){
-        require(amount > 0, "Stake amount should be above 0");
+        require(amount > 100, "Stake amount should be above 100");
         require(paymentToken.balanceOf(address(msg.sender)) >= amount, "Not enough funds to stake");
         address employeeAddress = msg.sender;
 
