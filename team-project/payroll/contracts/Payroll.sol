@@ -156,17 +156,17 @@ contract Payroll{
         require(totalSalaries <= paymentToken.balanceOf(address(this)), "Insufficient balance to pay all employees");
        // require(thirtyDaysHavePassed(employeesAddress[msg.sender].lastPayment) == true, "You cannot claim in timespan of less than 30 days");
         
+        employeesAddress[msg.sender].paymentCount++;
         employeesAddress[msg.sender].lastPayment = block.timestamp;
         payTo(employeesAddress[msg.sender].paymentAddress, employeesAddress[msg.sender].salary);
-        employeesAddress[msg.sender].paymentCount++;
-
         emit Paid(msg.sender,block.timestamp);
     }
 
-    function payAnEmployee(address employeeAddress) public ownerOnly IsEmployee(employeeAddress){
+    function payAnEmployee(address employeeAddress, uint amount) public ownerOnly IsEmployee(employeeAddress){
         require(employeesAddress[employeeAddress].salary <= tokenBalance(), "Insufficient balance to pay an employee");
-        payTo(employeeAddress, employeesAddress[employeeAddress].salary);
         employeesAddress[employeeAddress].paymentCount++;
+        employeesAddress[msg.sender].lastPayment = block.timestamp;
+                payTo(employeeAddress, amount);
         emit Paid(msg.sender,block.timestamp);
     }
 

@@ -233,7 +233,7 @@ describe("Payroll", function () {
       const employeeSalary = 1000;
       const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
 
-      const payAnEmployee = await payroll.payAnEmployee(employee.address);
+      const payAnEmployee = await payroll.payAnEmployee(employee.address, employeeSalary);
       console.log(`Pay employee with address ${employee.address} at hash ${payAnEmployee.hash}`);
 
       const tokenBalance = await payroll.tokenBalance();
