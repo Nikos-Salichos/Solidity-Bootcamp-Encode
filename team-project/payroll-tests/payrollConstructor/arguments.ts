@@ -1,5 +1,6 @@
-export const tokenName = "Team Project Group 8";
-export const tokenSymbol = "TPG8";
-export const initialCapital = 0;
+const tokenName = "NES";
+const tokenSymbol = "NES";
+const initialCapital = 0;
+const tokenRatioToEther = 1;
 
-// module.exports = [tokenName, tokenSymbol, initialCapital];
+module.exports = [tokenName, tokenSymbol, initialCapital, tokenRatioToEther];

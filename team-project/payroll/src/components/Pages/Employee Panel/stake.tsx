@@ -3,6 +3,7 @@ import { Button, Icon, Input, Table } from "semantic-ui-react";
 import { ethers } from "ethers";
 import { payrollContract } from "../../../assets/PayrollContract";
 import { payrollAddress } from "../../../assets/PayrollAddress";
+import { payrollTokenContract } from "../../../assets/PayrollTokenContract";
 
 function Stake() {
     const [amount, setAmount] = useState("");
@@ -21,10 +22,16 @@ function Stake() {
         const account = accounts[0];
 
         const payroll = new ethers.Contract(payrollAddress, payrollContract.abi, signer);
+        const payrollTokenAddress = await payroll.paymentToken();
+
+        const payrollToken = new ethers.Contract(payrollTokenAddress, payrollTokenContract.abi, signer);
 
         const isEmployee = await payroll.isEmployee(account);
 
         if (isEmployee) {
+            const approve = payrollToken.approve(payrollAddress, account);
+            const allowance = payrollToken.allowance(payrollAddress, account);
+
             const tx = await payroll.stake(amount);
             await tx.wait();
         }
