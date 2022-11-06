@@ -82,10 +82,10 @@ contract Payroll{
         _;
     }
 
-   constructor(string memory tokenName, string memory tokenSymbol, uint initialCapital, uint ratio) {
+   constructor(string memory tokenName, string memory tokenSymbol, uint initialTokenCapital, uint ratio) {
         paymentToken = new PayrollToken(tokenName,tokenSymbol);
         companyAcc = msg.sender;
-        paymentToken.mint(address(this), initialCapital);
+        paymentToken.mint(address(this), initialTokenCapital);
         tokenRatioToEther = ratio;
     }
 
