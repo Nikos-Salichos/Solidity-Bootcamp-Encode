@@ -1,5 +1,6 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
+import { BigNumber } from "ethers";
 import { ethers, network } from "hardhat";
 import { tokenName, tokenSymbol } from "../payrollConstructor/arguments";
 
@@ -157,7 +158,7 @@ describe("Payroll", function () {
       console.log(getEmployeeStakes);
     });
 
-    it("Employee should unstake", async function () {
+    it("Employee should unstake with interest", async function () {
       const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
 
       const fundAmount = 1000;
@@ -177,7 +178,7 @@ describe("Payroll", function () {
       let latestBlock = await ethers.provider.getBlock("latest");
       console.log(`latest block number ${latestBlock.timestamp} before stake`);
 
-      const stake = await payroll.connect(employee).stake(1);
+      const stake = await payroll.connect(employee).stake(employeeSalary);
       const getStake = await payroll.stakes([1]);
       expect(getStake[0]).to.equal(1);
 
@@ -200,8 +201,53 @@ describe("Payroll", function () {
 
       employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
       console.log(`Employee has balance of ${employeeBalance} after unstaking`);
-      const interest = 1 / 10;
-      expect(employeeBalance).to.equal(1 + interest);
+      const interest = 1000 / 10;
+      expect(employeeBalance).to.equal(1000 + interest);
+
+      const getEmployeeStakes = await payroll.connect(employee).getEmployeeStakes();
+      console.log(getEmployeeStakes);
+    });
+
+    it("Employee should unstake only capital without interest", async function () {
+      const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
+
+      const tokenBalance = await payroll.tokenBalance();
+      console.log(`New Token balance ${tokenBalance}`);
+      expect(tokenBalance).to.equal(1000);
+
+      const employeeSalary = 1000;
+      const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
+      const claim = await payroll.connect(employee).claim();
+      const approve = await payrollToken.connect(employee).approve(payroll.address, employeeSalary);
+      const allowance = await payrollToken.allowance(employee.address, payroll.address);
+
+      let latestBlock = await ethers.provider.getBlock("latest");
+      console.log(`latest block number ${latestBlock.timestamp} before stake`);
+
+      const stake = await payroll.connect(employee).stake(employeeSalary);
+      const getStake = await payroll.stakes([1]);
+      expect(getStake[0]).to.equal(1);
+
+      latestBlock = await ethers.provider.getBlock("latest");
+      console.log(`latest block number ${latestBlock.timestamp} after stake`);
+
+      let employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
+      console.log(`Employee has balance of ${employeeBalance} after staking`);
+      expect(employeeBalance).to.equal(0);
+
+      const activeStake = await payroll.activeStakes([0]);
+      expect(activeStake.stakeId).to.equal(1);
+      expect(activeStake.amount).to.equal(employeeSalary);
+
+      const stakeId = 1;
+      const unstake = await payroll.connect(employee).unstake(stakeId);
+
+      latestBlock = await ethers.provider.getBlock("latest");
+      console.log(`latest block number ${latestBlock.timestamp} after unstake`);
+
+      employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
+      console.log(`Employee has balance of ${employeeBalance} after unstaking`);
+      expect(employeeBalance).to.equal(employeeSalary);
 
       const getEmployeeStakes = await payroll.connect(employee).getEmployeeStakes();
       console.log(getEmployeeStakes);
