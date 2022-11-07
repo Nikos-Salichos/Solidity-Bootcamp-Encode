@@ -31,6 +31,7 @@ contract Payroll{
     uint256 public totalStakes = 0;
     uint256 public tokenRatioToEther = 1;
     uint256 public stakedTVL = 0;
+    uint256 public maturityBlockTimestamp = 10;
 
     event Paid(
         address from,
@@ -193,6 +194,7 @@ contract Payroll{
         paymentToken.transferFrom(employeeAddress, address(this), amount);
 
         totalStakes++;
+
         StakeStruct memory stakeStruct = StakeStruct(totalStakes,msg.sender, block.timestamp,amount,true);
         stakes[totalStakes] = stakeStruct;
 
@@ -218,7 +220,8 @@ contract Payroll{
 
         uint potentialInterestForAllStakes = stakedTVL / 10;
 
-         if(stakes[stakeId].createdDate + 1 >= stakes[stakeId].createdDate  && paymentToken.balanceOf(address(this)) >=  stakedTVL + potentialInterestForAllStakes){
+         if(stakes[stakeId].createdDate + maturityBlockTimestamp >= stakes[stakeId].createdDate
+         && paymentToken.balanceOf(address(this)) >=  stakedTVL + potentialInterestForAllStakes){
              payTo(msg.sender, stakes[stakeId].amount + interest);
          }else{
             payTo(msg.sender, stakes[stakeId].amount);
