@@ -155,7 +155,6 @@ describe("Payroll", function () {
       expect(activeStake.amount).to.equal(employeeSalary / 2);
 
       const getEmployeeStakes = await payroll.connect(employee).getEmployeeStakes();
-      console.log(getEmployeeStakes);
     });
 
     it("Employee should unstake with interest", async function () {
@@ -183,7 +182,7 @@ describe("Payroll", function () {
       expect(getStake[0]).to.equal(1);
 
       latestBlock = await ethers.provider.getBlock("latest");
-      console.log(`latest block number ${latestBlock.timestamp} after stake`);
+      console.log(`latest block timestamp ${latestBlock.timestamp} after stake`);
 
       let employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
       console.log(`Employee has balance of ${employeeBalance} after staking`);
@@ -197,7 +196,7 @@ describe("Payroll", function () {
       const unstake = await payroll.connect(employee).unstake(stakeId);
 
       latestBlock = await ethers.provider.getBlock("latest");
-      console.log(`latest block number ${latestBlock.timestamp} after unstake`);
+      console.log(`latest block timestamp ${latestBlock.timestamp} after unstake`);
 
       employeeBalance = await payrollToken.connect(employee).balanceOf(employee.address);
       console.log(`Employee has balance of ${employeeBalance} after unstaking`);
@@ -205,7 +204,6 @@ describe("Payroll", function () {
       expect(employeeBalance).to.equal(1000 + interest);
 
       const getEmployeeStakes = await payroll.connect(employee).getEmployeeStakes();
-      console.log(getEmployeeStakes);
     });
 
     it("Employee should unstake only capital without interest", async function () {
