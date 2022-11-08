@@ -1,0 +1,410 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="830pt" height="1342pt" viewBox="0.00 0.00 829.85 1342">
+<g id="graph0" class="graph" transform="translate(66.22641028921922,737.693334997409) scale(0.274206258457765)" data-name="G">
+
+<polygon fill="#2e3e56" stroke="none" points="-4,4 -4,-1338 825.85,-1338 825.85,4 -4,4"/>
+<g id="clust1" class="cluster" data-name="clusterPayrollToken">
+
+<path fill="#445773" stroke="#445773" d="M529.82,-300C529.82,-300 801.85,-300 801.85,-300 807.85,-300 813.85,-306 813.85,-312 813.85,-312 813.85,-581 813.85,-581 813.85,-587 807.85,-593 801.85,-593 801.85,-593 529.82,-593 529.82,-593 523.82,-593 517.82,-587 517.82,-581 517.82,-581 517.82,-312 517.82,-312 517.82,-306 523.82,-300 529.82,-300"/>
+<text text-anchor="middle" x="665.83" y="-576.4" font-family="Times,serif" font-size="14.00" fill="#f0f0f0" style="">PayrollToken</text>
+</g>
+<g id="clust2" class="cluster" data-name="clusterPayroll">
+
+<path fill="#445773" stroke="#445773" d="M20,-8C20,-8 485.82,-8 485.82,-8 491.82,-8 497.82,-14 497.82,-20 497.82,-20 497.82,-1177 497.82,-1177 497.82,-1183 491.82,-1189 485.82,-1189 485.82,-1189 20,-1189 20,-1189 14,-1189 8,-1183 8,-1177 8,-1177 8,-20 8,-20 8,-14 14,-8 20,-8"/>
+<text text-anchor="middle" x="252.91" y="-1172.4" font-family="Times,serif" font-size="14.00" fill="#f0f0f0" style="">Payroll</text>
+</g>
+<g id="clust3" class="cluster" data-name="cluster_01">
+
+<polygon fill="#2e3e56" stroke="black" points="49.51,-1197 49.51,-1326 412.42,-1326 412.42,-1197 49.51,-1197"/>
+<text text-anchor="middle" x="230.97" y="-1309.4" font-family="Times,serif" font-size="14.00" style="">Legend</text>
+</g>
+<!-- PayrollToken.&lt;Constructor&gt; -->
+<g id="node1" class="node" pointer-events="visible" data-name="PayrollToken.&lt;Constructor&gt;">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="593.34" cy="-542" rx="67.55" ry="18"/>
+<text text-anchor="middle" x="593.34" y="-537.8" font-family="Times,serif" font-size="14.00">&lt;Constructor&gt;</text>
+</g>
+<!-- PayrollToken._setupRole -->
+<g id="node3" class="node" pointer-events="visible" data-name="PayrollToken._setupRole">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="751.36" cy="-542" rx="54.48" ry="18"/>
+<text text-anchor="middle" x="751.36" y="-537.8" font-family="Times,serif" font-size="14.00">_setupRole</text>
+</g>
+<!-- PayrollToken.&lt;Constructor&gt;&#45;&gt;PayrollToken._setupRole -->
+<g id="edge1" class="edge" data-name="PayrollToken.&lt;Constructor&gt;-&gt;PayrollToken._setupRole">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M658.25,-535.35C667.4,-535.22 676.82,-535.22 685.98,-535.34"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="685.61,-538.84 695.68,-535.54 685.75,-531.84 685.61,-538.84"/>
+</g>
+<!-- PayrollToken.&lt;Constructor&gt;&#45;&gt;PayrollToken._setupRole -->
+<g id="edge2" class="edge" data-name="PayrollToken.&lt;Constructor&gt;-&gt;PayrollToken._setupRole">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M658.25,-548.65C667.4,-548.78 676.82,-548.78 685.98,-548.66"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="685.75,-552.16 695.68,-548.46 685.61,-545.16 685.75,-552.16"/>
+</g>
+<!-- PayrollToken.mint -->
+<g id="node2" class="node" pointer-events="visible" data-name="PayrollToken.mint">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="593.34" cy="-434" rx="28.99" ry="18"/>
+<text text-anchor="middle" x="593.34" y="-429.8" font-family="Times,serif" font-size="14.00">mint</text>
+</g>
+<!-- PayrollToken.hasRole -->
+<g id="node4" class="node" pointer-events="visible" data-name="PayrollToken.hasRole">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="751.36" cy="-407" rx="42.3" ry="18"/>
+<text text-anchor="middle" x="751.36" y="-402.8" font-family="Times,serif" font-size="14.00">hasRole</text>
+</g>
+<!-- PayrollToken.mint&#45;&gt;PayrollToken.hasRole -->
+<g id="edge3" class="edge" data-name="PayrollToken.mint-&gt;PayrollToken.hasRole">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M622.6,-429.11C643.53,-425.49 672.68,-420.44 697.84,-416.09"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="698.34,-419.55 707.6,-414.4 697.15,-412.66 698.34,-419.55"/>
+</g>
+<!-- PayrollToken._mint -->
+<g id="node5" class="node" pointer-events="visible" data-name="PayrollToken._mint">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="751.36" cy="-461" rx="33.64" ry="18"/>
+<text text-anchor="middle" x="751.36" y="-456.8" font-family="Times,serif" font-size="14.00">_mint</text>
+</g>
+<!-- PayrollToken.mint&#45;&gt;PayrollToken._mint -->
+<g id="edge4" class="edge" data-name="PayrollToken.mint-&gt;PayrollToken._mint">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M622.6,-438.89C645.61,-442.87 678.55,-448.57 705.21,-453.19"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="704.29,-456.58 714.74,-454.84 705.49,-449.68 704.29,-456.58"/>
+</g>
+<!-- PayrollToken.transfer -->
+<g id="node6" class="node" pointer-events="visible" data-name="PayrollToken.transfer">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="593.34" cy="-488" rx="40.55" ry="18"/>
+<text text-anchor="middle" x="593.34" y="-483.8" font-family="Times,serif" font-size="14.00">transfer</text>
+</g>
+<!-- PayrollToken.balanceOf -->
+<g id="node7" class="node" pointer-events="visible" data-name="PayrollToken.balanceOf">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="593.34" cy="-380" rx="50.92" ry="18"/>
+<text text-anchor="middle" x="593.34" y="-375.8" font-family="Times,serif" font-size="14.00">balanceOf</text>
+</g>
+<!-- PayrollToken.transferFrom -->
+<g id="node8" class="node" pointer-events="visible" data-name="PayrollToken.transferFrom">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="593.34" cy="-326" rx="61.41" ry="18"/>
+<text text-anchor="middle" x="593.34" y="-321.8" font-family="Times,serif" font-size="14.00">transferFrom</text>
+</g>
+<!-- Payroll.ownerOnly -->
+<g id="node9" class="node" pointer-events="visible" data-name="Payroll.ownerOnly">
+
+<polygon fill="#edad56" stroke="#1bc6a6" stroke-width="3" points="181.46,-1126.54 181.46,-1141.46 146.93,-1152 98.1,-1152 63.57,-1141.46 63.57,-1126.54 98.1,-1116 146.93,-1116 181.46,-1126.54"/>
+<polygon fill="none" stroke="#1bc6a6" stroke-width="3" points="185.46,-1123.58 185.46,-1144.42 147.53,-1156 97.5,-1156 59.57,-1144.42 59.57,-1123.58 97.5,-1112 147.53,-1112 185.46,-1123.58" style=""/>
+<text text-anchor="middle" x="122.51" y="-1129.8" font-family="Times,serif" font-size="14.00">ownerOnly</text>
+</g>
+<!-- Payroll.enoughBalance -->
+<g id="node10" class="node" pointer-events="visible" data-name="Payroll.enoughBalance">
+
+<polygon fill="#edad56" stroke="#1bc6a6" stroke-width="3" points="198.77,-624.54 198.77,-639.46 154.1,-650 90.92,-650 46.25,-639.46 46.25,-624.54 90.92,-614 154.1,-614 198.77,-624.54"/>
+<polygon fill="none" stroke="#1bc6a6" stroke-width="3" points="202.76,-621.38 202.76,-642.62 154.56,-654 90.46,-654 42.26,-642.62 42.26,-621.38 90.46,-610 154.56,-610 202.76,-621.38" style=""/>
+<text text-anchor="middle" x="122.51" y="-627.8" font-family="Times,serif" font-size="14.00">enoughBalance</text>
+</g>
+<!-- Payroll.tokenBalance -->
+<g id="node19" class="node" pointer-events="visible" data-name="Payroll.tokenBalance">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="377.42" cy="-832" rx="63.68" ry="18"/>
+<text text-anchor="middle" x="377.42" y="-827.8" font-family="Times,serif" font-size="14.00">tokenBalance</text>
+</g>
+<!-- Payroll.enoughBalance&#45;&gt;Payroll.tokenBalance -->
+<g id="edge5" class="edge" data-name="Payroll.enoughBalance-&gt;Payroll.tokenBalance">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M194.49,-646.01C206.64,-650.28 218.67,-655.82 229.02,-663 250.93,-678.2 247.97,-690.5 265.02,-711 292.63,-744.19 326.47,-780.37 349.57,-804.44"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="346.89,-806.71 356.35,-811.48 351.93,-801.85 346.89,-806.71"/>
+</g>
+<!-- Payroll.IsEmployee -->
+<g id="node11" class="node" pointer-events="visible" data-name="Payroll.IsEmployee">
+
+<polygon fill="#edad56" stroke="#1bc6a6" stroke-width="3" points="184.26,-1010.54 184.26,-1025.46 148.09,-1036 96.93,-1036 60.76,-1025.46 60.76,-1010.54 96.93,-1000 148.09,-1000 184.26,-1010.54"/>
+<polygon fill="none" stroke="#1bc6a6" stroke-width="3" points="188.25,-1007.54 188.25,-1028.46 148.66,-1040 96.37,-1040 56.77,-1028.46 56.77,-1007.54 96.37,-996 148.66,-996 188.25,-1007.54" style=""/>
+<text text-anchor="middle" x="122.51" y="-1013.8" font-family="Times,serif" font-size="14.00">IsEmployee</text>
+</g>
+<!-- Payroll.&lt;Constructor&gt; -->
+<g id="node12" class="node" pointer-events="visible" data-name="Payroll.&lt;Constructor&gt;">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="122.51" cy="-412" rx="67.55" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-407.8" font-family="Times,serif" font-size="14.00">&lt;Constructor&gt;</text>
+</g>
+<!-- Payroll.&lt;Constructor&gt;&#45;&gt;PayrollToken.mint -->
+<g id="edge6" class="edge" data-name="Payroll.&lt;Constructor&gt;-&gt;PayrollToken.mint">
+
+<path fill="none" stroke="white" stroke-width="2" d="M190.19,-415.13C288.27,-419.73 468.63,-428.19 550.25,-432.02"/>
+<polygon fill="white" stroke="white" stroke-width="2" points="549.98,-435.52 560.14,-432.49 550.31,-428.52 549.98,-435.52"/>
+</g>
+<!-- Payroll.thirtyDaysHavePassed -->
+<g id="node13" class="node" pointer-events="visible" data-name="Payroll.thirtyDaysHavePassed">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="122.51" cy="-906" rx="98.44" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-901.8" font-family="Times,serif" font-size="14.00">thirtyDaysHavePassed</text>
+</g>
+<!-- Payroll.addEmployee -->
+<g id="node14" class="node" pointer-events="visible" data-name="Payroll.addEmployee">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="122.51" cy="-852" rx="64.26" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-847.8" font-family="Times,serif" font-size="14.00">addEmployee</text>
+</g>
+<!-- Payroll.removeEmployee -->
+<g id="node15" class="node" pointer-events="visible" data-name="Payroll.removeEmployee">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="122.51" cy="-798" rx="79.29" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-793.8" font-family="Times,serif" font-size="14.00">removeEmployee</text>
+</g>
+<!-- Payroll.getEmployees -->
+<g id="node16" class="node" pointer-events="visible" data-name="Payroll.getEmployees">
+
+<ellipse fill="#ffbdb9" stroke="#ffbdb9" stroke-width="3" cx="122.51" cy="-744" rx="65.99" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-739.8" font-family="Times,serif" font-size="14.00">getEmployees</text>
+</g>
+<!-- Payroll.getEmployee -->
+<g id="node17" class="node" pointer-events="visible" data-name="Payroll.getEmployee">
+
+<ellipse fill="#ffbdb9" stroke="#ffbdb9" stroke-width="3" cx="122.51" cy="-690" rx="61.97" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-685.8" font-family="Times,serif" font-size="14.00">getEmployee</text>
+</g>
+<!-- Payroll.payTo -->
+<g id="node18" class="node" pointer-events="visible" data-name="Payroll.payTo">
+
+<ellipse fill="#f2c383" stroke="#f2c383" stroke-width="3" cx="377.42" cy="-556" rx="35.92" ry="18"/>
+<text text-anchor="middle" x="377.42" y="-551.8" font-family="Times,serif" font-size="14.00">payTo</text>
+</g>
+<!-- Payroll.payTo&#45;&gt;PayrollToken.transfer -->
+<g id="edge7" class="edge" data-name="Payroll.payTo-&gt;PayrollToken.transfer">
+
+<path fill="none" stroke="white" stroke-width="2" d="M411.8,-548.58C435.99,-542.83 469.31,-534.16 497.82,-524 507,-520.73 508.78,-518.66 517.82,-515 527.32,-511.15 537.61,-507.25 547.42,-503.66"/>
+<polygon fill="white" stroke="white" stroke-width="2" points="548.43,-507.01 556.64,-500.33 546.05,-500.43 548.43,-507.01"/>
+</g>
+<!-- Payroll.tokenBalance&#45;&gt;PayrollToken.balanceOf -->
+<g id="edge8" class="edge" data-name="Payroll.tokenBalance-&gt;PayrollToken.balanceOf">
+
+<path fill="none" stroke="white" stroke-width="2" d="M404.61,-814.41C433.23,-793.52 477.68,-755.82 497.82,-711 525.56,-649.24 477.14,-461.12 517.82,-407 522.11,-401.29 527.72,-396.79 533.94,-393.24"/>
+<polygon fill="white" stroke="white" stroke-width="2" points="535.29,-396.47 542.89,-389.09 532.35,-390.12 535.29,-396.47"/>
+</g>
+<!-- Payroll.employeeTokenBalance -->
+<g id="node20" class="node" pointer-events="visible" data-name="Payroll.employeeTokenBalance">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="122.51" cy="-358" rx="104.19" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-353.8" font-family="Times,serif" font-size="14.00">employeeTokenBalance</text>
+</g>
+<!-- Payroll.employeeTokenBalance&#45;&gt;PayrollToken.balanceOf -->
+<g id="edge9" class="edge" data-name="Payroll.employeeTokenBalance-&gt;PayrollToken.balanceOf">
+
+<path fill="none" stroke="white" stroke-width="2" d="M224.95,-362.76C317.09,-367.08 450.18,-373.33 528.33,-377"/>
+<polygon fill="white" stroke="white" stroke-width="2" points="528.14,-380.49 538.29,-377.46 528.47,-373.5 528.14,-380.49"/>
+</g>
+<!-- Payroll.closeCompany -->
+<g id="node21" class="node" pointer-events="visible" data-name="Payroll.closeCompany">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="122.51" cy="-960" rx="68.36" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-955.8" font-family="Times,serif" font-size="14.00">closeCompany</text>
+</g>
+<!-- Payroll.closeCompany&#45;&gt;PayrollToken.transfer -->
+<g id="edge10" class="edge" data-name="Payroll.closeCompany-&gt;PayrollToken.transfer">
+
+<path fill="none" stroke="white" stroke-width="2" d="M190.39,-955.68C205.07,-951.57 219.17,-944.6 229.02,-933 287.4,-864.33 202.44,-593.86 265.02,-529 336.9,-454.51 470.45,-464.77 542.76,-477.24"/>
+<polygon fill="white" stroke="white" stroke-width="2" points="542.07,-480.67 552.54,-479.02 543.33,-473.78 542.07,-480.67"/>
+</g>
+<!-- Payroll.closeCompany&#45;&gt;Payroll.tokenBalance -->
+<g id="edge11" class="edge" data-name="Payroll.closeCompany-&gt;Payroll.tokenBalance">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M181.35,-949.53C197.25,-945.51 214.19,-940.11 229.02,-933 247.06,-924.35 248.69,-917.54 265.02,-906 289.09,-889 316.66,-870.68 338.36,-856.51"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="340.1,-859.55 346.58,-851.17 336.29,-853.69 340.1,-859.55"/>
+</g>
+<!-- Payroll.getCompanyEtherBalance -->
+<g id="node27" class="node" pointer-events="visible" data-name="Payroll.getCompanyEtherBalance">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="377.42" cy="-684" rx="112.29" ry="18"/>
+<text text-anchor="middle" x="377.42" y="-679.8" font-family="Times,serif" font-size="14.00">getCompanyEtherBalance</text>
+</g>
+<!-- Payroll.closeCompany&#45;&gt;Payroll.getCompanyEtherBalance -->
+<g id="edge12" class="edge" data-name="Payroll.closeCompany-&gt;Payroll.getCompanyEtherBalance">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M189.21,-954.25C203.84,-950.17 218.2,-943.57 229.02,-933 271.3,-891.71 236.22,-856.6 265.02,-805 285.42,-768.46 318.97,-734.11 343.93,-711.41"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="345.96,-714.28 351.1,-705.02 341.31,-709.05 345.96,-714.28"/>
+</g>
+<!-- Payroll.selfdestruct -->
+<g id="node33" class="node" pointer-events="visible" data-name="Payroll.selfdestruct">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="377.42" cy="-933" rx="55.6" ry="18"/>
+<text text-anchor="middle" x="377.42" y="-928.8" font-family="Times,serif" font-size="14.00">selfdestruct</text>
+</g>
+<!-- Payroll.closeCompany&#45;&gt;Payroll.selfdestruct -->
+<g id="edge13" class="edge" data-name="Payroll.closeCompany-&gt;Payroll.selfdestruct">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M187.66,-953.15C225.26,-949.14 272.66,-944.08 310.56,-940.03"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="310.44,-943.56 320.01,-939.02 309.69,-936.6 310.44,-943.56"/>
+</g>
+<!-- Payroll.payable -->
+<g id="node34" class="node" pointer-events="visible" data-name="Payroll.payable">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="377.42" cy="-987" rx="41.13" ry="18"/>
+<text text-anchor="middle" x="377.42" y="-982.8" font-family="Times,serif" font-size="14.00">payable</text>
+</g>
+<!-- Payroll.closeCompany&#45;&gt;Payroll.payable -->
+<g id="edge14" class="edge" data-name="Payroll.closeCompany-&gt;Payroll.payable">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M187.66,-966.85C229.6,-971.33 283.73,-977.1 323.27,-981.33"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="322.75,-984.79 333.07,-982.37 323.49,-977.83 322.75,-984.79"/>
+</g>
+<!-- Payroll.updateEmployeeSalary -->
+<g id="node22" class="node" pointer-events="visible" data-name="Payroll.updateEmployeeSalary">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="122.51" cy="-520" rx="100.7" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-515.8" font-family="Times,serif" font-size="14.00">updateEmployeeSalary</text>
+</g>
+<!-- Payroll.claim -->
+<g id="node23" class="node" pointer-events="visible" data-name="Payroll.claim">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="122.51" cy="-574" rx="32.47" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-569.8" font-family="Times,serif" font-size="14.00">claim</text>
+</g>
+<!-- Payroll.claim&#45;&gt;PayrollToken.balanceOf -->
+<g id="edge15" class="edge" data-name="Payroll.claim-&gt;PayrollToken.balanceOf">
+
+<path fill="none" stroke="white" stroke-width="2" d="M155.92,-571.58C178.13,-568.59 207.38,-561.91 229.02,-547 251.87,-531.26 242.91,-512.75 265.02,-496 346.12,-434.56 462.52,-403.72 532.45,-389.83"/>
+<polygon fill="white" stroke="white" stroke-width="2" points="532.82,-393.32 541.98,-388 531.5,-386.45 532.82,-393.32"/>
+</g>
+<!-- Payroll.claim&#45;&gt;Payroll.payTo -->
+<g id="edge16" class="edge" data-name="Payroll.claim-&gt;Payroll.payTo">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M156.06,-571.68C199.53,-568.59 276.94,-563.08 327.47,-559.48"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="327.58,-562.98 337.31,-558.78 327.08,-556 327.58,-562.98"/>
+</g>
+<!-- Payroll.payAnEmployee -->
+<g id="node24" class="node" pointer-events="visible" data-name="Payroll.payAnEmployee">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="122.51" cy="-1076" rx="75.87" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-1071.8" font-family="Times,serif" font-size="14.00">payAnEmployee</text>
+</g>
+<!-- Payroll.payAnEmployee&#45;&gt;Payroll.payTo -->
+<g id="edge18" class="edge" data-name="Payroll.payAnEmployee-&gt;Payroll.payTo">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M195.8,-1069.99C208.49,-1065.75 220.38,-1059.14 229.02,-1049 285.77,-982.43 225.96,-735.27 265.02,-657 281.96,-623.07 315.54,-595.13 341.42,-577.3"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="343.06,-580.42 349.45,-571.97 339.18,-574.59 343.06,-580.42"/>
+</g>
+<!-- Payroll.payAnEmployee&#45;&gt;Payroll.tokenBalance -->
+<g id="edge17" class="edge" data-name="Payroll.payAnEmployee-&gt;Payroll.tokenBalance">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M194.33,-1068.98C207.21,-1064.82 219.55,-1058.51 229.02,-1049 275.28,-1002.57 227.18,-959.51 265.02,-906 280.89,-883.56 305.9,-866.05 328.21,-853.71"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="329.67,-856.9 336.88,-849.14 326.4,-850.71 329.67,-856.9"/>
+</g>
+<!-- Payroll.clientGetEthPayTokens -->
+<g id="node25" class="node" pointer-events="visible" data-name="Payroll.clientGetEthPayTokens">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="122.51" cy="-466" rx="102.51" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-461.8" font-family="Times,serif" font-size="14.00">clientGetEthPayTokens</text>
+</g>
+<!-- Payroll.clientGetEthPayTokens&#45;&gt;PayrollToken.mint -->
+<g id="edge20" class="edge" data-name="Payroll.clientGetEthPayTokens-&gt;PayrollToken.mint">
+
+<path fill="none" stroke="white" stroke-width="2" d="M220.09,-459.41C321.53,-452.48 476.39,-441.91 550.28,-436.87"/>
+<polygon fill="white" stroke="white" stroke-width="2" points="550.34,-440.38 560.08,-436.2 549.87,-433.39 550.34,-440.38"/>
+</g>
+<!-- Payroll.clientGetEthPayTokens&#45;&gt;Payroll.getCompanyEtherBalance -->
+<g id="edge19" class="edge" data-name="Payroll.clientGetEthPayTokens-&gt;Payroll.getCompanyEtherBalance">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M204.19,-477.97C213.23,-481.74 221.78,-486.64 229.02,-493 261.4,-521.42 240.44,-547.62 265.02,-583 285.27,-612.13 315.41,-638.79 339.24,-657.4"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="336.87,-659.99 346.94,-663.28 341.11,-654.43 336.87,-659.99"/>
+</g>
+<!-- Payroll.fundCompanyWithEther -->
+<g id="node26" class="node" pointer-events="visible" data-name="Payroll.fundCompanyWithEther">
+
+<ellipse fill="#ff9797" stroke="brown" stroke-width="3" cx="122.51" cy="-304" rx="106.52" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-299.8" font-family="Times,serif" font-size="14.00">fundCompanyWithEther</text>
+</g>
+<!-- Payroll.stake -->
+<g id="node28" class="node" pointer-events="visible" data-name="Payroll.stake">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="122.51" cy="-142" rx="30.76" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-137.8" font-family="Times,serif" font-size="14.00">stake</text>
+</g>
+<!-- Payroll.stake&#45;&gt;PayrollToken.balanceOf -->
+<g id="edge21" class="edge" data-name="Payroll.stake-&gt;PayrollToken.balanceOf">
+
+<path fill="none" stroke="white" stroke-width="2" d="M153.88,-145.2C175.95,-148.57 205.88,-155.39 229.02,-169 249.08,-180.79 245.36,-194.56 265.02,-207 357.01,-265.18 422.3,-204.62 497.82,-283 520.27,-306.3 495.74,-329.34 517.82,-353 522.69,-358.22 528.64,-362.43 535.05,-365.83"/>
+<polygon fill="white" stroke="white" stroke-width="2" points="533.59,-369.02 544.15,-369.88 536.44,-362.62 533.59,-369.02"/>
+</g>
+<!-- Payroll.stake&#45;&gt;PayrollToken.transferFrom -->
+<g id="edge22" class="edge" data-name="Payroll.stake-&gt;PayrollToken.transferFrom">
+
+<path fill="none" stroke="white" stroke-width="2" d="M154.45,-143.52C221.29,-147.97 382.45,-165.16 497.82,-230 527.61,-246.74 554.18,-275.64 571.51,-297.37"/>
+<polygon fill="white" stroke="white" stroke-width="2" points="568.51,-299.21 577.39,-304.98 574.04,-294.93 568.51,-299.21"/>
+</g>
+<!-- Payroll.getEmployeeStakes -->
+<g id="node29" class="node" pointer-events="visible" data-name="Payroll.getEmployeeStakes">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="122.51" cy="-196" rx="87.4" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-191.8" font-family="Times,serif" font-size="14.00">getEmployeeStakes</text>
+</g>
+<!-- Payroll.unstake -->
+<g id="node30" class="node" pointer-events="visible" data-name="Payroll.unstake">
+
+<ellipse fill="#ff9797" stroke="brown" stroke-width="3" cx="122.51" cy="-250" rx="40.57" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-245.8" font-family="Times,serif" font-size="14.00">unstake</text>
+</g>
+<!-- Payroll.unstake&#45;&gt;PayrollToken.balanceOf -->
+<g id="edge23" class="edge" data-name="Payroll.unstake-&gt;PayrollToken.balanceOf">
+
+<path fill="none" stroke="white" stroke-width="2" d="M159.71,-259.02C180.1,-264.16 206.02,-270.8 229.02,-277 339.72,-306.85 468.71,-343.98 539.35,-364.51"/>
+<polygon fill="white" stroke="white" stroke-width="2" points="538.36,-367.87 548.94,-367.3 540.31,-361.15 538.36,-367.87"/>
+</g>
+<!-- Payroll.unstake&#45;&gt;Payroll.payTo -->
+<g id="edge24" class="edge" data-name="Payroll.unstake-&gt;Payroll.payTo">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M162.78,-244.45C184.26,-246.42 210.24,-253.19 229.02,-268 272.77,-302.49 340.05,-458.29 365.85,-525.38"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="362.43,-526.24 369.23,-534.36 368.98,-523.76 362.43,-526.24"/>
+</g>
+<!-- Payroll.unstake&#45;&gt;Payroll.payTo -->
+<g id="edge25" class="edge" data-name="Payroll.unstake-&gt;Payroll.payTo">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M159,-259.57C181.15,-263.65 209.13,-270.31 229.02,-286 270.77,-318.91 333.92,-462.25 362.04,-525.77"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="358.7,-526.86 365.95,-534.58 365.1,-524.02 358.7,-526.86"/>
+</g>
+<!-- Payroll.&lt;Fallback&gt; -->
+<g id="node31" class="node" pointer-events="visible" data-name="Payroll.&lt;Fallback&gt;">
+
+<ellipse fill="#ffbdb9" stroke="#ffbdb9" stroke-width="3" cx="122.51" cy="-88" rx="55.36" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-83.8" font-family="Times,serif" font-size="14.00">&lt;Fallback&gt;</text>
+</g>
+<!-- Payroll.&lt;Receive Ether&gt; -->
+<g id="node32" class="node" pointer-events="visible" data-name="Payroll.&lt;Receive Ether&gt;">
+
+<ellipse fill="#ffbdb9" stroke="brown" stroke-width="3" cx="122.51" cy="-34" rx="76.21" ry="18"/>
+<text text-anchor="middle" x="122.51" y="-29.8" font-family="Times,serif" font-size="14.00">&lt;Receive Ether&gt;</text>
+</g>
+<!-- key -->
+<g id="node35" class="node" pointer-events="visible" data-name="key">
+
+<polygon fill="#edad56" stroke="none" stroke-width="3" points="187.51,-1293 57.51,-1293 57.51,-1205 187.51,-1205 187.51,-1293"/>
+<text text-anchor="start" x="107.15" y="-1274.4" font-family="Times,serif" font-size="14.00">Internal Call</text>
+<text text-anchor="start" x="103.26" y="-1254.4" font-family="Times,serif" font-size="14.00">External Call</text>
+<text text-anchor="start" x="80.72" y="-1234.4" font-family="Times,serif" font-size="14.00">Defined Contract</text>
+<text text-anchor="start" x="67.11" y="-1214.4" font-family="Times,serif" font-size="14.00">Undefined Contract</text>
+</g>
+<!-- key2 -->
+<g id="node36" class="node" pointer-events="visible" data-name="key2">
+
+<polygon fill="#edad56" stroke="none" stroke-width="3" points="404.42,-1293 350.42,-1293 350.42,-1205 404.42,-1205 404.42,-1293"/>
+<text text-anchor="start" x="367.42" y="-1274.4" font-family="Times,serif" font-size="14.00">   </text>
+<text text-anchor="start" x="367.42" y="-1254.4" font-family="Times,serif" font-size="14.00">   </text>
+<polygon fill="#445773" stroke="none" points="365.42,-1229 365.42,-1249 390.42,-1249 390.42,-1229 365.42,-1229"/>
+<text text-anchor="start" x="367.42" y="-1234.4" font-family="Times,serif" font-size="14.00">   </text>
+<polygon fill="none" stroke="#e8726d" points="367.42,-1211 367.42,-1227 388.42,-1227 388.42,-1211 367.42,-1211"/>
+</g>
+<!-- key&#45;&gt;key2 -->
+<g id="edge26" class="edge" data-name="key-&gt;key2">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M180.51,-1279C257.78,-1279 280.27,-1279 351.54,-1279" style=""/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="351.39,-1282.5 361.39,-1279 351.39,-1275.5 351.39,-1282.5" style=""/>
+</g>
+<!-- key&#45;&gt;key2 -->
+<g id="edge27" class="edge" data-name="key-&gt;key2">
+
+<path fill="none" stroke="white" stroke-width="2" d="M180.51,-1259C257.78,-1259 280.27,-1259 351.54,-1259" style=""/>
+<polygon fill="white" stroke="white" stroke-width="2" points="351.39,-1262.5 361.39,-1259 351.39,-1255.5 351.39,-1262.5" style=""/>
+</g>
+</g>
+</svg>
