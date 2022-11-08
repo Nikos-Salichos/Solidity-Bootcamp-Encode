@@ -1,22 +1,62 @@
 .homepage {
-    min-height: 80vh;
-    display: flex;
-    align-items: center;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
 }
 
 .homepage-container {
-    margin: auto;
-    max-width: 1000px;
+  margin: auto;
+  max-width: 1000px;
+  height: 100vh;
 }
 
 .homepage-container h1 {
-    font-size: 6rem;
-    font-weight: 900;
-    margin: 0;
+  font-size: 6rem;
+  font-weight: 900;
+  margin: 0;
 }
 
 .homepage-container span {
-    color: rgb(118, 116, 116);
+  color: rgb(118, 116, 116);
 }
 
+.container-default {
+  margin: auto;
+  max-width: 1000px;
+  height: 100vh;
+}
 
+.what-section {
+  margin: auto;
+  max-width: 1000px;
+  height: 100vh;
+}
+
+.what-section h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  margin: 0;
+}
+
+.features-section {
+  margin: auto;
+  max-width: 1000px;
+  height: 100vh;
+}
+
+.features-column {
+  display: flex;
+  flex-direction: row;
+}
+
+.team-section {
+  margin: auto;
+  max-width: 1000px;
+  height: 100vh;
+}
+
+.team-columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
