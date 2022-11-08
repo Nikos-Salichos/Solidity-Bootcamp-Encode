@@ -31,7 +31,7 @@ contract Payroll{
     uint256 public totalStakes = 0;
     uint256 public tokenRatioToEther = 1;
     uint256 public stakedTVL = 0;
-    uint256 public maturityBlockTimestamp = 10;
+    uint256 public maturityBlockTimestamp = 1 minutes;
 
     event Paid(
         address from,
@@ -61,7 +61,7 @@ contract Payroll{
 
     StakeStruct[] public activeStakes;
     mapping(uint256 => StakeStruct) public stakes;
-     StakeStruct[] public allEmployeeActiveStakes;
+    StakeStruct[] public allEmployeeActiveStakes;
     mapping(address => StakeStruct []) public employeeStakes;
 
     mapping(address => bool) public isEmployee;
@@ -151,6 +151,13 @@ contract Payroll{
         totalSalaries -= employeesAddress[employeeAddress].salary;
         employeesAddress[employeeAddress].salary = newSalary;
         totalSalaries += newSalary;
+
+        for(uint i=0; i<employees.length; i++){
+            if(employees[i].paymentAddress == employeeAddress){
+                employees[i].salary = newSalary;
+                break;
+            }
+        }
     }
 
     function claim() public IsEmployee(msg.sender){
@@ -160,6 +167,14 @@ contract Payroll{
         employeesAddress[msg.sender].paymentCount++;
         employeesAddress[msg.sender].lastPayment = block.timestamp;
         payTo(employeesAddress[msg.sender].paymentAddress, employeesAddress[msg.sender].salary);
+
+        for(uint i=0; i<employees.length; i++){
+            if(employees[i].paymentAddress == msg.sender){
+                employees[i].paymentCount++;
+                employees[i].lastPayment = block.timestamp;
+                break;
+            }
+        }
         emit Paid(msg.sender,block.timestamp);
     }
 
@@ -167,7 +182,15 @@ contract Payroll{
         require(employeesAddress[employeeAddress].salary <= tokenBalance(), "Insufficient balance to pay an employee");
         employeesAddress[employeeAddress].paymentCount++;
         employeesAddress[msg.sender].lastPayment = block.timestamp;
-                payTo(employeeAddress, amount);
+        payTo(employeeAddress, amount);
+
+        for(uint i=0; i<employees.length; i++){
+            if(employees[i].paymentAddress == employeeAddress){
+                employees[i].paymentCount++;
+                employees[i].lastPayment = block.timestamp;
+                break;
+            }
+        }
         emit Paid(msg.sender,block.timestamp);
     }
 
