@@ -4,7 +4,7 @@ import { payrollContract } from "../../../assets/PayrollContract";
 import { payrollAddress } from "../../../assets/PayrollAddress";
 import { Button, Icon, Table } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { formatEther } from "ethers/lib/utils";
+import { payrollTokenContract } from "../../../assets/PayrollTokenContract";
 
 class EmployeeTable extends Component<any , any> {
     constructor(props: any) {
@@ -13,6 +13,7 @@ class EmployeeTable extends Component<any , any> {
         this.state = {
             employees: [],
             employeesLength: 0,
+            tokenSymbol: "",
         };
     }
 
@@ -23,12 +24,18 @@ class EmployeeTable extends Component<any , any> {
         console.log("Account:", signer.getAddress());
 
         const payroll = new ethers.Contract(payrollAddress, payrollContract.abi, signer);
+
+        const payrollTokenAddress = await payroll.paymentToken();
+        const payrollToken = new ethers.Contract(payrollTokenAddress, payrollTokenContract.abi, signer);
+
         const employeesLength = await payroll.totalEmployees();
         const employees = await payroll.getEmployees();
 
-        this.setState({ employees: employees,  employeesLength: employeesLength.toString()});
+
+        const symbol = await payrollToken.symbol();
 
 
+        this.setState({ employees: employees,  employeesLength: employeesLength.toString(), tokenSymbol: " " + symbol });
     }
 
     async removeEmployee(address: string) {
@@ -51,7 +58,7 @@ class EmployeeTable extends Component<any , any> {
             const date = new Date(unixTime*1000);
             return (
                 <Table.Row key={index}>
-                    {employee[1] == 0 ? null : (<><Table.Cell>{index}</Table.Cell><Table.Cell>{employee[0].toString()}</Table.Cell><Table.Cell>{formatEther(employee[1].toString())} ETH</Table.Cell><Table.Cell>{unixTime == 0 ? 0 : (date.toUTCString())}</Table.Cell><Table.Cell>{employee[3].toString()}</Table.Cell><Table.Cell>
+                    {employee[1] == 0 ? null : (<><Table.Cell>{index}</Table.Cell><Table.Cell>{employee[0].toString()}</Table.Cell><Table.Cell>{employee[1].toString() + this.state.tokenSymbol} </Table.Cell><Table.Cell>{unixTime == 0 ? 0 : (date.toUTCString())}</Table.Cell><Table.Cell>{employee[3].toString()}</Table.Cell><Table.Cell>
                         <Button floated='right' icon labelPosition='left' color="red" size='small' onClick={() => this.removeEmployee(employee[0].toString())}>
                             <Icon name='trash' />
                             Remove Employee
@@ -61,6 +68,14 @@ class EmployeeTable extends Component<any , any> {
                                 <Button floated='right' icon labelPosition='left' color="yellow" size='small'>
                                     <Icon name='edit' />
                                     Update Salary
+                                </Button>
+                            </Link>
+                        </Table.Cell>
+                        <Table.Cell>
+                            <Link to="/give-bonus">
+                                <Button floated='right' icon labelPosition='left' color="green" size='small'>
+                                    <Icon name='money' />
+                                    Give Bonus
                                 </Button>
                             </Link>
                         </Table.Cell></>)}
@@ -82,6 +97,7 @@ class EmployeeTable extends Component<any , any> {
                                     <Table.HeaderCell>Payment Count</Table.HeaderCell>
                                     <Table.HeaderCell>Remove Employee</Table.HeaderCell>
                                     <Table.HeaderCell>Update Salary</Table.HeaderCell>
+                                    <Table.HeaderCell>Give Bonus</Table.HeaderCell>
                                 </Table.Row>
                                 </Table.Header>
                                 <Table.Body>
@@ -89,7 +105,7 @@ class EmployeeTable extends Component<any , any> {
                                 </Table.Body>
                                 <Table.Footer fullWidth>
                                 <Table.Row>
-                                    <Table.HeaderCell colSpan='7'>
+                                    <Table.HeaderCell colSpan='8'>
                                     <Link to="/add-employee">
                                         <Button
                                             floated='right'

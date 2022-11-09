@@ -31,7 +31,7 @@ function AdminPanel() {
         setTotalEmployees(totalEmployees.toString());
 
         const totalSalaries = await payroll.totalSalaries();
-        setTotalSalaries(formatEther(totalSalaries.toString()) + " ETH");
+        setTotalSalaries(totalSalaries.toString() + " NES");
 
         const totalStakes = await payroll.totalStakes();
         setTotalStakes(totalStakes.toString());
@@ -40,7 +40,7 @@ function AdminPanel() {
         setEmployees(getEmployees.map((key: string, index: string) => index + ")" + key + " "));
 
         const tokenBalance = await payroll.tokenBalance();
-        setTokenBalance(tokenBalance.toString() + " Wei");
+        setTokenBalance(tokenBalance.toString() + " NES");
 
         const etherBalance = await payroll.getCompanyEtherBalance();
         setCompEtherBalance(formatEther(etherBalance.toString()) + " ETH");

@@ -29,8 +29,10 @@ function Stake() {
         const isEmployee = await payroll.isEmployee(account);
 
         if (isEmployee) {
-            const approve = payrollToken.approve(payrollAddress, account);
-            const allowance = payrollToken.allowance(payrollAddress, account);
+            const approve = payrollToken.approve(payrollAddress, amount);
+            await approve.wait();
+            const allowance = payrollToken.allowance(account, payrollAddress);
+            await allowance.wait();
 
             const tx = await payroll.stake(amount);
             await tx.wait();
