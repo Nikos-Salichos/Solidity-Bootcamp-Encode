@@ -25,7 +25,7 @@ function AddEmployee() {
   
         const payroll = new ethers.Contract(payrollAddress, payrollContract.abi, signer);
   
-        const addEmployee = await payroll.addEmployee(employeeAddress, ethers.utils.parseEther(employeeSalary.toString()));
+        const addEmployee = await payroll.addEmployee(employeeAddress, employeeSalary);
         const receipt = await addEmployee.wait();
         console.log(`receipt.transactionHash ${receipt.transactionHash}`);
   

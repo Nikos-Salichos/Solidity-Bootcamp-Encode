@@ -6,7 +6,7 @@ function Footer() {
   return (
     <>
       <div
-        className="footer h-[50vh] flex flex-col items-center justify-center
+        className="footer h-[30vh] flex flex-col items-center justify-center
       bg-gradient-to-t from-green-900 to-green-600"
       >
         {/* <div className="footer-container "> */}

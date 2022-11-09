@@ -13,11 +13,11 @@ import Ercan from "../../../assets/ercan.jpg";
 function Homepage() {
   const [amount, setAmount] = React.useState("");
 
-  const handleFundAmount = (event: { target: { value: any } }) => {
+  const handleExchangeAmount = (event: { target: { value: any } }) => {
     setAmount(event.target.value);
   };
 
-  async function fund() {
+  async function exchange() {
     const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
     provider.send("eth_requestAccounts", []);
     const signer = provider.getSigner();
@@ -26,8 +26,8 @@ function Homepage() {
     const payroll = new ethers.Contract(payrollAddress, payrollContract.abi, signer);
     const amount_inEther = ethers.utils.parseEther(amount);
 
-    const fund = await payroll.fundCompanyAccount(amount);
-    const receipt = await fund.wait();
+    const exchangeProcess = await payroll.clientGetEthPayTokens(amount);
+    const receipt = await exchangeProcess.wait();
     console.log(`fund.transactionHash ${receipt.transactionHash}`);
   }
 
@@ -58,14 +58,18 @@ function Homepage() {
         >
           <div className="my-0 py-5">
             <Input type="number" placeholder="Amount Of ETH" action>
-              <input type="number" onChange={handleFundAmount} value={amount} />
+              <input type="number" onChange={handleExchangeAmount} value={amount} />
               {/* <Button onClick={fund} secondary type='submit'>Fund</Button> */}
-              <button onClick={fund} type="submit" className="bg-green-600 px-10 text-white font-semibold rounded-r-md">
-                Fund
+              <button
+                onClick={exchange}
+                type="submit"
+                className="bg-green-600 px-10 text-white font-semibold rounded-r-md"
+              >
+                Exchange
               </button>
             </Input>
           </div>
-          <h1 className="my-0 py-5">Fund To Company Account</h1>
+          <h1 className="my-0 py-5">Exchange Your Money To Company Tokens</h1>
         </div>
 
         <div className="features-section grid grid-cols-3 gap-10">

@@ -11,7 +11,7 @@ class StakeTable extends React.Component <any, any> {
 
         this.state = {
             stakes: [],
-            claimTime: 100,
+            claimTime: 0,
         }
     }
 
@@ -30,10 +30,10 @@ class StakeTable extends React.Component <any, any> {
         const stakesCall = await payroll.getEmployeeStakes();
         console.log(stakesCall);
 
-        //const claimTime = await payroll.maturityBlockTimestamp();
-        //console.log(claimTime);
+        const claimTime = await payroll.maturityBlockTimestamp();
+        console.log(claimTime.toString());
 
-        this.setState({ stakes: stakesCall });
+        this.setState({ stakes: stakesCall, claimTime: claimTime });
     }
 
     async unstake(id: number) {
