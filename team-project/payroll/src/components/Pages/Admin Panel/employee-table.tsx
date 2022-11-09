@@ -56,6 +56,7 @@ class EmployeeTable extends Component<any , any> {
         return this.state.employees.map((employee: any, index: any) => {
             const unixTime = employee[3];
             const date = new Date(unixTime*1000);
+            console.log(employee[1].toString());
             return (
                 <Table.Row key={index}>
                     {employee[1] == 0 ? null : (<><Table.Cell>{index}</Table.Cell><Table.Cell>{employee[0].toString()}</Table.Cell><Table.Cell>{employee[1].toString() + this.state.tokenSymbol} </Table.Cell><Table.Cell>{unixTime == 0 ? 0 : (date.toUTCString())}</Table.Cell><Table.Cell>{employee[3].toString()}</Table.Cell><Table.Cell>
