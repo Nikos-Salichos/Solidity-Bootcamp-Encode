@@ -31,6 +31,7 @@ contract Payroll{
     uint256 public totalStakes = 0;
     uint256 public tokenRatioToEther = 1;
     uint256 public stakedTVL = 0;
+    uint256 public maturityBlockTimestamp = 10;
 
     event Paid(
         address from,
@@ -156,17 +157,17 @@ contract Payroll{
         require(totalSalaries <= paymentToken.balanceOf(address(this)), "Insufficient balance to pay all employees");
        // require(thirtyDaysHavePassed(employeesAddress[msg.sender].lastPayment) == true, "You cannot claim in timespan of less than 30 days");
         
+        employeesAddress[msg.sender].paymentCount++;
         employeesAddress[msg.sender].lastPayment = block.timestamp;
         payTo(employeesAddress[msg.sender].paymentAddress, employeesAddress[msg.sender].salary);
-        employeesAddress[msg.sender].paymentCount++;
-
         emit Paid(msg.sender,block.timestamp);
     }
 
-    function payAnEmployee(address employeeAddress) public ownerOnly IsEmployee(employeeAddress){
+    function payAnEmployee(address employeeAddress, uint amount) public ownerOnly IsEmployee(employeeAddress){
         require(employeesAddress[employeeAddress].salary <= tokenBalance(), "Insufficient balance to pay an employee");
-        payTo(employeeAddress, employeesAddress[employeeAddress].salary);
         employeesAddress[employeeAddress].paymentCount++;
+        employeesAddress[msg.sender].lastPayment = block.timestamp;
+                payTo(employeeAddress, amount);
         emit Paid(msg.sender,block.timestamp);
     }
 
@@ -186,13 +187,14 @@ contract Payroll{
     }
 
     function stake(uint amount)  public IsEmployee(msg.sender){
-        require(amount > 0, "Stake amount should be above 0");
+        require(amount > 100, "Stake amount should be above 100");
         require(paymentToken.balanceOf(address(msg.sender)) >= amount, "Not enough funds to stake");
         address employeeAddress = msg.sender;
 
         paymentToken.transferFrom(employeeAddress, address(this), amount);
 
         totalStakes++;
+
         StakeStruct memory stakeStruct = StakeStruct(totalStakes,msg.sender, block.timestamp,amount,true);
         stakes[totalStakes] = stakeStruct;
 
@@ -218,7 +220,8 @@ contract Payroll{
 
         uint potentialInterestForAllStakes = stakedTVL / 10;
 
-         if(stakes[stakeId].createdDate + 1 >= stakes[stakeId].createdDate  && paymentToken.balanceOf(address(this)) >=  stakedTVL + potentialInterestForAllStakes){
+         if(stakes[stakeId].createdDate + maturityBlockTimestamp >= stakes[stakeId].createdDate
+         && paymentToken.balanceOf(address(this)) >=  stakedTVL + potentialInterestForAllStakes){
              payTo(msg.sender, stakes[stakeId].amount + interest);
          }else{
             payTo(msg.sender, stakes[stakeId].amount);
