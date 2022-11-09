@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import { Button, Icon, Input, Label } from "semantic-ui-react";
 import { payrollAddress } from "../../../assets/PayrollAddress";
 import { payrollContract } from "../../../assets/PayrollContract";
+import { payrollTokenContract } from "../../../assets/PayrollTokenContract";
 
 // images for team
 import ShaluImg from "../../../assets/shaluImg.jpg";
@@ -18,17 +19,45 @@ function Homepage() {
   };
 
   async function exchange() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-    provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner();
-    console.log("Account:", signer.getAddress());
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+      provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      console.log("Account:", signer.getAddress());
 
-    const payroll = new ethers.Contract(payrollAddress, payrollContract.abi, signer);
-    const amount_inEther = ethers.utils.parseEther(amount);
+      const payroll = new ethers.Contract(payrollAddress, payrollContract.abi, signer);
 
-    const exchangeProcess = await payroll.clientGetEthPayTokens(amount);
-    const receipt = await exchangeProcess.wait();
-    console.log(`fund.transactionHash ${receipt.transactionHash}`);
+      const amount_inEther = ethers.utils.parseUnits(amount, "ether");
+
+      const exchangeProcess = await payroll.clientGetEthPayTokens(amount_inEther);
+      const receipt = await exchangeProcess.wait();
+
+      const payrollTokenAddress = await payroll.paymentToken();
+
+      const payrollToken = new ethers.Contract(payrollTokenAddress, payrollTokenContract.abi, signer);
+      const payrollTokenSymbol = await payrollToken.symbol();
+
+      const wasAdded = await window.ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20", // Initially only supports ERC20, but eventually more!
+          options: {
+            address: payrollTokenAddress, // The address that the token is at.
+            symbol: payrollTokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
+            decimals: 18, // The number of decimals in the token
+            image: "https://images.squarespace-cdn.com/content/v1/5f9bcc27c14fc6134658484b/25f2e17b-618e-43c1-8321-f8bd69001713/encode_club_white_01.png?format=1500w", // A string url of the token logo
+          },
+        },
+      });
+
+      if (wasAdded) {
+        console.log("Token aded");
+      } else {
+        console.log("No token added");
+      }
+
+      console.log(`fund.transactionHash ${receipt.transactionHash}`);
+    } catch (error) {}
   }
 
   return (
@@ -60,11 +89,7 @@ function Homepage() {
             <Input type="number" placeholder="Amount Of ETH" action>
               <input type="number" onChange={handleExchangeAmount} value={amount} />
               {/* <Button onClick={fund} secondary type='submit'>Fund</Button> */}
-              <button
-                onClick={exchange}
-                type="submit"
-                className="bg-green-600 px-10 text-white font-semibold rounded-r-md"
-              >
+              <button onClick={exchange} type="submit" className="bg-green-600 px-10 text-white font-semibold rounded-r-md">
                 Exchange
               </button>
             </Input>
