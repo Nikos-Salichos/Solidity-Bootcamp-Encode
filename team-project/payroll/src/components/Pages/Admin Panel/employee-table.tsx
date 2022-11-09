@@ -54,7 +54,7 @@ class EmployeeTable extends Component<any , any> {
 
     renderRow() {
         return this.state.employees.map((employee: any, index: any) => {
-            const unixTime = employee[3];
+            const unixTime = employee[2];
             const date = new Date(unixTime*1000);
             console.log(employee[1].toString());
             return (
