@@ -8,7 +8,7 @@ import { payrollContract } from "../../../assets/PayrollContract";
 // images for team
 import ShaluImg from "../../../assets/shaluImg.jpg";
 import Nikos from "../../../assets/nikos.jpg";
-// import ErcanImg from "";
+import Ercan from "../../../assets/ercan.jpg";
 
 function Homepage() {
   const [amount, setAmount] = React.useState("");
@@ -93,7 +93,7 @@ function Homepage() {
               <p> Nikos </p>
             </div>
             <div className="m-10">
-              <img src={ShaluImg} alt="Shalu Panwar" className="h-56 rounded-full mb-5 bg-contain" />
+              <img src={Ercan} alt="Ercan Ali" className="h-56 rounded-full mb-5 bg-contain" />
               <p> Ercan </p>
             </div>
             <div className="m-10">
