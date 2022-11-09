@@ -7,8 +7,8 @@ import { payrollContract } from "../../../assets/PayrollContract";
 
 // images for team
 import ShaluImg from "../../../assets/shaluImg.jpg";
-// import NikosImg from "";
-// import ErcanImg from "";
+import Nikos from "../../../assets/nikos.jpg";
+import Ercan from "../../../assets/ercan.jpg";
 
 function Homepage() {
   const [amount, setAmount] = React.useState("");
@@ -23,11 +23,7 @@ function Homepage() {
     const signer = provider.getSigner();
     console.log("Account:", signer.getAddress());
 
-    const payroll = new ethers.Contract(
-      payrollAddress,
-      payrollContract.abi,
-      signer
-    );
+    const payroll = new ethers.Contract(payrollAddress, payrollContract.abi, signer);
     const amount_inEther = ethers.utils.parseEther(amount);
 
     const exchangeProcess = await payroll.clientGetEthPayTokens(amount);
@@ -41,8 +37,7 @@ function Homepage() {
         <div className="homepage h-[75vh] flex items-center justify-center">
           <div className="homepage-container">
             <h1 className="text-[7rem]">
-              Manage Your Company With Our{" "}
-              <span className="text-green-600">Payroll</span> dApp
+              Manage Your Company With Our <span className="text-green-600">Payroll</span> dApp
             </h1>
             <div className="buttons-container">
               <Button secondary size="huge">
@@ -54,11 +49,7 @@ function Homepage() {
 
         <div className="what-section">
           <h1 className="text-6xl pb-5"> What is N&E</h1>
-          <p className="w-2/3 mx-auto">
-            A crypto payment Tooling for DAOs/Orgs to stream salaries in ERC20
-            tokens. Now companies can directly use our Dapp, fund their company
-            accounts and distribute salaries to their employees
-          </p>
+          <p className="w-2/3 mx-auto">A crypto payment Tooling for DAOs/Orgs to stream salaries in ERC20 tokens. Now companies can directly use our Dapp, fund their company accounts and distribute salaries to their employees</p>
         </div>
 
         <div
@@ -84,28 +75,15 @@ function Homepage() {
         <div className="features-section grid grid-cols-3 gap-10">
           <div className="bg-slate-200 px-10 py-16 rounded-xl drop-shadow-md hover:-translate-y-1 transition-all duration-300 ease-in-out">
             <h1> Features </h1>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard
-              dussentially unchanged.
-            </p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dussentially unchanged.</p>
           </div>
           <div className="bg-slate-200 px-10 py-16 rounded-xl drop-shadow-md hover:-translate-y-1 transition-all duration-300 ease-in-out">
             <h1> Features </h1>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy
-              teally unchanged.
-            </p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy teally unchanged.</p>
           </div>
           <div className="bg-slate-200 px-10 py-16 rounded-xl drop-shadow-md hover:-translate-y-1 transition-all duration-300 ease-in-out">
             <h1> Features </h1>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              et has survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged.
-            </p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text et has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
           </div>
         </div>
 
@@ -115,27 +93,15 @@ function Homepage() {
 
           <div className="team-columns flex flex-row justify-center items-center mb-20">
             <div className="m-10">
-              <img
-                src={ShaluImg}
-                alt="Shalu Panwar"
-                className="h-56 rounded-full mb-5 bg-contain"
-              />
+              <img src={Nikos} alt="Nikos Sal" className="h-56 rounded-full mb-5 bg-contain" />
               <p> Nikos </p>
             </div>
             <div className="m-10">
-              <img
-                src={ShaluImg}
-                alt="Shalu Panwar"
-                className="h-56 rounded-full mb-5 bg-contain"
-              />
+              <img src={Ercan} alt="Ercan Ali" className="h-56 rounded-full mb-5 bg-contain" />
               <p> Ercan </p>
             </div>
             <div className="m-10">
-              <img
-                src={ShaluImg}
-                alt="Shalu Panwar"
-                className="h-56 rounded-full mb-5 bg-contain"
-              />
+              <img src={ShaluImg} alt="Shalu Panwar" className="h-56 rounded-full mb-5 bg-contain" />
               <p> Shalu </p>
             </div>
           </div>
