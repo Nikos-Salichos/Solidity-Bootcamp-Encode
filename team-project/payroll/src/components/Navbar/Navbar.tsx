@@ -85,26 +85,22 @@ function Navbar() {
     <>
       <div className="navbar">
         <div className="navbar-container">
-          <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+          <Link to="/Encode-Solidity-Bootcamp/" style={{ textDecoration: "none", color: "black" }}>
             <h1>N&E</h1>
           </Link>
           <div className="navbar-link">
             <a target="_blank" href={`https://goerli.etherscan.io/`} className="link">
               Etherscan
             </a>
-            {ownerMatch === false ? (
-              null
-            ) : (
+            {ownerMatch === false ? null : (
               // Redirect to the Admin Panel Page
-              <Link to="admin-panel" style={{ textDecoration: "none", color: "black" }}>
+              <Link to="Encode-Solidity-Bootcamp/admin-panel" style={{ textDecoration: "none", color: "black" }}>
                 Admin Panel
               </Link>
             )}
-            {employeeMatch === false ? (
-              null
-            ) : (
+            {employeeMatch === false ? null : (
               // Redirect to the Employee Page
-              <Link to="employee-panel" style={{ textDecoration: "none", color: "black" }}>
+              <Link to="Encode-Solidity-Bootcamp/employee-panel" style={{ textDecoration: "none", color: "black" }}>
                 Employee Panel
               </Link>
             )}
