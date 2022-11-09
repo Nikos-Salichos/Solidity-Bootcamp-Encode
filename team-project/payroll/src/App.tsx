@@ -19,15 +19,15 @@ function App() {
     <div className="App">
       <Router>
         <Navbar />
-          <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/admin-panel" element={<AdminPanel />} />
-            <Route path="/employee-panel" element={<EmployeePanel />} />
-            <Route path="/add-employee" element={<AddEmployee />} />
-            <Route path="/stake" element={<Stake />} />
-            <Route path="/update-salary" element={<UpdateEmployeeSalary />} />
-            <Route path="/give-bonus" element={<GiveBonus />} />
-          </Routes>
+        <Routes>
+          <Route path="/Encode-Solidity-Bootcamp/" element={<Homepage />} />
+          <Route path="/Encode-Solidity-Bootcamp/admin-panel" element={<AdminPanel />} />
+          <Route path="/Encode-Solidity-Bootcamp/employee-panel" element={<EmployeePanel />} />
+          <Route path="/Encode-Solidity-Bootcamp/add-employee" element={<AddEmployee />} />
+          <Route path="/Encode-Solidity-Bootcamp/stake" element={<Stake />} />
+          <Route path="/Encode-Solidity-Bootcamp/update-salary" element={<UpdateEmployeeSalary />} />
+          <Route path="/Encode-Solidity-Bootcamp/give-bonus" element={<GiveBonus />} />
+        </Routes>
         <Footer />
       </Router>
     </div>
