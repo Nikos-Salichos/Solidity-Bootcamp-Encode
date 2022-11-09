@@ -4,19 +4,19 @@ import { Button, Icon, Input } from 'semantic-ui-react';
 import { payrollAddress } from '../../../assets/PayrollAddress';
 import { payrollContract } from '../../../assets/PayrollContract';
 
-function UpdateEmployeeSalary() {
+function GiveBonus() {
     const [employeeAddress, setEmployeeAddress] = useState("");
-    const [employeeSalary, setemployeeSalary] = useState(0);
+    const [employeeBonus, setEmployeeBonus] = useState(0);
   
     const handleEmployeeAddress = (event: { target: { value: any } }) => {
       setEmployeeAddress(event.target.value);
     };
   
-    const handleEmployeeSalary = (event: { target: { value: any } }) => {
-      setemployeeSalary(event.target.value);
+    const handleEmployeeBonus = (event: { target: { value: any } }) => {
+      setEmployeeBonus(event.target.value);
     };
 
-    async function updateEmployeeSalary() {
+    async function giveBonus() {
         const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
         provider.send("eth_requestAccounts", []);
         const signer = provider.getSigner();
@@ -24,10 +24,7 @@ function UpdateEmployeeSalary() {
 
         const payroll = new ethers.Contract(payrollAddress, payrollContract.abi, signer);
 
-        const updateEmployeeSalary = await payroll.updateEmployeeSalary(employeeAddress, employeeSalary);
-
-        const receipt = await updateEmployeeSalary.wait();
-        console.log(receipt);
+        await payroll.payAnEmployee(employeeAddress, employeeBonus);
     }
 
     
@@ -37,21 +34,21 @@ function UpdateEmployeeSalary() {
                 <div className="container-default">
                     <div className="inner-container-left">
                         <div className="header-container">
-                                <h1>Update Employee Salary</h1>
+                                <h1>Give Bonus To Employee</h1>
                             </div>
                             <div className="input-container">
                                 <h2>Employee Address</h2>
                                 <Input type='text' placeholder='Employee Address' fluid>
                                     <input type="text" onChange={handleEmployeeAddress} value={employeeAddress} />
                                 </Input>
-                                <h2>Employee Salary</h2>
+                                <h2>Bonus Amount</h2>
                                 <Input type='number' placeholder='Employee Salary' fluid>
-                                    <input type="number" onChange={handleEmployeeSalary} value={employeeSalary} />
+                                    <input type="number" onChange={handleEmployeeBonus} value={employeeBonus} />
                                 </Input>
                                 <div className="buttons-container-single">
-                                    <Button floated='left' icon labelPosition='left' color="yellow" size='big' onClick={updateEmployeeSalary}>
-                                        <Icon name='edit' />
-                                            Update Salary
+                                    <Button floated='left' icon labelPosition='left' color="green" size='big' onClick={giveBonus}>
+                                        <Icon name='money' />
+                                            Give Bonus
                                     </Button>
                                 </div>
                             </div>
@@ -62,4 +59,4 @@ function UpdateEmployeeSalary() {
     );
 }
 
-export default UpdateEmployeeSalary;
+export default GiveBonus;

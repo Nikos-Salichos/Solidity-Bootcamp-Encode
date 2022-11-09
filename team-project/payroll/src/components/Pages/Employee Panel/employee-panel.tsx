@@ -14,6 +14,7 @@ function EmployeePanel() {
     const [employeePaymentCount, setEmployeePaymentCount] = useState("");
     const [employeeBalance, setEmployeeBalance] = useState("");
     const [stakeCount, setStakeCount] = useState("");
+    const [tokenSymbol, setTokenSymbol] = useState("");
 
     async function readTheContract() {
         const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
@@ -38,7 +39,7 @@ function EmployeePanel() {
             const employee = await payroll.getEmployee(account);
 
             const salary = await employee[1];
-            setEmployeeSalary(salary.toString() + " ETH");
+            setEmployeeSalary(salary.toString() + " ");
 
             const lastPayment = await employee[2];
             const unixTime = lastPayment;
@@ -49,10 +50,14 @@ function EmployeePanel() {
             setEmployeePaymentCount(paymentCount.toString());
 
             const balance = await payrollToken.balanceOf(account);
-            setEmployeeBalance(balance.toString() + " ETH");
+            setEmployeeBalance(balance.toString() + " ");
 
             const stakes = await payroll.getEmployeeStakes();
             setStakeCount(stakes.length.toString());
+
+            const symbol = await payrollToken.symbol();
+            setTokenSymbol(symbol);
+
         }
         else {
             console.log("You are not an employee");
@@ -92,8 +97,24 @@ function EmployeePanel() {
                             <div className="buttons-container">
                                 <Button size="big" onClick={readTheContract}>Read The Contract</Button>
                                 <Button size="big" secondary onClick={claim}>Claim</Button>
+                            </div>  
+                        </div>
+                        <h2 style={{textAlign: 'left'}}>Personal Information</h2>
+                        <div className="inner-container">
+                            <div className="inner-container-left">
+                                <div className="inner-container-left-header" style={{display: "flex"}}>
+                                    <img src="https://react.semantic-ui.com/images/avatar/large/matthew.png" style={{maxWidth: "200px"}} alt="employee" />
+                                    <div className="inner-container-right" style={{padding: "30px"}}>
+                                        <h3>Employee Name</h3>
+                                        <p>Ali Ercan Özgökçe</p>
+                                        <h3>Employee Phone Number</h3>
+                                        <p>+90 555 231 87 67</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <br />
+                        <h2 style={{textAlign: 'left'}}>Employee Information</h2>
                         <div className="inner-container">
                             <div className="inner-container-left">
                                 <div className="inner-container-left-header">
@@ -102,13 +123,13 @@ function EmployeePanel() {
                                     <h3>Last Payment Time</h3>
                                     <p>{employeeLastPayment}</p>
                                     <h3>Balance</h3>
-                                    <p>{employeeBalance}</p>
+                                    <p>{employeeBalance + tokenSymbol}</p>
                                 </div>
                             </div>
                             <div className="inner-container-right">
                                 <div className="inner-container-right-header">
                                     <h3>Employee Salary</h3>
-                                    <p>{employeeSalary}</p>
+                                    <p>{employeeSalary + tokenSymbol}</p>
                                     <h3>Payment Count</h3>
                                     <p>{employeePaymentCount}</p>
                                     <h3>Stake Count</h3>
