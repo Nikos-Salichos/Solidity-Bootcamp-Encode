@@ -24,7 +24,7 @@ Backend:
 Frontend:
 - React.js [https://reactjs.org/](https://reactjs.org/)
 - React Router [https://reactrouter.com/en/main](https://reactrouter.com/en/main)
-- Semantic UI React development framework [https://react.semantic-ui.com/]([https://semantic-ui.com/](https://react.semantic-ui.com/))
+- Semantic UI React development framework [https://react.semantic-ui.com/](https://react.semantic-ui.com/)
 
 FullStack (used both in backend and frontend)
 - Typescript.js [https://www.typescriptlang.org/](https://www.typescriptlang.org/)
