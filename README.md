@@ -1,14 +1,13 @@
 # Encode-Solidity-Bootcamp
-All weekend projects for Encode Solidity Bootcamp
+All weekend projects for Encode Solidity Bootcamp and our final team project.
 
-Team: Group 8 September 2022
+Team: Group 8 September 2022 (Nikos & Ercan & Shalu)
 
-This project is my team's final project for Encode Solidity Bootcamp September 2022 (8 intensive weeks)
+This project is our team's final project for Encode Solidity Bootcamp September 2022 (8 intensive weeks)
 
 Any company owner can deploy the payroll contract which will use a unique token as payment.
 Company owner can do all CRUD operations of an employee and also gives the employee the ability to claim his salary.
 In addition any employee can stake his salary for extra income. In case employee stakes for a specific period he company will mint him extra 10% bonus on his inital stake.
-
 
 Project architecture uses the following technologies:
 
