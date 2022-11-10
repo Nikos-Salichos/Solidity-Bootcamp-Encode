@@ -21,4 +21,4 @@ Backend:
 Frontend:
 - React.js [https://reactjs.org/](https://reactjs.org/)
 - React Router [https://reactrouter.com/en/main](https://reactrouter.com/en/main)
-- Semantic UI development framework [https://semantic-ui.com/]([https://reactjs.org/](https://semantic-ui.com/))
+- Semantic UI development framework [https://semantic-ui.com/](https://semantic-ui.com/)
