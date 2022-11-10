@@ -14,8 +14,8 @@ Project architecture uses the following technologies:
 
 Backend:
 - Solidity for smart contract [https://docs.soliditylang.org/en/v0.8.17/](https://docs.soliditylang.org/en/v0.8.17/)
-- Hardhat for all tests [https://dotnet.microsoft.com/download/dotnet/5.0](https://hardhat.org/)
+- Hardhat for all tests [https://hardhat.org/](https://hardhat.org/)
 
 
 Frontend:
-- React.js [https://vuex.vuejs.org/](https://reactjs.org/)
+- React.js [https://reactjs.org/](https://reactjs.org/)
