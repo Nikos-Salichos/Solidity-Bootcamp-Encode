@@ -10,20 +10,12 @@ Company owner can do all CRUD operations of an employee and also gives the emplo
 In addition any employee can stake his salary for extra income. In case employee stakes for a specific period he company will mint him extra 10% bonus on his inital stake.
 
 
-
-Project architecture is API based and we have use the following technologies:
+Project architecture uses the following technologies:
 
 Backend:
-- .NET CORE 5 https://dotnet.microsoft.com/download/dotnet/5.0
-- Microsoft Identity Schema and Json Web Token (JWT) for authentication & authorization https://jwt.io/
-- Microsoft SQL Server https://www.microsoft.com/en-us/sql-server/sql-server-downloads
-- Entity Framework Core https://docs.microsoft.com/en-us/ef/core/
-- LINQ https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/
-- Gmail SMTP Server integration https://developers.google.com/gmail
-- Paypal integration https://developer.paypal.com/
-- SignalR https://dotnet.microsoft.com/apps/aspnet/signalr
+- Solidity for smart contract [https://docs.soliditylang.org/en/v0.8.17/](https://docs.soliditylang.org/en/v0.8.17/)
+- Hardhat for all tests [https://dotnet.microsoft.com/download/dotnet/5.0](https://hardhat.org/)
+
 
 Frontend:
-- Vue.js 2 https://vuex.vuejs.org/ (VueX, VueRouter)
-- Vuetify https://vuetifyjs.com/en/
-
+- React.js [https://vuex.vuejs.org/](https://reactjs.org/)
