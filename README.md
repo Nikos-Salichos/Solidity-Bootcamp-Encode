@@ -18,6 +18,7 @@ Backend:
 - Chai BDD/TDD assertion library [https://www.chaijs.com/](https://www.chaijs.com/
 - Mocha javascript test framework [https://mochajs.org/](https://mochajs.org/)
 
-
 Frontend:
 - React.js [https://reactjs.org/](https://reactjs.org/)
+- React Router [https://reactrouter.com/en/main](https://reactrouter.com/en/main)
+- Semantic UI development framework [https://semantic-ui.com/]([https://reactjs.org/](https://semantic-ui.com/))
