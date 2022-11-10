@@ -10,6 +10,7 @@ Company owner can do all CRUD operations of an employee and also gives the emplo
 In addition any employee can stake his salary for extra income. In case employee stakes for a specific period he company will mint him extra 10% bonus on his inital stake.
 
 Teamproject: [https://github.com/Nikos-Salichos/Encode-Solidity-Bootcamp/tree/main/team-project/payroll](https://github.com/Nikos-Salichos/Encode-Solidity-Bootcamp/tree/main/team-project/payroll)
+
 Teamproject Tests: [https://github.com/Nikos-Salichos/Encode-Solidity-Bootcamp/tree/main/team-project/payroll-tests](https://github.com/Nikos-Salichos/Encode-Solidity-Bootcamp/tree/main/team-project/payroll-tests)
 
 Project architecture uses the following technologies:
