@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Encode-Solidity-Bootcamp/static/css/main.a2d9919f.css",
-    "main.js": "/Encode-Solidity-Bootcamp/static/js/main.c72a84dd.js",
+    "main.js": "/Encode-Solidity-Bootcamp/static/js/main.4bef0406.js",
     "static/media/brand-icons.svg": "/Encode-Solidity-Bootcamp/static/media/brand-icons.6729d29753e000c17489.svg",
     "static/media/icons.svg": "/Encode-Solidity-Bootcamp/static/media/icons.62d9dae4e0040e81c980.svg",
     "static/media/outline-icons.svg": "/Encode-Solidity-Bootcamp/static/media/outline-icons.9c4845b4b41ef40a22fa.svg",
@@ -24,10 +24,10 @@
     "static/media/jazzicon.png": "/Encode-Solidity-Bootcamp/static/media/jazzicon.6e78dc0dc5b0d8be55bd.png",
     "index.html": "/Encode-Solidity-Bootcamp/index.html",
     "main.a2d9919f.css.map": "/Encode-Solidity-Bootcamp/static/css/main.a2d9919f.css.map",
-    "main.c72a84dd.js.map": "/Encode-Solidity-Bootcamp/static/js/main.c72a84dd.js.map"
+    "main.4bef0406.js.map": "/Encode-Solidity-Bootcamp/static/js/main.4bef0406.js.map"
   },
   "entrypoints": [
     "static/css/main.a2d9919f.css",
-    "static/js/main.c72a84dd.js"
+    "static/js/main.4bef0406.js"
   ]
 }
