@@ -13,6 +13,7 @@ Project architecture uses the following technologies:
 
 Backend:
 - Solidity for smart contract [https://docs.soliditylang.org/en/v0.8.17/](https://docs.soliditylang.org/en/v0.8.17/)
+- Ethers.js library for interacting with the Blockchain [https://docs.ethers.io/](https://docs.ethers.io/)
 - Hardhat for all tests [https://hardhat.org/](https://hardhat.org/)
 - Chai BDD/TDD assertion library [https://www.chaijs.com/](https://www.chaijs.com/
 - Mocha javascript test framework [https://mochajs.org/](https://mochajs.org/)
