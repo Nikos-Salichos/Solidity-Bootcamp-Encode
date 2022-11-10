@@ -103,7 +103,7 @@ class StakeTable extends React.Component<any, any> {
         <Table.Footer fullWidth>
           <Table.Row>
             <Table.HeaderCell colSpan="6">
-              <Link to="/stake">
+              <Link to="/Encode-Solidity-Bootcamp/stake">
                 <Button floated="right" icon labelPosition="left" color="green" size="big">
                   <Icon name="money" /> Stake
                 </Button>
