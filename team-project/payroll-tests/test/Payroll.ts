@@ -116,6 +116,11 @@ describe("Payroll", function () {
       expect(employeeBalance).to.equal(employeeSalary);
     });
 
+    it("Employee fails to claim salary because has not been added as an employee by owner", async function () {
+      const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
+      await expect(payroll.connect(employee).claim()).to.be.revertedWith("The employee couldn't found");
+    });
+
     it("Employee should get approval and stake his salary", async function () {
       const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
 
