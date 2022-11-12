@@ -128,12 +128,23 @@ describe("Payroll", function () {
       console.log(`Employee token balance after claim his salary ${employeeBalance}`);
       expect(employeeBalance).to.equal(employeeSalary);
     });
+    
+    it("Employee claim should trigger Paid event", async function () {
+      const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
+
+      const employeeSalary = 1000;
+      const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
+
+      const claim = await payroll.connect(employee).claim();
+      expect(claim).to.emit(payroll, "Paid").withArgs();
+      console.log("Paid event to be triggered  after employee claim");
+    });
 
     it("Employee fails to claim salary because has not been added as an employee by owner", async function () {
       const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
       await expect(payroll.connect(employee).claim()).to.be.revertedWith("The employee couldn't found");
     });
-
+    
     it("Employee should get approval and stake his salary", async function () {
       const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
 
