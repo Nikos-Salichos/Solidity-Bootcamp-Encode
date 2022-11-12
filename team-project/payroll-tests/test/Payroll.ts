@@ -51,6 +51,19 @@ describe("Payroll", function () {
       expect(getCompanyEtherBalance).to.equal(1);
       console.log(`Company ether balance with ${getCompanyEtherBalance} ether`);
     });
+    
+    it("Should trigger fund event when funding company", async function () {
+      const { payrollToken, payroll, employee } = await loadFixture(deployPayrollFixture);
+
+      const fundCompanyWithEther = await payroll.fundCompanyWithEther({ value: 1 });
+
+      const getCompanyEtherBalance = await payroll.getCompanyEtherBalance();
+      expect(getCompanyEtherBalance).to.equal(1);
+      expect(getCompanyEtherBalance).to.emit(payroll, "Fund").withArgs({ value: 1 });
+
+      console.log(`Triggered funded event`);
+      console.log(`Company ether balance with ${getCompanyEtherBalance} ether`);
+    });
 
     it("Should add 1 employee, and confirm employee details", async function () {
       const { payroll, employee } = await loadFixture(deployPayrollFixture);
