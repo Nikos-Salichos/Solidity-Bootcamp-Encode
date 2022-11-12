@@ -322,6 +322,18 @@ describe("Payroll", function () {
       expect(totalSalary).to.equal(employeeSalary);
       console.log(`Token Salaries ${totalSalary}`);
     });
+    
+    it("Company owner should trigger Paid event when pay an employee", async function () {
+      const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
+
+      const employeeSalary = 1000;
+      const addEmployee = await payroll.addEmployee(employee.address, employeeSalary);
+
+      const payAnEmployee = await payroll.payAnEmployee(employee.address, employeeSalary);
+      expect(payAnEmployee).to.emit(payroll, "Paid").withArgs(employee.address, employeeSalary);
+
+      console.log("Paid event to be triggered  after pay an claim");
+    });
 
     it("Should remove an employee", async function () {
       const { payrollToken, payroll, initialCapital, owner, employee, funder } = await loadFixture(deployPayrollFixture);
