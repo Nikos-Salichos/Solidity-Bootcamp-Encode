@@ -6,5 +6,7 @@ contract PayrollFactory{
         Payrolls.push(cryptoCoin);
     }
 
-
+    function getAllCryptoCoins() public pure returns (Payroll[] memory allPayrolls){
+        return allPayrolls;
+    }
 }
